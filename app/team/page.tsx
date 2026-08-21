@@ -15,11 +15,11 @@ import whiTeamImage from "../../newimages/WHI team.jpeg";
 export const metadata: Metadata = {
   title: "Meet the Team",
   description:
-    "Meet the WHI-SL team structure, including leadership, operations, and program roles.",
+    "Meet the WHI team structure, including leadership, operations, program, and governance roles.",
 };
 
 const heroDescription =
-  "The people behind WHI-SL plan, coordinate, and deliver community-based interventions across health, rights, gender, and research.";
+  "The people behind WHI plan, coordinate, and deliver community-based interventions across health, rights, gender, and research.";
 
 const teamStoryStats = [
   {
@@ -70,7 +70,7 @@ const cultureCards = [
 ];
 
 const photoDetails = [
-  "Shared uniform and posture reflecting unity",
+  "Shared identity and a sense of unity",
   "Institutional pride and professionalism",
   "Collaboration across ministries, schools, and civil society",
   "Commitment to accountability, transparency, effectiveness, efficiency, equity, and equality",
@@ -197,7 +197,7 @@ export default function TeamPage() {
                 <SectionHeading
                   eyebrow="Team Story"
                   title="A collaborative team driving community change"
-                  subtitle="The group of staff at Women&apos;s Health Initiative implemented the Entertain for Health Project using sports and entertainment competitions to address harmful substance use among adolescents and young people in Bo District."
+                  subtitle="The group of staff at Women&apos;s Health Initiative uses sports and entertainments to address public health and social issues in the community."
                   align="left"
                 />
 
@@ -206,7 +206,7 @@ export default function TeamPage() {
                     This unified team photo reflects the collaborative spirit that drives the organisation&apos;s work across its four programs: Health and Social Empowerment, Health Research, Human Rights, and Gender Empowerment.
                   </p>
                   <p>
-                    Founded in Bo City in 2010 and registered with the Bo City Council in 2018, Women&apos;s Health Initiative relies on experienced staff and dedicated volunteers to carry out its public health and social empowerment activities.
+                    Founded in Bo City in 2010 and registered with Bo Council in 2018, Women Health Initiative relies on experienced staff and dedicated volunteers to carry out its public health and social empowerment activities.
                   </p>
                   <p>
                     The team pictured here represents the people responsible for planning, coordinating, and implementing the organisation&apos;s community-based interventions, from sexual and reproductive health education to gender-based violence support and human rights advocacy.
@@ -261,7 +261,7 @@ export default function TeamPage() {
             <SectionHeading
               eyebrow="Team with Partners"
               title="A broad coalition around the work"
-              subtitle="A large gathering of WHI-SL staff, volunteers, and external partners assembled for a group photograph following the launch of the Entertain for Health Project, reflecting the wide range of stakeholders engaged in the response to youth substance abuse in Bo District."
+              subtitle="A large gathering of WHI staff, volunteers, and external partners assembled for a group photograph following the launch of an outreach project, reflecting the wide range of stakeholders engaged in the response to community health issues."
               align="center"
             />
           </AnimatedSection>
@@ -293,10 +293,10 @@ export default function TeamPage() {
               <div className="space-y-5">
                 <div className="rounded-[2rem] border border-[var(--color-border)] bg-white p-7 shadow-[0_16px_50px_rgba(14,24,20,0.06)]">
                   <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">
-                    Coverage of the event noted invitees from the Ministry of Social Welfare, the National Drug Law Enforcement Agency, the Mental Health Secretariat, the Sierra Leone Police, the District Health Management Team, the Ministry of Basic and Senior Secondary Schools, student organisations from Njala University, principals from six secondary schools in Bo, transport unions, and media outlets.
+                    Coverage of the event noted invitees from the Ministry of Social Welfare, the Ministry of Health and Sanitation, the Bo City Council, local NGOs and community-based organisations, traditional leaders, and other partners.
                   </p>
                   <p className="mt-4 text-sm leading-relaxed text-[var(--color-text-muted)]">
-                    The turnout exceeded the forty participants originally expected, showing strong institutional and community interest in tackling substance abuse through a multi-sector approach.
+                    The turnout showed strong institutional and community interest in tackling public health and social issues through a multi-sector approach.
                   </p>
                 </div>
 
@@ -324,7 +324,7 @@ export default function TeamPage() {
             <SectionHeading
               eyebrow="Working Culture"
               title="We build with community, not for it"
-              subtitle="WHI-SL combines governance, operations, and field work to keep the organisation accountable, responsive, and grounded in real needs."
+              subtitle="WHI combines governance, operations, and field work to keep the organisation accountable, responsive, and grounded in real needs."
               align="center"
             />
           </AnimatedSection>

@@ -7,14 +7,33 @@ import ImpactStatCard from "@/components/cards/ImpactStatCard";
 import StoryCard from "@/components/cards/StoryCard";
 import CTASection from "@/components/sections/CTASection";
 import Button from "@/components/ui/Button";
-import { impactStats, featuredStories } from "@/data/impact";
+import {
+  impactStats,
+  featuredStories,
+  projectAchievements,
+} from "@/data/impact";
 import { programs } from "@/data/programs";
-import { launchCrowd } from "@/data/photo-assets";
+import {
+  communityOutreach,
+  healthAdvocacy,
+  launchCrowd,
+  sports1,
+  sports2,
+  sports3,
+} from "@/data/photo-assets";
+import {
+  CheckCircle2,
+  Clock,
+  Heart,
+  ShieldCheck,
+  Trophy,
+  Users,
+} from "@/components/ui/icons";
 
 export const metadata: Metadata = {
   title: "Our Impact",
   description:
-    "Discover WHI-SL's impact across Sierra Leone through organisational milestones, program areas, and community snapshots.",
+    "Discover WHI's impact across Sierra Leone through organisational milestones, program areas, and community snapshots.",
 };
 
 const programHighlights: Record<string, string> = {
@@ -28,6 +47,31 @@ const programHighlights: Record<string, string> = {
     "Evidence gathering and learning that help WHI-SL refine its programs and partnerships.",
 };
 
+const achievementIcons = [Users, Trophy, Clock, ShieldCheck, Heart];
+
+const achievementImages = [
+  {
+    image: sports1,
+    alt: "Young people gathered for a community sports activity in Bo District",
+  },
+  {
+    image: sports2,
+    alt: "A sports session used to share mental health awareness messages",
+  },
+  {
+    image: sports3,
+    alt: "Young people taking part in an outreach sports and entertainment event",
+  },
+  {
+    image: healthAdvocacy,
+    alt: "Community health advocacy and counselling session",
+  },
+  {
+    image: communityOutreach,
+    alt: "WHI-SL community outreach activity with young people",
+  },
+];
+
 export default function ImpactPage() {
   return (
     <>
@@ -36,7 +80,7 @@ export default function ImpactPage() {
         imageAlt="WHI-SL community crowd at an outreach and celebration event"
         eyebrow="Making a Difference"
         title="Our Impact"
-        subtitle="The results of WHI-SL&apos;s work show up in the confidence, knowledge, and resilience of the communities we serve."
+        subtitle="The results of WHI&apos;s work show up in the confidence, knowledge, and resilience of the communities we serve."
       />
 
       <section className="py-16 md:py-20 surface-dark section-panel" aria-label="Impact statistics">
@@ -65,17 +109,17 @@ export default function ImpactPage() {
                     Building community trust
                   </p>
                   <h2 className="mt-6 max-w-2xl text-xl font-black leading-[1.08] tracking-tight text-balance md:text-2xl lg:text-3xl">
-                    Since 2010, WHI-SL has been building trust in Bo District and beyond through outreach, advocacy, learning, and long-term community relationships.
+                    Since 2010, WHI has been building trust in Bo District and beyond through outreach, advocacy, learning, and long-term community relationships.
                   </h2>
                   <div className="mt-7 h-1.5 w-24 rounded-full bg-gradient-to-r from-[var(--color-gold)] via-[var(--color-accent)] to-transparent" />
 
                   <div className="mt-8 max-w-xl rounded-[1.75rem] border border-white/12 bg-white/8 p-6 backdrop-blur-[2px] md:p-7">
-                    <h3 className="text-lg font-black leading-[1] md:text-xl">
-                      Impact is more than numbers.
-                    </h3>
-                    <p className="mt-4 text-sm leading-relaxed text-white/78 md:text-sm">
-                      WHI-SL records its impact through program delivery, participation, and learning. The organisation continues to strengthen its evidence base while keeping the focus on people rather than numbers alone.
-                    </p>
+                  <h3 className="text-lg font-black leading-[1] md:text-xl">
+                    Impact is more than numbers.
+                  </h3>
+                  <p className="mt-4 text-sm leading-relaxed text-white/78 md:text-sm">
+                    WHI records its impact through program delivery, participation, and learning. The organisation continues to strengthen its evidence base while keeping the focus on people rather than numbers alone.
+                  </p>
                   </div>
                 </div>
               </div>
@@ -157,13 +201,105 @@ export default function ImpactPage() {
         </div>
       </section>
 
+      <section className="section-padding surface-white section-panel">
+        <div className="container-wide">
+          <AnimatedSection>
+            <SectionHeading
+              eyebrow="Project Achievements"
+              title="Mental health and substance-use results"
+              subtitle="The Entertain for Health project combined sports, entertainment, screening, counselling, and psychosocial support to help young people build healthier habits and stronger coping skills."
+              align="center"
+            />
+          </AnimatedSection>
+
+          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {projectAchievements.map((achievement, index) => {
+              const Icon = achievementIcons[index] ?? CheckCircle2;
+              const media = achievementImages[index] ?? achievementImages[0];
+
+              return (
+                <AnimatedSection key={achievement.label} delay={index * 60} className="h-full">
+                  <article
+                    className="group relative flex h-full min-h-[560px] flex-col overflow-hidden rounded-[2rem] border border-[var(--color-border)] bg-white shadow-[0_18px_60px_rgba(14,24,20,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_26px_80px_rgba(14,24,20,0.14)]"
+                    style={{
+                      backgroundImage: `linear-gradient(180deg, ${achievement.accent}12 0%, #ffffff 36%, ${achievement.accent}08 100%)`,
+                    }}
+                  >
+                    <div
+                      className="absolute inset-x-0 top-0 h-1.5"
+                      style={{ backgroundColor: achievement.accent }}
+                      aria-hidden="true"
+                    />
+
+                    <div className="relative h-[190px] overflow-hidden">
+                      <Image
+                        src={media.image}
+                        alt={media.alt}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" aria-hidden="true" />
+                      <div className="absolute left-5 top-5 inline-flex rounded-full bg-white/92 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--color-text)] shadow-[0_10px_24px_rgba(14,24,20,0.12)]">
+                        Project Result
+                      </div>
+                    </div>
+
+                    <div className="relative flex flex-1 flex-col p-6 md:p-7">
+                      <div className="flex items-start justify-between gap-4">
+                        <div
+                          className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-[1.25rem] border bg-white shadow-[0_10px_24px_rgba(14,24,20,0.08)]"
+                          style={{
+                            color: achievement.accent,
+                            borderColor: `${achievement.accent}22`,
+                          }}
+                        >
+                          <Icon size={24} strokeWidth={2} />
+                        </div>
+                        <div className="text-right">
+                          <p className="text-[2.55rem] font-black leading-none tracking-tight text-[var(--color-text)] md:text-[2.9rem]">
+                            {achievement.value}
+                          </p>
+                          <p
+                            className="mt-2 text-[10px] font-bold uppercase tracking-[0.22em]"
+                            style={{ color: achievement.accent }}
+                          >
+                            {achievement.label}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="mt-7 flex flex-1 flex-col">
+                        <h3 className="text-2xl font-black leading-[1.02] tracking-tight text-[var(--color-text)] md:text-[2.05rem]">
+                          {achievement.title}
+                        </h3>
+                        <p className="mt-5 text-sm leading-relaxed text-[var(--color-text-muted)] md:text-[15px]">
+                          {achievement.description}
+                        </p>
+                        <div className="mt-auto pt-6">
+                          <div
+                            className="h-1.5 w-24 rounded-full"
+                            style={{ backgroundColor: achievement.accent }}
+                            aria-hidden="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                </AnimatedSection>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       <section className="section-padding surface-white">
         <div className="container-wide">
           <AnimatedSection>
             <SectionHeading
               eyebrow="Snapshots"
               title="From the communities we serve"
-              subtitle="These snapshots reflect the kinds of moments WHI-SL documents through its community work."
+              subtitle="These snapshots reflect the kinds of moments WHI documents through its community work."
               align="center"
             />
           </AnimatedSection>
@@ -181,12 +317,12 @@ export default function ImpactPage() {
         <div className="container-wide">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-start">
             <AnimatedSection>
-              <SectionHeading
-                eyebrow="Publications"
-                title="Reports and research"
-                subtitle="WHI-SL publishes program evaluations, field learning, and research findings as they are finalised."
-                align="left"
-              />
+            <SectionHeading
+              eyebrow="Publications"
+              title="Reports and research"
+              subtitle="WHI publishes program evaluations, field learning, and research findings as they are finalised."
+              align="left"
+            />
             </AnimatedSection>
             <AnimatedSection>
               <div className="rounded-2xl border border-[var(--color-border)] bg-white p-8">

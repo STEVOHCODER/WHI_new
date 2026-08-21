@@ -139,10 +139,10 @@ function NavItem({
           onKeyDown={(e) => {
             if (e.key === "Escape") setActiveDropdown(null);
           }}
-          className={`flex items-center gap-1 rounded-2xl px-3 py-2 text-sm font-medium transition-colors duration-150 ${
+          className={`flex items-center gap-1 rounded-2xl px-3 py-2 font-[family-name:var(--font-plus-jakarta)] text-[16px] font-medium leading-none transition-colors duration-150 ${
             isActive(item.href)
-              ? "bg-white text-[var(--color-primary)]"
-              : "text-[var(--color-text)] hover:bg-white hover:text-[var(--color-primary)]"
+              ? "border border-[var(--color-primary)] bg-white text-[var(--color-primary)] shadow-[0_2px_8px_rgba(198,40,33,0.06)]"
+              : "border border-transparent text-[var(--color-text)] hover:bg-white hover:text-[var(--color-primary)]"
           }`}
           aria-haspopup="true"
           aria-expanded={open}
@@ -176,10 +176,10 @@ function NavItem({
   return (
     <Link
       href={item.href}
-      className={`rounded-2xl px-3 py-2 text-sm font-semibold uppercase tracking-[0.08em] transition-colors duration-150 ${
+      className={`rounded-2xl px-3 py-2 font-[family-name:var(--font-plus-jakarta)] text-[16px] font-semibold leading-none transition-colors duration-150 ${
         isActive(item.href)
-          ? "bg-white text-[var(--color-primary)]"
-          : "text-[var(--color-text)] hover:bg-white hover:text-[var(--color-primary)]"
+          ? "border border-[var(--color-primary)] bg-white text-[var(--color-primary)] shadow-[0_2px_8px_rgba(198,40,33,0.06)]"
+          : "border border-transparent text-[var(--color-text)] hover:bg-white hover:text-[var(--color-primary)]"
       }`}
     >
       {item.label}
@@ -202,10 +202,10 @@ function MobileNavItem({
       <div>
         <button
           onClick={() => setOpen((v) => !v)}
-          className={`flex w-full items-center justify-between rounded-2xl px-3 py-3 text-sm font-medium transition-colors ${
+          className={`flex w-full items-center justify-between rounded-2xl px-3 py-3 font-[family-name:var(--font-plus-jakarta)] text-[16px] font-medium leading-none transition-colors ${
             isActive(item.href)
-              ? "bg-white text-[var(--color-primary)]"
-              : "text-[var(--color-text)]"
+              ? "border border-[var(--color-primary)] bg-white text-[var(--color-primary)] shadow-[0_2px_8px_rgba(198,40,33,0.06)]"
+              : "border border-transparent text-[var(--color-text)]"
           }`}
           aria-expanded={open}
         >
@@ -232,10 +232,10 @@ function MobileNavItem({
   return (
     <Link
       href={item.href}
-      className={`block rounded-2xl px-3 py-3 text-sm font-medium transition-colors ${
+      className={`block rounded-2xl px-3 py-3 font-[family-name:var(--font-plus-jakarta)] text-[16px] font-medium leading-none transition-colors ${
         isActive(item.href)
-          ? "bg-white text-[var(--color-primary)]"
-          : "text-[var(--color-text)] hover:bg-white hover:text-[var(--color-primary)]"
+          ? "border border-[var(--color-primary)] bg-white text-[var(--color-primary)] shadow-[0_2px_8px_rgba(198,40,33,0.06)]"
+          : "border border-transparent text-[var(--color-text)] hover:bg-white hover:text-[var(--color-primary)]"
       }`}
     >
       {item.label}

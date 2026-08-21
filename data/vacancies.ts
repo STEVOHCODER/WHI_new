@@ -7,35 +7,35 @@ export const vacancies: Vacancy[] = [];
 export const volunteerRoles = [
   {
     id: "vol-health",
-    title: "Community Health Volunteer",
+    title: "Community Outreach Volunteer",
     description:
-      "Support health outreach, community mobilisation, and health education activities in Bo District.",
+      "Support health education, mobilisation campaigns, screenings, counselling, and outreach services.",
   },
   {
     id: "vol-gender",
     title: "Gender Empowerment Volunteer",
     description:
-      "Assist with gender awareness campaigns, survivor support activities, and community engagement.",
+      "Assist with gender awareness, advocacy against violence, conflict resolution, and support for women and girls.",
   },
   {
     id: "vol-research",
-    title: "Research and Data Volunteer",
+    title: "Research and Evaluation Volunteer",
     description:
-      "Support data collection, surveys, and research activities across WHI-SL programs.",
+      "Support surveys, evaluation, data collection, and evidence dissemination across WHI-SL programs.",
   },
   {
     id: "vol-communications",
-    title: "Communications Volunteer",
+    title: "Fundraising and Partnerships Volunteer",
     description:
-      "Help document and communicate WHI-SL's work through photography, writing, and social media.",
+      "Help connect the organisation with partners, donors, and community stakeholders.",
   },
 ];
 
 export const internshipAreas = [
   "Public Health",
-  "Gender and Development",
+  "Gender Empowerment",
+  "Human Rights",
+  "Health Research",
   "Monitoring & Evaluation",
-  "Fundraising & Communications",
-  "Research and Documentation",
-  "Community Mobilisation",
+  "Fundraising and Partnerships",
 ];

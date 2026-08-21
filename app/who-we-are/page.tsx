@@ -12,29 +12,29 @@ import { communityOutreach, teamBanner } from "@/data/photo-assets";
 export const metadata: Metadata = {
   title: "Who We Are",
   description:
-    "Learn about WHI-SL, our story, mission, vision, values, and approach to community health in Sierra Leone.",
+    "Learn about Women Health Initiative (WHI), our story, mission, vision, values, target groups, and governance in Sierra Leone.",
 };
 
 const challengePanels = [
   {
-    eyebrow: "Who it is for",
-    title: "Communities at the centre",
+    eyebrow: "Who it serves",
+    title: "Vulnerable communities at the centre",
     description:
-      "Young people, women and girls, street children, orphans, sex workers, widows and widowers, people living with disabilities, and people living with HIV/AIDS.",
+      "Vulnerable young people and adolescents, vulnerable women and girls, street children, orphans, sex workers, widows and widowers, people living with disabilities, and people living with HIV/AIDS.",
     accent: "var(--color-primary)",
   },
   {
-    eyebrow: "What it covers",
-    title: "Interconnected health pressures",
+    eyebrow: "What it addresses",
+    title: "Connected social and health issues",
     description:
-      "Unsafe sexual practices, drug abuse, mental health challenges, unwanted pregnancies, youth unemployment, poverty, gender-based violence, trafficking, and social exclusion.",
+      "Unsafe sexual practices, alcoholism and drug abuse, mental health, unwanted pregnancies, youth unemployment, poverty, gender-based violence, human trafficking, and social discrimination.",
     accent: "var(--color-accent)",
   },
   {
     eyebrow: "Why it matters",
-    title: "Health is shaped by context",
+    title: "Innovation for community change",
     description:
-      "When these pressures go unaddressed, vulnerable people lose access to safety, dignity, and opportunity. WHI-SL responds by addressing the social determinants of health.",
+      "WHI-SL responds to the social determinants of health through sports, entertainments, capacity building, community-based services, and evidence-based innovation.",
     accent: "var(--color-gold)",
   },
 ];
@@ -49,28 +49,28 @@ const orgStructure = [
   },
   {
     level: "Board of Directors",
-    desc: "Five members including the chair, co-chair, secretary, and representatives of partners, local leaders, beneficiaries, and trustees or alumni.",
+    desc: "Five members including the chair, co-chair, secretary, and two board members representing the organisation, partners, local leaders, beneficiaries, trustees, or alumni.",
     badge: "Directors",
     icon: Users,
     accent: "var(--color-accent)",
   },
   {
     level: "Executive Board",
-    desc: "Executive Director, CEO, General Secretary, Finance Officer, program directors, Monitoring and Evaluation Officer, Internal Auditor, Procurement Officer, and Fundraising & Partnerships lead.",
+    desc: "Executive Director, CEO, General Secretary, Accountant or Treasurer, Directors of programs, Monitoring and Evaluation Officer, Internal Auditor, Procurement Officer, and Director of Fundraising and Resource Mobilization.",
     badge: "Leadership",
     icon: Building2,
     accent: "var(--color-gold)",
   },
   {
-    level: "Executive Committee",
-    desc: "Supports cross-cutting coordination and day-to-day decisions across the organisation.",
+    level: "Supervising Council",
+    desc: "Provides oversight, accountability, and support for the organisation's work.",
     badge: "Coordination",
     icon: Clock,
     accent: "var(--color-rose)",
   },
   {
-    level: "Programs and Operations",
-    desc: "Health, Gender, Rights, Research, Finance, Procurement, Logistics, M&E, and Partnerships.",
+    level: "Staff and Volunteers",
+    desc: "Project coordinators, logistics support, and the wider staff and volunteer team delivering the work.",
     badge: "Operations",
     icon: Target,
     accent: "var(--color-blue)",
@@ -85,7 +85,7 @@ export default function WhoWeArePage() {
         imageAlt="WHI-SL community outreach in Bo, Sierra Leone"
         eyebrow="About WHI-SL"
         title="Who We Are"
-        subtitle="A Bo-based organisation helping vulnerable young people make smart choices for sustainable development through health, rights, and community action."
+        subtitle="A Bo-based organisation helping vulnerable young people make smart choices and decisions for sustainable development through health, advocacy, research, and community action."
       />
 
       <section className="section-padding surface-white">
@@ -99,13 +99,13 @@ export default function WhoWeArePage() {
                 Born from community, built for community.
               </h2>
               <p className="text-[var(--color-text-muted)] leading-relaxed mb-4">
-                WHI-SL began in 2010 in Bo City, founded by 15 young volunteers from student organisations who saw the health and social challenges around them and decided to act.
+                Women Health Initiative began in Bo City in 2010 with a group of 15 young volunteers from different student organisations.
               </p>
               <p className="text-[var(--color-text-muted)] leading-relaxed mb-4">
-                Their goal was straightforward: address the social determinants of health and create a space where vulnerable people could access knowledge, services, and support to make better choices for their lives.
+                The organisation was founded to respond to social and health community issues, especially the social determinants of health for vulnerable youth, women, girls, and men living in Bo District and the Southern Province of Sierra Leone.
               </p>
               <p className="text-[var(--color-text-muted)] leading-relaxed">
-                Registered with Bo Council in 2018, WHI-SL has grown into a professional community-based organisation with 15 staff, 25 volunteers, and a 35-member General Assembly.
+                Registered by Bo Council in 2018, WHI has grown into a community-based organisation with 15 staff, 25 volunteers, and a 35-member General Assembly.
               </p>
             </AnimatedSection>
             <AnimatedSection direction="right">
@@ -135,10 +135,10 @@ export default function WhoWeArePage() {
                   Our Mission
                 </p>
                 <h3 className="text-2xl font-black text-white mb-4 leading-snug">
-                  Empowering vulnerable people to make smart choices and decisions for sustainable development.
+                  Women Health Initiative is dedicated to empower vulnerable people in Sierra Leone to make smart choices and decisions in their lives for sustainable development.
                 </h3>
                 <p className="text-white/75 leading-relaxed text-sm">
-                  WHI-SL improves knowledge, confidence, and access to services so that vulnerable people in Sierra Leone can make better choices for their lives.
+                  WHI is dedicated to improve knowledge, confidence, and services for vulnerable people in Sierra Leone in order to make the best choices for their lives.
                 </p>
               </div>
             </AnimatedSection>
@@ -148,10 +148,10 @@ export default function WhoWeArePage() {
                   Our Vision
                 </p>
                 <h3 className="text-2xl font-black text-[var(--color-text)] mb-4 leading-snug">
-                  A Sierra Leone free from inequality, inequity, injustice, and social discrimination.
+                  WHI strives for equal and equitable rights and opportunities for vulnerable people in Sierra Leone by addressing social determinants of health.
                 </h3>
                 <p className="text-[var(--color-text-muted)] leading-relaxed text-sm">
-                  We strive for equal and equitable rights and opportunities for vulnerable people in Sierra Leone by addressing the social determinants of health.
+                  We need Sierra Leone free of inequalities, inequities, injustices, and social discrimination.
                 </p>
               </div>
             </AnimatedSection>
@@ -165,7 +165,7 @@ export default function WhoWeArePage() {
             <SectionHeading
               eyebrow="Values"
               title="What guides us"
-              subtitle="Six principles that shape every decision we make and every program we deliver."
+              subtitle="Accountability, transparency, effectiveness, efficiency, equity, and equality shape every decision we make and every program we deliver."
               align="center"
             />
           </AnimatedSection>
@@ -193,17 +193,17 @@ export default function WhoWeArePage() {
                   respond to.
                 </h2>
                 <p className="mt-6 max-w-lg text-lg leading-relaxed text-[var(--color-text-muted)] md:text-xl">
-                  Sierra Leone&apos;s communities face a range of connected health and social pressures. WHI-SL works with the people most affected, turning complex challenges into focused community action.
+                  Sierra Leone&apos;s communities face a range of connected health and social pressures. WHI works with the people most affected, turning complex challenges into focused community action.
                 </p>
                 <p className="mt-6 max-w-lg text-base leading-relaxed text-[var(--color-text-muted)]">
                   Instead of treating these issues as separate problems, we address the conditions around them so people can access safety, dignity, and better opportunities.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   {[
-                    "Community-first",
-                    "Youth-focused",
-                    "Rights-based",
-                    "Health-centered",
+                    "Sports and entertainment",
+                    "Capacity building",
+                    "Community services",
+                    "Evidence-based innovation",
                   ].map((item) => (
                     <span
                       key={item}
@@ -272,7 +272,7 @@ export default function WhoWeArePage() {
                 Organisational Structure
               </h2>
               <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-[var(--color-text-muted)] md:text-lg">
-                WHI-SL is governed by a General Assembly and supported by an experienced leadership and operations team.
+                WHI-SL is governed by a General Assembly, a Board of Directors, an Executive Board, and a Supervising Council.
               </p>
               <div className="mx-auto mt-7 h-1.5 w-24 rounded-full bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-accent)] to-[var(--color-gold)]" />
             </div>

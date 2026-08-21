@@ -5,6 +5,7 @@ import Button from "@/components/ui/Button";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { programs } from "@/data/programs";
+import { values } from "@/data/values";
 import {
   communityOutreach,
   healthAdvocacy,
@@ -28,7 +29,7 @@ import {
 export const metadata: Metadata = {
   title: "Women's Health Initiative (WHI-SL) | Sierra Leone",
   description:
-    "WHI-SL works alongside communities in Sierra Leone to help vulnerable young people make smart choices for sustainable development through health, gender equity, human rights, and evidence-based learning.",
+    "Women Health Initiative (WHI) is a community-based organisation in Bo City, Sierra Leone, working to empower vulnerable young people through health, gender empowerment, human rights, and research.",
 };
 
 const heroHighlights = [
@@ -57,38 +58,38 @@ const heroHighlights = [
 const purposeCards = [
   {
     title: "Vision",
-    text: "To empower vulnerable people to make smart choices and decisions for sustainable development, guided by strong community values and practical support.",
+    text: "WHI strives for equal and equitable rights and opportunities for vulnerable people in Sierra Leone by addressing social determinants of health. We need Sierra Leone free of inequalities, inequities, injustices, and social discrimination.",
   },
   {
     title: "Mission",
-    text: "To provide affordable, relevant, and community-based support through health education, advocacy, gender empowerment, human rights, and research.",
+    text: "Women Health Initiative is dedicated to empower vulnerable people in Sierra Leone to make smart choices and decisions in their lives for sustainable development.",
   },
   {
     title: "History",
-    text: "Founded in Bo City in 2010, WHI-SL began with young volunteers who wanted to respond to the social and health challenges around them.",
+    text: "Founded in Bo City in 2010, WHI began with a group of 15 young volunteers from different student organisations who wanted to respond to community health and social issues.",
   },
 ];
 
 const chooseCards = [
   {
     icon: BookOpen,
-    title: "Practical learning",
-    text: "Our programs turn information into action, making it easier for communities to understand, remember, and use.",
+    title: "Sports and entertainment",
+    text: "Sports, entertainments, and arts help us connect with communities in practical ways.",
   },
   {
     icon: Users,
-    title: "Community first",
-    text: "We meet people where they are and work through trusted local spaces, voices, and relationships.",
+    title: "Capacity building",
+    text: "Training, workshops, debates, and mentorship strengthen skills and confidence for youth and women.",
   },
   {
     icon: ShieldCheck,
-    title: "Trust and care",
-    text: "WHI-SL keeps dignity, safety, and accountability at the center of every activity and follow-up.",
+    title: "Community services",
+    text: "We deliver community-based comprehensive services where people already live and gather.",
   },
   {
     icon: Microscope,
-    title: "Evidence driven",
-    text: "We use learning and research to keep our work grounded, relevant, and measurable over time.",
+    title: "Evidence-based innovation",
+    text: "Research, information, and technology help us keep the work useful and grounded.",
   },
 ];
 
@@ -134,7 +135,7 @@ export default function HomePage() {
                   <span className="block">Creating opportunities.</span>
                 </h1>
                 <p className="mt-5 max-w-lg text-sm leading-relaxed text-white/88 drop-shadow-[0_2px_12px_rgba(0,0,0,0.28)] md:text-base lg:text-lg">
-                  WHI-SL is a Bo-based community organisation helping vulnerable young people, women, and other groups make smart choices for sustainable development through health education, advocacy, and research.
+                  Women Health Initiative is a community-based organisation in Bo City, Sierra Leone, helping vulnerable young people make smart choices and decisions for sustainable development through health, advocacy, and research.
                 </p>
                 <blockquote className="mt-5 max-w-lg border-l-2 border-white/20 pl-4 text-sm leading-relaxed text-white/76 drop-shadow-[0_2px_12px_rgba(0,0,0,0.22)]">
                   &ldquo;Empowering vulnerable people to make smart choices and decisions for sustainable development.&rdquo;
@@ -210,7 +211,7 @@ export default function HomePage() {
                     Bo City, Sierra Leone
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-white/84">
-                    WHI-SL began with a small group of young volunteers who wanted to respond to the challenges around them.
+                    WHI was founded in 2010 and registered by Bo Council in 2018.
                   </p>
                 </div>
               </div>
@@ -222,13 +223,13 @@ export default function HomePage() {
                   About Us
                 </div>
                 <h2 className="mt-6 text-3xl font-black leading-[0.96] tracking-tight text-[var(--color-text)] md:text-4xl lg:text-5xl">
-                  Welcome message from WHI-SL
+                  Welcome message from WHI
                 </h2>
                 <p className="mt-5 max-w-xl text-base leading-relaxed text-[var(--color-text-muted)] md:text-lg">
-                  At WHI-SL, we are committed to providing community-based support where every child, young person, woman, and family is given the opportunity to grow with dignity and confidence.
+                  We use sports, entertainments, capacity building, mentorship, community-based services, and evidence-based innovation to address community health and social issues.
                 </p>
                 <p className="mt-4 max-w-xl text-base leading-relaxed text-[var(--color-text-muted)] md:text-lg">
-                  We believe change is strongest when it is practical, local, and built with the people it is meant to serve. That is why our work combines education, advocacy, research, and direct community engagement.
+                  Our work is built around vulnerable young people, women, girls, children, people living with disabilities, people living with HIV/AIDS, and other community members.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-4">
                   <Button href="/who-we-are" variant="secondary" arrow>
@@ -247,7 +248,7 @@ export default function HomePage() {
             <SectionHeading
               eyebrow="Our Guiding Purpose"
               title="Vision, mission, and history"
-              subtitle="The organisation is guided by a clear purpose: keep the work human, local, and useful for the communities we serve."
+              subtitle="The organisation is guided by equal rights, practical support, and sustainable development for vulnerable people in Sierra Leone."
               align="center"
             />
           </AnimatedSection>
@@ -277,19 +278,12 @@ export default function HomePage() {
                   Values
                 </p>
                 <ul className="mt-4 grid grid-cols-2 gap-3 text-sm font-semibold text-[var(--color-text)]">
-                  {[
-                    "God-fearing",
-                    "Punctuality",
-                    "Excellence",
-                    "Discipline",
-                    "Integrity",
-                    "Kindness",
-                  ].map((item) => (
+                  {values.map((value) => (
                     <li
-                      key={item}
+                      key={value.id}
                       className="rounded-full border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-2 text-center"
                     >
-                      {item}
+                      {value.label}
                     </li>
                   ))}
                 </ul>
@@ -302,7 +296,7 @@ export default function HomePage() {
                   Community Focus
                 </p>
                 <p className="mt-4 text-sm leading-relaxed text-[var(--color-text-muted)] md:text-base">
-                  WHI-SL keeps its work grounded in outreach, education, advocacy, and research so the organisation remains practical and responsive.
+                  WHI keeps its work grounded in outreach, education, advocacy, research, and community participation so the organisation remains practical and responsive.
                 </p>
               </article>
             </AnimatedSection>
@@ -316,7 +310,7 @@ export default function HomePage() {
             <SectionHeading
               eyebrow="Programs"
               title="Our core areas of work"
-              subtitle="WHI-SL's programs are designed to reinforce one another so the organisation can respond to the full picture of community needs."
+              subtitle="WHI works through four connected programs: Health and Social Empowerment, Gender Empowerment, Human Rights, and Health Research."
               align="center"
             />
           </AnimatedSection>
@@ -368,8 +362,8 @@ export default function HomePage() {
           <AnimatedSection>
             <SectionHeading
               eyebrow="Why Communities Choose Us"
-              title="Practical, trusted, and local"
-              subtitle="The site works best when it feels calm, understandable, and trustworthy. These are the same qualities we try to bring into our work."
+              title="Innovation at the center of change"
+              subtitle="Sports, entertainments, capacity building, community-based services, information and technology, and evidence-based innovation guide the organisation's approach."
               align="center"
             />
           </AnimatedSection>
@@ -460,10 +454,10 @@ export default function HomePage() {
                 Final Call to Action
               </p>
               <h2 className="text-balance text-3xl font-black leading-[0.96] text-white md:text-4xl lg:text-5xl">
-                Together, we can create healthier and more equitable communities.
+                Together, we can create healthier and more equitable communities in Sierra Leone.
               </h2>
               <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/75 md:text-lg">
-                Join WHI-SL as a partner, donor, volunteer, or advocate and help us build a Sierra Leone free from inequality and injustice.
+                Join WHI as a partner, donor, volunteer, or advocate and help us build a Sierra Leone free from inequalities, inequities, injustices, and social discrimination.
               </p>
               <div className="mt-8 flex flex-wrap justify-center gap-4">
                 <Button href="/contact" variant="primary" size="lg" arrow>

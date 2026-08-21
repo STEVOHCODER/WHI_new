@@ -16,9 +16,9 @@ export default function BlogSection({ preview = false }: BlogSectionProps) {
       <div className="container-wide">
         <AnimatedSection>
           <SectionHeading
-            eyebrow="Blog"
+            eyebrow="Gallery"
             title="Images and short updates from the organisation"
-            subtitle="A visual blog of WHI-SL launches, outreach moments, team scenes, and behind-the-scenes work."
+            subtitle="A visual gallery of WHI launches, outreach moments, team scenes, and behind-the-scenes work."
             align="center"
           />
         </AnimatedSection>

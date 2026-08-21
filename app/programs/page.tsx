@@ -12,7 +12,7 @@ import { sportMatch } from "@/data/photo-assets";
 export const metadata: Metadata = {
   title: "Our Programs",
   description:
-    "Explore WHI-SL's four core programs: Health and Social Empowerment, Gender Empowerment, Human Rights, and Health Research.",
+    "Explore WHI's four core programs: Health and Social Empowerment, Gender Empowerment, Human Rights, and Health Research.",
 };
 
 export default function ProgramsPage() {

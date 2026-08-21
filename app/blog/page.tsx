@@ -4,9 +4,9 @@ import BlogSection from "@/components/sections/BlogSection";
 import { launchCrowd } from "@/data/photo-assets";
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: "Gallery",
   description:
-    "A visual blog of WHI-SL launches, outreach moments, team scenes, and behind-the-scenes work.",
+    "A visual gallery of WHI launches, outreach moments, team scenes, and behind-the-scenes work.",
 };
 
 export default function BlogPage() {
@@ -15,8 +15,8 @@ export default function BlogPage() {
       <PageHero
         image={launchCrowd}
         imageAlt="WHI-SL community crowd at the launch event"
-        eyebrow="Blog"
-        title="Blog & Updates"
+        eyebrow="Gallery"
+        title="Gallery & Updates"
         subtitle="A visual journal of the organisation's activities, people, and community moments."
       />
 
