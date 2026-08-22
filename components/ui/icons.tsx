@@ -1,31 +1,34 @@
 import type { ComponentType, ReactNode, SVGProps } from "react";
-import ArrowRightIcon from "lucide-react/dist/esm/icons/arrow-right.mjs";
-import BookOpenIcon from "lucide-react/dist/esm/icons/book-open.mjs";
-import Building2Icon from "lucide-react/dist/esm/icons/building-2.mjs";
-import CalendarIcon from "lucide-react/dist/esm/icons/calendar.mjs";
-import CheckCircle2Icon from "lucide-react/dist/esm/icons/check-circle-2.mjs";
-import ChevronDownIcon from "lucide-react/dist/esm/icons/chevron-down.mjs";
-import ClockIcon from "lucide-react/dist/esm/icons/clock.mjs";
-import CircleMinusIcon from "lucide-react/dist/esm/icons/circle-minus.mjs";
-import DumbbellIcon from "lucide-react/dist/esm/icons/dumbbell.mjs";
-import EyeIcon from "lucide-react/dist/esm/icons/eye.mjs";
-import FlaskConicalIcon from "lucide-react/dist/esm/icons/flask-conical.mjs";
-import HandHeartIcon from "lucide-react/dist/esm/icons/hand-heart.mjs";
-import HeartIcon from "lucide-react/dist/esm/icons/heart.mjs";
-import Globe2Icon from "lucide-react/dist/esm/icons/globe-2.mjs";
-import HospitalIcon from "lucide-react/dist/esm/icons/hospital.mjs";
-import LaptopIcon from "lucide-react/dist/esm/icons/laptop.mjs";
-import LandmarkIcon from "lucide-react/dist/esm/icons/landmark.mjs";
-import MailIcon from "lucide-react/dist/esm/icons/mail.mjs";
-import MapPinIcon from "lucide-react/dist/esm/icons/map-pin.mjs";
-import MenuIcon from "lucide-react/dist/esm/icons/menu.mjs";
-import MessageCircleReplyIcon from "lucide-react/dist/esm/icons/message-circle-reply.mjs";
-import TargetIcon from "lucide-react/dist/esm/icons/target.mjs";
-import TrophyIcon from "lucide-react/dist/esm/icons/trophy.mjs";
-import UserIcon from "lucide-react/dist/esm/icons/user.mjs";
-import UsersIcon from "lucide-react/dist/esm/icons/users.mjs";
-import XIcon from "lucide-react/dist/esm/icons/x.mjs";
-import ZapIcon from "lucide-react/dist/esm/icons/zap.mjs";
+import {
+  ArrowRight as ArrowRightIcon,
+  BookOpen as BookOpenIcon,
+  Building2 as Building2Icon,
+  Calendar as CalendarIcon,
+  CheckCircle2 as CheckCircle2Icon,
+  ChevronDown as ChevronDownIcon,
+  Loader2 as Loader2Icon,
+  Clock as ClockIcon,
+  CircleMinus as CircleMinusIcon,
+  Dumbbell as DumbbellIcon,
+  Eye as EyeIcon,
+  FlaskConical as FlaskConicalIcon,
+  HandHeart as HandHeartIcon,
+  Heart as HeartIcon,
+  Globe2 as Globe2Icon,
+  Hospital as HospitalIcon,
+  Laptop as LaptopIcon,
+  Landmark as LandmarkIcon,
+  Mail as MailIcon,
+  MapPin as MapPinIcon,
+  Menu as MenuIcon,
+  MessageCircleReply as MessageCircleReplyIcon,
+  Target as TargetIcon,
+  Trophy as TrophyIcon,
+  User as UserIcon,
+  Users as UsersIcon,
+  X as XIcon,
+  Zap as ZapIcon,
+} from "lucide-react";
 
 export type IconProps = SVGProps<SVGSVGElement> & {
   size?: number | string;
@@ -74,6 +77,7 @@ export const Building2 = wrap(Building2Icon);
 export const Calendar = wrap(CalendarIcon);
 export const CheckCircle2 = wrap(CheckCircle2Icon);
 export const ChevronDown = wrap(ChevronDownIcon);
+export const Loader2 = wrap(Loader2Icon);
 export const Clock = wrap(ClockIcon);
 export const Dumbbell = wrap(DumbbellIcon);
 export const Eye = wrap(EyeIcon);
