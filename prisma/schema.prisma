@@ -1,0 +1,42 @@
+// Prisma 7 schema — SQLite for local dev
+// Switch to PostgreSQL in production by changing `provider` and passing adapter in lib/db.ts
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String
+  content     String?
+  imageUrl    String?
+  gallery     Json?
+  status      ProjectStatus @default(active)
+  category    String
+  location    String?
+  startDate   String?
+  endDate     String?
+  impact      Json?
+  partners    Json?
+  tags        Json?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+  @@index([status])
+  @@index([category])
+  @@index([isActive, status])
+}
+
+enum ProjectStatus {
+  active
+  completed
+  archived
+}

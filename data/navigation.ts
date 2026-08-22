@@ -35,5 +35,6 @@ export const navigation: NavigationItem[] = [
     ],
   },
   { label: "Gallery", href: "/blog" },
+  { label: "Projects", href: "/projects" },
   { label: "Contact Us", href: "/contact" },
 ];
