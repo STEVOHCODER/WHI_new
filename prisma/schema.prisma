@@ -1,5 +1,7 @@
-// Prisma 7 schema — SQLite for local dev
-// Switch to PostgreSQL in production by changing `provider` and passing adapter in lib/db.ts
+// Prisma schema — used by both local SQLite and Vercel PostgreSQL
+// Local:  DATABASE_URL=file:./prisma/dev.db   (provider="sqlite" in prisma.config.ts)
+// Vercel: DATABASE_URL=postgres://...          (provider="postgresql" in prisma.config.ts)
+// The schema itself is compatible with both databases.
 
 generator client {
   provider = "prisma-client-js"
