@@ -40,6 +40,34 @@ function sanitize(value: string | null | undefined) {
   return value.replace(/[<>]/g, "").trim();
 }
 
+/**
+ * Returns a proxy URL only when the host is a private/local IP.
+ * Vercel and other serverless platforms have direct internet — proxying
+ * through a local hotspot (192.168.x.x) would fail in production.
+ */
+function getProxyUrl(): string | undefined {
+  const raw =
+    process.env.HTTP_PROXY ||
+    process.env.HTTPS_PROXY ||
+    process.env.ALL_PROXY;
+  if (!raw) return undefined;
+  try {
+    const { hostname } = new URL(raw);
+    // Only use proxy for private/local addresses
+    const isPrivate =
+      hostname === "localhost" ||
+      hostname.startsWith("127.") ||
+      hostname.startsWith("192.168.") ||
+      hostname.startsWith("10.") ||
+      hostname.startsWith("172.") ||
+      hostname.startsWith("fe80") ||
+      hostname.startsWith("::1");
+    return isPrivate ? raw : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 async function sendEmailViaSMTP(data: {
   name: string;
   email: string;
@@ -49,6 +77,8 @@ async function sendEmailViaSMTP(data: {
 }) {
   const nodemailer = await import("nodemailer");
 
+  const proxyUrl = getProxyUrl();
+
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT) || 587,
@@ -57,6 +87,7 @@ async function sendEmailViaSMTP(data: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
+    ...(proxyUrl ? { proxy: proxyUrl } : {}),
   });
 
   const html = `
@@ -151,8 +182,14 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ ok: true, delivered: true, message: "Message sent successfully." });
-  } catch (error) {
-    console.error("[WHI-SL] Contact form email error:", error);
+  } catch (error: unknown) {
+    const err = error as { code?: string; responseCode?: number; message?: string; response?: string };
+    console.error("[WHI-SL] Contact form email error:", {
+      code: err.code,
+      responseCode: err.responseCode,
+      message: err.message,
+      response: err.response,
+    });
     return NextResponse.json(
       { error: "Failed to send message. Please try again or email us directly." },
       { status: 500 },

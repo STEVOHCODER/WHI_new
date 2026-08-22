@@ -50,6 +50,11 @@ async function sendEmailViaSMTP(data: {
 }) {
   const nodemailer = await import("nodemailer");
 
+  const proxyUrl =
+    process.env.HTTP_PROXY ||
+    process.env.HTTPS_PROXY ||
+    process.env.ALL_PROXY;
+
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT) || 587,
@@ -58,6 +63,7 @@ async function sendEmailViaSMTP(data: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
+    ...(proxyUrl ? { proxy: proxyUrl } : {}),
   });
 
   const html = `
@@ -156,8 +162,14 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ ok: true, delivered: true, message: "Enquiry sent successfully." });
-  } catch (error) {
-    console.error("[WHI-SL] Partnership form email error:", error);
+  } catch (error: unknown) {
+    const err = error as { code?: string; responseCode?: number; message?: string; response?: string };
+    console.error("[WHI-SL] Partnership form email error:", {
+      code: err.code,
+      responseCode: err.responseCode,
+      message: err.message,
+      response: err.response,
+    });
     return NextResponse.json(
       { error: "Failed to send enquiry. Please try again or email us directly." },
       { status: 500 },
