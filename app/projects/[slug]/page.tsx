@@ -7,8 +7,8 @@ import AnimatedSection from "@/components/ui/AnimatedSection";
 import { RotateCcw } from "@/components/ui/icons";
 import { formatProjectContent } from "@/lib/content-format";
 
-function isDataUrl(url: string): boolean {
-  return url.startsWith("data:image/");
+function isDataUrl(url: unknown): boolean {
+  return typeof url === "string" && url.startsWith("data:image/");
 }
 
 export const dynamic = "force-dynamic";

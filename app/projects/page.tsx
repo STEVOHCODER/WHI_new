@@ -6,8 +6,8 @@ import PageHero from "@/components/sections/PageHero";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { ArrowRight } from "@/components/ui/icons";
 
-function isDataUrl(url: string): boolean {
-  return url.startsWith("data:image/");
+function isDataUrl(url: unknown): boolean {
+  return typeof url === "string" && url.startsWith("data:image/");
 }
 
 export const dynamic = "force-dynamic";
