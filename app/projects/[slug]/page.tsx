@@ -6,6 +6,9 @@ import { db } from "@/lib/mongo";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { RotateCcw } from "@/components/ui/icons";
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }

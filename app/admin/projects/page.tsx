@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { db } from "@/lib/mongo";
 import { ObjectId } from "mongodb";
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 export const metadata: Metadata = {
   title: "Admin — Projects",
   robots: "noindex, nofollow",

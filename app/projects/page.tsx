@@ -6,6 +6,9 @@ import PageHero from "@/components/sections/PageHero";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { ArrowRight } from "@/components/ui/icons";
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 export const metadata: Metadata = {
   title: "Our Projects",
   description:
