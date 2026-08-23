@@ -1,4 +1,4 @@
-import { MongoClient, type Db } from "mongodb";
+import { MongoClient, ServerApiVersion, type Db } from "mongodb";
 
 const MONGO_URL = process.env.MONGODB_URI ?? "mongodb://127.0.0.1:27017";
 const MONGO_DB = process.env.MONGODB_DB ?? "whi_sl";
@@ -15,15 +15,17 @@ async function ensureConnected(): Promise<Db> {
 
   connecting = (async () => {
     if (!client) {
-      // Use tls=true for Atlas; reduce compression to avoid TLS issues
-      const url = MONGO_URL.replace("mongodb+srv://", "mongodb+srv://").replace(/\?/, "?tls=true&");
-      client = new MongoClient(url, {
+      client = new MongoClient(MONGO_URL, {
+        serverApi: {
+          version: ServerApiVersion.v1,
+          strict: true,
+          deprecationErrors: true,
+        },
         serverSelectionTimeoutMS: 10000,
         socketTimeoutMS: 10000,
         connectTimeoutMS: 10000,
         tls: true,
         tlsAllowInvalidCertificates: false,
-        // Reduce memory usage in serverless
         maxPoolSize: 5,
         minPoolSize: 1,
       });
