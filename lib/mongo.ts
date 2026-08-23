@@ -49,6 +49,7 @@ export async function getDb(): Promise<Db> {
 
 export function getDbSafe(): { db: Db | null; error: Error | null } {
   if (connectError) return { db: null, error: connectError };
+  if (!db) return { db: null, error: new Error("MongoDB connection has not been established yet") };
   return { db, error: null };
 }
 
