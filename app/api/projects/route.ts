@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/mongo";
+import { getDb } from "@/lib/mongo";
+import { revalidatePath } from "next/cache";
+import { ObjectId } from "mongodb";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,6 +23,7 @@ export async function GET(request: NextRequest) {
     ];
   }
 
+  const db = await getDb();
   const projects = await db
     .collection("projects")
     .find(where)

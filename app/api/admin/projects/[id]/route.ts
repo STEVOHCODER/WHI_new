@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/mongo";
+import { getDb } from "@/lib/mongo";
 import { revalidatePath } from "next/cache";
-import { ObjectId, type AnyBulkWriteOperation } from "mongodb";
+import { ObjectId } from "mongodb";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -47,6 +47,7 @@ export async function PUT(
   if (tags !== undefined) update.tags = tags;
   if (isActiveVal !== undefined) update.isActive = isActiveVal === "on" || isActiveVal === "true";
 
+  const db = await getDb();
   const result = await db.collection("projects").updateOne(
     { _id: new ObjectId(id) },
     { $set: update },
@@ -71,6 +72,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
+  const db = await getDb();
   const result = await db.collection("projects").deleteOne({ _id: new ObjectId(id) });
 
   if (result.deletedCount === 0) {

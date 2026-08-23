@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { db } from "@/lib/mongo";
+import { getDb } from "@/lib/mongo";
 import { ObjectId } from "mongodb";
 
 export const dynamic = "force-dynamic";
@@ -11,8 +11,9 @@ export const metadata: Metadata = {
 };
 
 async function getProjects() {
+  const db = await getDb();
   return (await db.collection("projects").find({}).sort({ createdAt: -1 }).toArray()) as Array<{
-    _id: import("mongodb").ObjectId;
+    _id: ObjectId;
     title: string;
     slug: string;
     excerpt: string;

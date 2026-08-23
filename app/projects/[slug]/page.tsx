@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { db } from "@/lib/mongo";
+import { getDb } from "@/lib/mongo";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { RotateCcw } from "@/components/ui/icons";
 
@@ -14,6 +14,7 @@ interface PageProps {
 }
 
 async function getProject(slug: string) {
+  const db = await getDb();
   const project = await db.collection("projects").findOne({ slug, isActive: true });
   return project;
 }

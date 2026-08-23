@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/mongo";
+import { getDb } from "@/lib/mongo";
 import { revalidatePath } from "next/cache";
 import { ObjectId } from "mongodb";
 
@@ -41,6 +41,7 @@ export async function POST(request: NextRequest) {
     : [];
 
   const now = new Date();
+  const db = await getDb();
   const project = await db.collection("projects").insertOne({
     _id: new ObjectId(),
     title,
