@@ -1,0 +1,238 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "WHI-SL Home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "Women's Health Initiative Sierra Leone logo" [ref=e6]
+      - navigation "Main navigation" [ref=e7]:
+        - link "Home" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - button "About Us" [ref=e10]
+        - button "Programs" [ref=e14]
+        - link "Gallery" [ref=e17] [cursor=pointer]:
+          - /url: /blog
+        - link "Projects" [ref=e18] [cursor=pointer]:
+          - /url: /projects
+        - link "Contact Us" [ref=e19] [cursor=pointer]:
+          - /url: /contact
+      - link "Admin" [ref=e20] [cursor=pointer]:
+        - /url: /admin
+  - main [ref=e24]:
+    - region "Hero" [ref=e25]:
+      - img "WHI-SL community crowd at an outreach event in Bo" [ref=e26]
+      - generic [ref=e31]:
+        - generic [ref=e33]:
+          - generic [ref=e34]: Sierra Leone | Est. 2010
+          - heading "Empowering communities. Improving health. Creating opportunities." [level=1] [ref=e37]:
+            - generic [ref=e38]: Empowering communities.
+            - generic [ref=e39]: Improving health.
+            - generic [ref=e40]: Creating opportunities.
+          - paragraph [ref=e41]: Women Health Initiative is a community-based organisation in Bo City, Sierra Leone, helping vulnerable young people make smart choices and decisions for sustainable development through health, advocacy, and research.
+          - blockquote [ref=e42]: “Empowering vulnerable people to make smart choices and decisions for sustainable development.”
+          - generic [ref=e43]:
+            - link "Learn More" [ref=e44] [cursor=pointer]:
+              - /url: /who-we-are
+            - link "Contact Us" [ref=e47] [cursor=pointer]:
+              - /url: /contact
+        - generic [ref=e52]:
+          - generic [ref=e53]: Health & Social Empowerment
+          - generic [ref=e59]: Gender Empowerment
+          - generic [ref=e68]: Human Rights
+          - generic [ref=e75]: Research & Evidence
+          - generic [ref=e82]: Community Support
+    - generic [ref=e93]:
+      - generic [ref=e95]:
+        - img "WHI-SL community outreach in a market setting" [ref=e97]
+        - generic [ref=e99]: Founded in 2010
+        - generic [ref=e100]:
+          - paragraph [ref=e101]: Bo City, Sierra Leone
+          - paragraph [ref=e102]: WHI was founded in 2010 and registered by Bo Council in 2018.
+      - generic [ref=e104]:
+        - generic [ref=e105]: About Us
+        - heading "Welcome message from WHI" [level=2] [ref=e106]
+        - paragraph [ref=e107]: We use sports, entertainments, capacity building, mentorship, community-based services, and evidence-based innovation to address community health and social issues.
+        - paragraph [ref=e108]: Our work is built around vulnerable young people, women, girls, children, people living with disabilities, people living with HIV/AIDS, and other community members.
+        - link "More About Us" [ref=e110] [cursor=pointer]:
+          - /url: /who-we-are
+    - generic [ref=e114]:
+      - generic [ref=e116]:
+        - generic [ref=e117]: Our Guiding Purpose
+        - heading "Vision, mission, and history" [level=2] [ref=e120]
+        - paragraph [ref=e121]: The organisation is guided by equal rights, practical support, and sustainable development for vulnerable people in Sierra Leone.
+      - generic [ref=e123]:
+        - article [ref=e125]:
+          - generic [ref=e126]: "01"
+          - heading "Vision" [level=3] [ref=e127]
+          - paragraph [ref=e128]: WHI strives for equal and equitable rights and opportunities for vulnerable people in Sierra Leone by addressing social determinants of health. We need Sierra Leone free of inequalities, inequities, injustices, and social discrimination.
+        - article [ref=e130]:
+          - generic [ref=e131]: "02"
+          - heading "Mission" [level=3] [ref=e132]
+          - paragraph [ref=e133]: Women Health Initiative is dedicated to empower vulnerable people in Sierra Leone to make smart choices and decisions in their lives for sustainable development.
+        - article [ref=e135]:
+          - generic [ref=e136]: "03"
+          - heading "History" [level=3] [ref=e137]
+          - paragraph [ref=e138]: Founded in Bo City in 2010, WHI began with a group of 15 young volunteers from different student organisations who wanted to respond to community health and social issues.
+      - generic [ref=e139]:
+        - article [ref=e141]:
+          - paragraph [ref=e142]: Values
+          - list [ref=e143]:
+            - listitem [ref=e144]: Accountability
+            - listitem [ref=e145]: Transparency
+            - listitem [ref=e146]: Effectiveness
+            - listitem [ref=e147]: Efficiency
+            - listitem [ref=e148]: Equity
+            - listitem [ref=e149]: Equality
+        - article [ref=e151]:
+          - paragraph [ref=e152]: Community Focus
+          - paragraph [ref=e153]: WHI keeps its work grounded in outreach, education, advocacy, research, and community participation so the organisation remains practical and responsive.
+    - generic [ref=e155]:
+      - generic [ref=e157]:
+        - generic [ref=e158]: Programs
+        - heading "Our core areas of work" [level=2] [ref=e161]
+        - paragraph [ref=e162]: "WHI works through four connected programs: Health and Social Empowerment, Gender Empowerment, Human Rights, and Health Research."
+      - generic [ref=e164]:
+        - article [ref=e166]:
+          - generic [ref=e167]:
+            - img "WHI-SL community outreach session in a market setting" [ref=e168]
+            - generic [ref=e170]: Health & Social Empowerment
+          - generic [ref=e171]:
+            - heading "Health and Social Empowerment Program" [level=3] [ref=e172]
+            - paragraph [ref=e173]: Using sports, entertainments, and community services to improve public health and social wellbeing.
+            - link "Explore Program" [ref=e174] [cursor=pointer]:
+              - /url: /programs/health-social-empowerment
+        - article [ref=e178]:
+          - generic [ref=e179]:
+            - img "WHI-SL health advocacy and community sensitisation moment" [ref=e180]
+            - generic [ref=e182]: Gender Empowerment
+          - generic [ref=e183]:
+            - heading "Gender Empowerment Program" [level=3] [ref=e184]
+            - paragraph [ref=e185]: Supporting women and girls through awareness, safety, and economic development.
+            - link "Explore Program" [ref=e186] [cursor=pointer]:
+              - /url: /programs/gender-empowerment
+        - article [ref=e190]:
+          - generic [ref=e191]:
+            - img "WHI-SL community crowd at an awareness event" [ref=e192]
+            - generic [ref=e194]: Human Rights
+          - generic [ref=e195]:
+            - heading "Human Rights Program" [level=3] [ref=e196]
+            - paragraph [ref=e197]: Advocating for justice, dignity, peace, and equal rights for all.
+            - link "Explore Program" [ref=e198] [cursor=pointer]:
+              - /url: /programs/human-rights
+        - article [ref=e202]:
+          - generic [ref=e203]:
+            - img "WHI-SL staff handling administrative work and documentation" [ref=e204]
+            - generic [ref=e206]: Health Research
+          - generic [ref=e207]:
+            - heading "Health Research Program" [level=3] [ref=e208]
+            - paragraph [ref=e209]: Using surveys, evaluations, and studies to support evidence-based action.
+            - link "Explore Program" [ref=e210] [cursor=pointer]:
+              - /url: /programs/health-research
+    - generic [ref=e214]:
+      - generic [ref=e216]:
+        - generic [ref=e217]: Why Communities Choose Us
+        - heading "Innovation at the center of change" [level=2] [ref=e220]
+        - paragraph [ref=e221]: Sports, entertainments, capacity building, community-based services, information and technology, and evidence-based innovation guide the organisation's approach.
+      - generic [ref=e223]:
+        - article [ref=e225]:
+          - heading "Sports and entertainment" [level=3] [ref=e229]
+          - paragraph [ref=e230]: Sports, entertainments, and arts help us connect with communities in practical ways.
+        - article [ref=e232]:
+          - heading "Capacity building" [level=3] [ref=e239]
+          - paragraph [ref=e240]: Training, workshops, debates, and mentorship strengthen skills and confidence for youth and women.
+        - article [ref=e242]:
+          - heading "Community services" [level=3] [ref=e247]
+          - paragraph [ref=e248]: We deliver community-based comprehensive services where people already live and gather.
+        - article [ref=e250]:
+          - heading "Evidence-based innovation" [level=3] [ref=e255]
+          - paragraph [ref=e256]: Research, information, and technology help us keep the work useful and grounded.
+      - generic [ref=e257]:
+        - generic [ref=e259]:
+          - img "WHI-SL health advocacy and community sensitisation moment" [ref=e261]
+          - generic [ref=e263]: Community in Action
+        - generic [ref=e265]:
+          - article [ref=e266]:
+            - img "WHI-SL gallery image" [ref=e268]
+          - article [ref=e269]:
+            - img "WHI-SL gallery image" [ref=e271]
+          - article [ref=e272]:
+            - img "WHI-SL gallery image" [ref=e274]
+          - article [ref=e275]:
+            - img "WHI-SL gallery image" [ref=e277]
+          - article [ref=e278]:
+            - img "WHI-SL gallery image" [ref=e280]
+    - generic [ref=e286]:
+      - paragraph [ref=e287]: Final Call to Action
+      - heading "Together, we can create healthier and more equitable communities in Sierra Leone." [level=2] [ref=e288]
+      - paragraph [ref=e289]: Join WHI as a partner, donor, volunteer, or advocate and help us build a Sierra Leone free from inequalities, inequities, injustices, and social discrimination.
+      - generic [ref=e290]:
+        - link "Contact WHI" [ref=e291] [cursor=pointer]:
+          - /url: /contact
+        - link "Learn More" [ref=e294] [cursor=pointer]:
+          - /url: /who-we-are
+  - contentinfo [ref=e295]:
+    - generic [ref=e298]:
+      - generic [ref=e299]:
+        - link "WHI-SL Home" [ref=e300] [cursor=pointer]:
+          - /url: /
+          - img "Women's Health Initiative Sierra Leone logo" [ref=e301]
+        - paragraph [ref=e302]: Women's Health Initiative Sierra Leone is a community-based organisation working alongside vulnerable people through health, gender empowerment, human rights, and research.
+        - paragraph [ref=e303]: Based in Bo City, Sierra Leone
+      - generic [ref=e304]:
+        - heading "Quick Links" [level=3] [ref=e305]
+        - list [ref=e306]:
+          - listitem [ref=e307]:
+            - link "Home" [ref=e308] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e309]:
+            - link "About Us" [ref=e310] [cursor=pointer]:
+              - /url: /who-we-are
+          - listitem [ref=e311]:
+            - link "Programs" [ref=e312] [cursor=pointer]:
+              - /url: /programs
+          - listitem [ref=e313]:
+            - link "Gallery" [ref=e314] [cursor=pointer]:
+              - /url: /blog
+          - listitem [ref=e315]:
+            - link "Team" [ref=e316] [cursor=pointer]:
+              - /url: /team
+          - listitem [ref=e317]:
+            - link "Contact Us" [ref=e318] [cursor=pointer]:
+              - /url: /contact
+      - generic [ref=e319]:
+        - heading "Our Programs" [level=3] [ref=e320]
+        - list [ref=e321]:
+          - listitem [ref=e322]:
+            - link "Health & Social Empowerment" [ref=e323] [cursor=pointer]:
+              - /url: /programs/health-social-empowerment
+          - listitem [ref=e324]:
+            - link "Gender Empowerment" [ref=e325] [cursor=pointer]:
+              - /url: /programs/gender-empowerment
+          - listitem [ref=e326]:
+            - link "Human Rights" [ref=e327] [cursor=pointer]:
+              - /url: /programs/human-rights
+          - listitem [ref=e328]:
+            - link "Health Research" [ref=e329] [cursor=pointer]:
+              - /url: /programs/health-research
+      - generic [ref=e330]:
+        - heading "Contact" [level=3] [ref=e331]
+        - list [ref=e332]:
+          - listitem [ref=e333]:
+            - generic [ref=e337]: Bo City, Bo DistrictSierra Leone, West Africa
+          - listitem [ref=e338]:
+            - generic [ref=e342]: info@whi-sl.orgUse the contact form for direct enquiries.
+        - link "Get In Touch" [ref=e344] [cursor=pointer]:
+          - /url: /contact
+          - text: Get In Touch
+          - generic [ref=e345]: "->"
+    - generic [ref=e347]:
+      - paragraph [ref=e348]: © 2026 Women's Health Initiative Sierra Leone (WHI-SL). All rights reserved.
+      - generic [ref=e349]:
+        - link "Privacy Policy" [ref=e350] [cursor=pointer]:
+          - /url: /privacy
+        - generic [ref=e351]: "|"
+        - link "Contact Us" [ref=e352] [cursor=pointer]:
+          - /url: /contact
+        - generic [ref=e353]: "|"
+        - link "Admin Dashboard" [ref=e354] [cursor=pointer]:
+          - /url: /admin
+  - button "Open WHI Assistant" [ref=e356]

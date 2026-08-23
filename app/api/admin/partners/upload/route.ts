@@ -7,6 +7,19 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
+ * Convert a File to a base64 data URL.
+ * Works without any external storage token.
+ */
+function fileToDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/**
  * POST /api/admin/partners/upload — upload logo for a partner
  */
 export async function POST(request: NextRequest) {
@@ -23,30 +36,38 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "File must be under 5MB" }, { status: 400 });
     }
 
-    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/gif",
+      "image/svg+xml",
+    ];
     if (!allowedTypes.includes(file.type)) {
-      return NextResponse.json({ error: "Only JPG, PNG, WebP, GIF allowed" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Only JPG, PNG, WebP, GIF, SVG allowed" },
+        { status: 400 },
+      );
     }
 
-    const { put } = await import("@vercel/blob");
-    const blob = await put(`whi-sl/partners/${partnerId ? `${partnerId}/` : ""}${Date.now()}-${file.name}`, file, {
-      access: "public",
-      contentType: file.type,
-    });
+    const dataUrl = await fileToDataUrl(file);
 
     if (partnerId) {
       const db = await getDb();
       await db.collection("partners").updateOne(
         { _id: new ObjectId(partnerId) },
-        { $set: { logoUrl: blob.url, updatedAt: new Date() } },
+        { $set: { logoUrl: dataUrl, updatedAt: new Date() } },
       );
       revalidatePath("/");
       revalidatePath("/admin/partners");
     }
 
-    return NextResponse.json({ url: blob.url });
+    return NextResponse.json({ url: dataUrl });
   } catch (error) {
     console.error("[api/admin/partners/upload] error:", error);
-    return NextResponse.json({ error: "Upload failed", details: (error as Error).message }, { status: 500 });
+    return NextResponse.json(
+      { error: "Upload failed", details: (error as Error).message },
+      { status: 500 },
+    );
   }
 }

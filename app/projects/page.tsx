@@ -6,6 +6,10 @@ import PageHero from "@/components/sections/PageHero";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { ArrowRight } from "@/components/ui/icons";
 
+function isDataUrl(url: string): boolean {
+  return url.startsWith("data:image/");
+}
+
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
@@ -136,14 +140,23 @@ function ProjectCard({
     >
       <div className="relative h-52 overflow-hidden">
         {project.imageUrl ? (
-          <Image
-            src={project.imageUrl}
-            alt={project.title}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width:768px) 100vw, (max-width:1024px) 50vw, 33vw"
-            draggable={false}
-          />
+          isDataUrl(project.imageUrl) ? (
+            <img
+              src={project.imageUrl}
+              alt={project.title}
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              draggable={false}
+            />
+          ) : (
+            <Image
+              src={project.imageUrl}
+              alt={project.title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width:768px) 100vw, (max-width:1024px) 50vw, 33vw"
+              draggable={false}
+            />
+          )
         ) : (
           <div
             className="h-full w-full flex items-center justify-center"

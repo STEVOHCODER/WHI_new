@@ -18,15 +18,15 @@ interface ButtonProps {
 
 const variantClasses = {
   primary:
-    "bg-[var(--color-primary)] text-white shadow-[0_18px_34px_rgba(198,40,33,0.28)] hover:bg-[var(--color-primary-dark)] hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2",
+    "bg-[var(--color-primary)] text-white shadow-[0_18px_34px_rgba(168,58,98,0.32)] hover:bg-[var(--color-primary-dark)] hover:shadow-[0_22px_44px_rgba(168,58,98,0.42)] hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2",
   secondary:
-    "bg-white text-[var(--color-primary)] border border-[var(--color-primary)] shadow-[0_12px_28px_rgba(24,32,29,0.08)] hover:bg-[var(--color-bg-section)] hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2",
+    "bg-white text-[var(--color-primary)] border border-[var(--color-primary)] shadow-[0_12px_28px_rgba(24,32,29,0.08)] hover:bg-[var(--color-primary)] hover:text-white hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2",
   outline:
     "bg-transparent text-white border border-white/80 hover:bg-white hover:text-[var(--color-primary)] hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2",
   ghost:
-    "bg-transparent text-[var(--color-text)] hover:bg-[var(--color-bg-section)] hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2",
+    "bg-transparent text-[var(--color-text)] hover:bg-[var(--color-bg-section)] hover:text-[var(--color-primary)] hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2",
   accent:
-    "bg-[var(--color-accent)] text-white shadow-[0_16px_34px_rgba(212,108,35,0.25)] hover:bg-[var(--color-accent-light)] hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2",
+    "bg-[var(--color-accent)] text-white shadow-[0_16px_34px_rgba(215,163,43,0.3)] hover:bg-[var(--color-accent-light)] hover:text-[#3d2c05] hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2",
 };
 
 const sizeClasses = {

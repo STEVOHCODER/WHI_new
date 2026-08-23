@@ -149,8 +149,8 @@ function NavItem({
           }}
           className={`flex items-center gap-1 rounded-2xl px-3 py-2 font-[family-name:var(--font-plus-jakarta)] text-[16px] font-medium leading-none transition-colors duration-150 ${
             isActive(item.href)
-              ? "border border-[var(--color-primary)] bg-white text-[var(--color-primary)] shadow-[0_2px_8px_rgba(198,40,33,0.06)]"
-              : "border border-transparent text-[var(--color-text)] hover:bg-white hover:text-[var(--color-primary)]"
+              ? "border border-[var(--color-primary)] bg-white text-[var(--color-primary)] shadow-[0_2px_8px_rgba(168,58,98,0.1)]"
+              : "border border-transparent text-[var(--color-text)] hover:border-[var(--color-primary-light)]/50 hover:bg-[#fdf1f6] hover:text-[var(--color-primary)]"
           }`}
           aria-haspopup="true"
           aria-expanded={open}
@@ -186,8 +186,8 @@ function NavItem({
       href={item.href}
       className={`rounded-2xl px-3 py-2 font-[family-name:var(--font-plus-jakarta)] text-[16px] font-semibold leading-none transition-colors duration-150 ${
         isActive(item.href)
-          ? "border border-[var(--color-primary)] bg-white text-[var(--color-primary)] shadow-[0_2px_8px_rgba(198,40,33,0.06)]"
-          : "border border-transparent text-[var(--color-text)] hover:bg-white hover:text-[var(--color-primary)]"
+          ? "border border-[var(--color-primary)] bg-white text-[var(--color-primary)] shadow-[0_2px_8px_rgba(168,58,98,0.1)]"
+          : "border border-transparent text-[var(--color-text)] hover:border-[var(--color-primary-light)]/50 hover:bg-[#fdf1f6] hover:text-[var(--color-primary)]"
       }`}
     >
       {item.label}

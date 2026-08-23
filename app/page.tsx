@@ -442,19 +442,19 @@ export default function HomePage() {
       <PartnersSliderSection />
 
       <section
-        className="section-padding surface-dark section-panel"
+        className="section-padding surface-dark section-panel animate-gradient-pan"
         style={{
-          background: "linear-gradient(135deg, #151515 0%, #1a1a1a 60%, #7f1d18 160%)",
+          background: "linear-gradient(135deg, #171114 0%, #2a1520 45%, #6e2340 85%, #a83a62 130%)",
         }}
       >
         <div className="container-wide">
           <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/6 px-6 py-12 shadow-[0_26px_90px_rgba(0,0,0,0.24)] md:px-10 md:py-16">
             <div
-              className="absolute -left-10 top-6 h-32 w-32 rounded-full bg-[var(--color-gold)]/18 blur-2xl"
+              className="absolute -left-10 top-6 h-32 w-32 rounded-full bg-[var(--color-gold)]/18 blur-2xl animate-pulse-glow"
               aria-hidden="true"
             />
             <div
-              className="absolute bottom-6 right-0 h-28 w-28 rounded-[1.5rem] bg-[var(--color-primary)]/18 blur-xl"
+              className="absolute bottom-6 right-0 h-28 w-28 rounded-[1.5rem] bg-[var(--color-primary-light)]/22 blur-xl animate-float-soft"
               aria-hidden="true"
             />
             <div className="relative mx-auto max-w-3xl text-center">

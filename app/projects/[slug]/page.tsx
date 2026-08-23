@@ -5,6 +5,11 @@ import { notFound } from "next/navigation";
 import { getDbSafe } from "@/lib/mongo";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { RotateCcw } from "@/components/ui/icons";
+import { formatProjectContent } from "@/lib/content-format";
+
+function isDataUrl(url: string): boolean {
+  return url.startsWith("data:image/");
+}
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -69,15 +74,24 @@ export default async function ProjectPage({ params }: PageProps) {
       {/* Hero */}
       <div className="relative h-[50vh] min-h-[320px] max-h-[560px] overflow-hidden">
         {project.imageUrl ? (
-          <Image
-            src={project.imageUrl}
-            alt={project.title}
-            fill
-            className="object-cover"
-            sizes="100vw"
-            priority
-            draggable={false}
-          />
+          isDataUrl(project.imageUrl) ? (
+            <img
+              src={project.imageUrl}
+              alt={project.title}
+              className="absolute inset-0 h-full w-full object-cover"
+              draggable={false}
+            />
+          ) : (
+            <Image
+              src={project.imageUrl}
+              alt={project.title}
+              fill
+              className="object-cover"
+              sizes="100vw"
+              priority
+              draggable={false}
+            />
+          )
         ) : (
           <div className="h-full w-full flex items-center justify-center" style={{ backgroundColor: "var(--color-bg-section)" }}>
             <span className="text-7xl opacity-20">📁</span>
@@ -120,7 +134,7 @@ export default async function ProjectPage({ params }: PageProps) {
             <AnimatedSection>
               <div
                 className="prose prose-lg max-w-none text-[var(--color-text)]"
-                dangerouslySetInnerHTML={{ __html: project.content || project.excerpt }}
+                dangerouslySetInnerHTML={{ __html: formatProjectContent(project.content) }}
               />
 
               {/* Innovation link */}
@@ -254,14 +268,23 @@ export default async function ProjectPage({ params }: PageProps) {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {gallery.map((img, i) => (
                   <div key={i} className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                    <Image
-                      src={img}
-                      alt={`${project.title} gallery image ${i + 1}`}
-                      fill
-                      className="object-cover transition-transform duration-500 hover:scale-105"
-                      sizes="(max-width:768px) 50vw, 33vw"
-                      draggable={false}
-                    />
+                    {isDataUrl(img) ? (
+                      <img
+                        src={img}
+                        alt={`${project.title} gallery image ${i + 1}`}
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                        draggable={false}
+                      />
+                    ) : (
+                      <Image
+                        src={img}
+                        alt={`${project.title} gallery image ${i + 1}`}
+                        fill
+                        className="object-cover transition-transform duration-500 hover:scale-105"
+                        sizes="(max-width:768px) 50vw, 33vw"
+                        draggable={false}
+                      />
+                    )}
                   </div>
                 ))}
               </div>
