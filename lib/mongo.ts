@@ -15,15 +15,22 @@ async function ensureConnected(): Promise<Db> {
 
   connecting = (async () => {
     if (!client) {
-      client = new MongoClient(MONGO_URL, {
+      // Use tls=true for Atlas; reduce compression to avoid TLS issues
+      const url = MONGO_URL.replace("mongodb+srv://", "mongodb+srv://").replace(/\?/, "?tls=true&");
+      client = new MongoClient(url, {
         serverSelectionTimeoutMS: 10000,
         socketTimeoutMS: 10000,
         connectTimeoutMS: 10000,
+        tls: true,
+        tlsAllowInvalidCertificates: false,
+        // Reduce memory usage in serverless
+        maxPoolSize: 5,
+        minPoolSize: 1,
       });
     }
     await client.connect();
     db = client.db(MONGO_DB);
-    console.log("[mongo] connected to", MONGO_DB, "in", process.env.VERCEL_ENV ?? "unknown");
+    console.log("[mongo] connected to", MONGO_DB);
     return db;
   })();
 
