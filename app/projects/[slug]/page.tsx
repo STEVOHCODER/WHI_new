@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getDb } from "@/lib/mongo";
+import { getDbSafe } from "@/lib/mongo";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { RotateCcw } from "@/components/ui/icons";
 
@@ -14,7 +14,12 @@ interface PageProps {
 }
 
 async function getProject(slug: string) {
-  const db = await getDb();
+  const safe = getDbSafe();
+  if (safe.error) {
+    console.error("[project slug] mongo error:", safe.error.message);
+    return null;
+  }
+  const db = safe.db!;
   const project = await db.collection("projects").findOne({ slug, isActive: true });
   return project;
 }

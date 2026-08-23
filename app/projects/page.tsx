@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { getDb } from "@/lib/mongo";
+import { getDb, getDbSafe } from "@/lib/mongo";
 import PageHero from "@/components/sections/PageHero";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { ArrowRight } from "@/components/ui/icons";
@@ -18,8 +18,18 @@ export const metadata: Metadata = {
 const CATEGORIES = ["All", "Health", "Gender", "Empowerment", "Community", "Environment", "Rights"];
 
 async function getProjects() {
-  const db = await getDb();
-  return (await db.collection("projects").find({ isActive: true }).sort({ createdAt: -1 }).toArray()) as Array<{
+  const safe = getDbSafe();
+  if (safe.error) {
+    console.error("[projects] mongo error:", safe.error.message);
+    return [];
+  }
+  const db = safe.db!;
+  const projects = await db
+    .collection("projects")
+    .find({ isActive: true })
+    .sort({ createdAt: -1 })
+    .toArray();
+  return projects as Array<{
     _id: import("mongodb").ObjectId;
     title: string;
     slug: string;
