@@ -36,29 +36,34 @@ async function sendEmail(data: { name: string; email: string; organisation: stri
   }
 
   if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
-    const nodemailer = await import("nodemailer");
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT) || 587,
-      secure: Number(process.env.SMTP_PORT) === 465,
-      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-    });
-    await transporter.sendMail({
-      from: process.env.SMTP_USER,
-      to: process.env.CONTACT_EMAIL || "mayintake351@gmail.com",
-      subject: `[WHI-SL Partnership] ${data.partnershipType}`,
-      html: `
-        <h2>New Partnership Enquiry</h2>
-        <p><strong>Name:</strong> ${data.name}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        <p><strong>Organisation:</strong> ${data.organisation}</p>
-        <p><strong>Phone:</strong> ${data.phone || "—"}</p>
-        <p><strong>Partnership Type:</strong> ${data.partnershipType}</p>
-        <p><strong>Message:</strong></p>
-        <p style="white-space:pre-wrap">${data.message}</p>
-      `,
-    });
-    return { delivered: true };
+    try {
+      const nodemailer = await import("nodemailer");
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT) || 587,
+        secure: Number(process.env.SMTP_PORT) === 465,
+        auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+      });
+      await transporter.sendMail({
+        from: process.env.SMTP_USER,
+        to: process.env.CONTACT_EMAIL || "mayintake351@gmail.com",
+        subject: `[WHI-SL Partnership] ${data.partnershipType}`,
+        html: `
+          <h2>New Partnership Enquiry</h2>
+          <p><strong>Name:</strong> ${data.name}</p>
+          <p><strong>Email:</strong> ${data.email}</p>
+          <p><strong>Organisation:</strong> ${data.organisation}</p>
+          <p><strong>Phone:</strong> ${data.phone || "—"}</p>
+          <p><strong>Partnership Type:</strong> ${data.partnershipType}</p>
+          <p><strong>Message:</strong></p>
+          <p style="white-space:pre-wrap">${data.message}</p>
+        `,
+      });
+      return { delivered: true };
+    } catch (smtpErr) {
+      console.error("[api/partnership] SMTP error:", smtpErr);
+      return { delivered: false, error: (smtpErr as Error).message };
+    }
   }
 
   console.log("[WHI-SL] Partnership form (no email config):", { name: data.name, email: data.email, partnershipType: data.partnershipType });
@@ -98,12 +103,25 @@ export async function POST(request: NextRequest) {
     });
     revalidatePath("/admin/partnerships");
 
-    // Send email
-    const emailResult = await sendEmail({ name, email, organisation, phone, partnershipType, message });
+    // Send email (best-effort — form is still saved even if email fails)
+    let emailResult: { delivered: boolean; error?: string } = { delivered: false };
+    try {
+      emailResult = await sendEmail({ name, email, organisation, phone, partnershipType, message });
+    } catch (emailErr) {
+      console.error("[api/partnership] Email delivery failed:", emailErr);
+    }
 
-    return NextResponse.json({ ok: true, delivered: emailResult.delivered });
+    return NextResponse.json({
+      ok: true,
+      stored: true,
+      delivered: emailResult.delivered,
+      emailError: emailResult.error || null,
+    });
   } catch (error) {
     console.error("[api/partnership] POST error:", error);
-    return NextResponse.json({ error: "Failed to send enquiry" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to process enquiry", details: (error as Error).message },
+      { status: 500 },
+    );
   }
 }

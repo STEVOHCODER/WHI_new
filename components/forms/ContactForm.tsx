@@ -46,6 +46,10 @@ export default function ContactForm() {
         setServerError(json.error || "Something went wrong. Please try again.");
         return;
       }
+      // Submission saved to DB regardless of email status
+      if (!json.delivered && json.emailError) {
+        setServerError(`Message saved but email notification failed: ${json.emailError}`);
+      }
       setSubmitted(true);
     } catch {
       setServerError("Network error. Please check your connection and try again.");

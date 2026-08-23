@@ -39,18 +39,11 @@ export default async function AdminContactsPage() {
   return (
     <div className="min-h-screen bg-[var(--color-bg)]">
       <div className="container-wide py-12">
-        <div className="flex items-center justify-between mb-10">
-          <div>
-            <a href="/admin" className="text-sm text-[var(--color-primary)] hover:underline">
-              ← Back to dashboard
-            </a>
-            <h1 className="mt-2 text-3xl font-black text-[var(--color-text)]">
-              Contact Submissions
-            </h1>
-            <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-              {submissions.length} message{submissions.length !== 1 ? "s" : ""} received
-            </p>
-          </div>
+        <div className="mb-10">
+          <h1 className="text-3xl font-black text-[var(--color-text)]">Contact Submissions</h1>
+          <p className="mt-1 text-sm text-[var(--color-text-muted)]">
+            {submissions.length} message{submissions.length !== 1 ? "s" : ""} received
+          </p>
         </div>
 
         {submissions.length === 0 ? (

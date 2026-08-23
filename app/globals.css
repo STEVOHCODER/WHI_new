@@ -1,16 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary: #c62821;
-  --color-primary-dark: #a91f19;
-  --color-primary-light: #d84b41;
-  --color-accent: #d46c23;
-  --color-accent-light: #ee8540;
+  /* Brand palette — harmonised with the WHI logo (pink #DD5B97 + charcoal) */
+  --color-primary: #a83a62;
+  --color-primary-dark: #87294b;
+  --color-primary-light: #c95c88;
+  --color-pink: #dd5b97;
+  --color-pink-soft: #f3c1da;
+  --color-accent: #d7a32b;
+  --color-accent-light: #e7bd55;
+  --color-accent-deep: #b3831c;
   --color-rose: #b72b4e;
   --color-purple: #6d46c8;
   --color-blue: #1d7ac6;
   --color-gold: #d7a32b;
-  --color-teal: #0d8f97;
+  --color-teal: #0f7b78;
+  --color-teal-light: #2ea3a0;
 
   --color-bg: #fcf8f1;
   --color-bg-section: #f4eadf;
@@ -25,6 +30,7 @@
   --section-y: clamp(4.5rem, 6vw, 6.5rem);
   --surface-shadow: 0 18px 60px rgba(14, 24, 20, 0.08);
   --surface-shadow-strong: 0 30px 90px rgba(14, 24, 20, 0.14);
+  --brand-gradient: linear-gradient(120deg, #a83a62 0%, #dd5b97 45%, #d7a32b 100%);
 }
 
 @theme inline {
@@ -69,7 +75,7 @@ img {
 }
 
 ::selection {
-  background-color: rgba(198, 40, 33, 0.18);
+  background-color: rgba(168, 58, 98, 0.2);
   color: var(--color-text);
 }
 
@@ -97,15 +103,15 @@ img {
 }
 
 .surface-dark {
-  background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
+  background: linear-gradient(135deg, #14100f 0%, #221418 100%);
 }
 
 .surface-plum {
-  background: linear-gradient(135deg, #111111 0%, #27211d 100%);
+  background: linear-gradient(135deg, #14100f 0%, #2b1a22 100%);
 }
 
 .surface-hero {
-  background: linear-gradient(135deg, #161616 0%, #222222 60%, #7f1d18 145%);
+  background: linear-gradient(135deg, #171114 0%, #241519 55%, #6e2340 145%);
 }
 
 .section-panel {
@@ -167,6 +173,250 @@ img {
   transform: scale(1.03);
 }
 
+/* ---------------------------------- */
+/* Motion design                       */
+/* ---------------------------------- */
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes float-y-soft {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.04);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes shimmer-x {
+  0% {
+    background-position: -200% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes gradient-pan {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes pill-in {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-float {
+  animation: float-y 7s ease-in-out infinite;
+}
+
+.animate-float-soft {
+  animation: float-y-soft 9s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 6s ease-in-out infinite;
+}
+
+.animate-gradient-pan {
+  background-size: 220% 220%;
+  animation: gradient-pan 12s ease infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 22s linear infinite;
+}
+
+/* Gradient headline word */
+.gradient-text {
+  background-image: var(--brand-gradient);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: background-position 0.6s ease;
+}
+
+.gradient-text:hover {
+  background-position: right center;
+}
+
+/* Animated underline link */
+.link-underline {
+  position: relative;
+}
+
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 2px;
+  width: 100%;
+  border-radius: 999px;
+  background: var(--brand-gradient);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Hero highlight pill — glassy, fills with brand gradient on hover */
+.hero-pill {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.hero-pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--brand-gradient);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.hero-pill:hover,
+.hero-pill:focus-visible {
+  transform: translateX(6px);
+  border-color: transparent;
+  box-shadow: 0 18px 42px rgba(168, 58, 98, 0.42);
+}
+
+.hero-pill:hover::before,
+.hero-pill:focus-visible::before {
+  opacity: 1;
+}
+
+.hero-pill .hero-pill-icon {
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease;
+}
+
+.hero-pill:hover .hero-pill-icon {
+  background-color: var(--color-gold);
+  border-color: var(--color-gold);
+  color: #1b1b1b;
+  transform: scale(1.06) rotate(-4deg);
+}
+
+.pill-stagger > * {
+  animation: pill-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Card hover — lift, brand border, deeper shadow */
+.card-hover {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-primary-light);
+  box-shadow: 0 26px 64px rgba(168, 58, 98, 0.16);
+}
+
+/* Value chip — fills with berry on hover */
+.chip {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.chip:hover {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* Icon tile that swaps to gradient on card hover */
+.icon-tile {
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease;
+}
+
+.group:hover .icon-tile {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  transform: rotate(-6deg) scale(1.05);
+}
+
+/* Shimmering gradient bar */
+.bar-shimmer {
+  background-image: linear-gradient(
+    110deg,
+    #a83a62 20%,
+    #dd5b97 40%,
+    #d7a32b 55%,
+    #a83a62 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-x 5s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -190,7 +440,7 @@ img {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-primary);
+  background: linear-gradient(180deg, var(--color-primary), var(--color-pink));
   border-radius: 3px;
 }
 

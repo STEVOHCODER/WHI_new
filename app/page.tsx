@@ -4,6 +4,7 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
+import PartnersSliderSection from "./partners-slider-section";
 import { programs } from "@/data/programs";
 import { values } from "@/data/values";
 import {
@@ -113,11 +114,15 @@ export default function HomePage() {
           aria-hidden="true"
         />
         <div
-          className="absolute -left-16 top-24 h-56 w-56 rounded-full bg-[var(--color-primary)]/18 blur-3xl"
+          className="absolute -left-16 top-24 h-56 w-56 rounded-full bg-[var(--color-primary-light)]/25 blur-3xl animate-pulse-glow"
           aria-hidden="true"
         />
         <div
-          className="absolute right-8 top-28 hidden h-24 w-24 rounded-[1.75rem] border border-white/18 bg-white/10 backdrop-blur-sm lg:block"
+          className="absolute right-8 top-28 hidden h-24 w-24 rounded-[1.75rem] border border-white/18 bg-white/10 backdrop-blur-sm animate-float-soft lg:block"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute bottom-16 left-1/3 hidden h-40 w-40 rounded-full bg-[var(--color-gold)]/16 blur-3xl animate-float md:block"
           aria-hidden="true"
         />
 
@@ -132,7 +137,7 @@ export default function HomePage() {
                 <h1 className="text-balance text-3xl font-black leading-[0.94] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.38)] md:text-4xl lg:text-5xl">
                   <span className="block">Empowering communities.</span>
                   <span className="block">Improving health.</span>
-                  <span className="block">Creating opportunities.</span>
+                  <span className="gradient-text block">Creating opportunities.</span>
                 </h1>
                 <p className="mt-5 max-w-lg text-sm leading-relaxed text-white/88 drop-shadow-[0_2px_12px_rgba(0,0,0,0.28)] md:text-base lg:text-lg">
                   Women Health Initiative is a community-based organisation in Bo City, Sierra Leone, helping vulnerable young people make smart choices and decisions for sustainable development through health, advocacy, and research.
@@ -161,20 +166,21 @@ export default function HomePage() {
                   className="absolute -right-3 bottom-8 h-28 w-28 rounded-[2rem] bg-white/10 blur-xl"
                   aria-hidden="true"
                 />
-                <div className="space-y-4">
-                  {heroHighlights.map((item) => {
+                <div className="pill-stagger space-y-4">
+                  {heroHighlights.map((item, index) => {
                     const Icon = item.icon;
 
                     return (
-                      <div key={item.label} className="flex items-center gap-4">
-                        <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full border-8 border-white/20 bg-white/18 text-white shadow-[0_14px_30px_rgba(0,0,0,0.2)]">
-                          <Icon size={24} strokeWidth={2.2} />
+                      <div key={item.label} className="flex items-center gap-4" style={{ animationDelay: `${index * 110}ms` }}>
+                        <div className="hero-pill-icon flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full border-[6px] border-white/20 bg-white/18 text-white shadow-[0_14px_30px_rgba(0,0,0,0.2)] md:h-16 md:w-16">
+                          <Icon size={22} strokeWidth={2.2} />
                         </div>
-                        <div className="flex-1">
-                          <div className="rounded-full bg-[var(--color-primary)] px-6 py-4 text-center text-sm font-bold uppercase tracking-[0.16em] text-white shadow-[0_18px_30px_rgba(198,40,33,0.28)]">
-                            {item.label}
-                          </div>
-                        </div>
+                        <a
+                          href="#programs"
+                          className="hero-pill flex-1 rounded-full px-6 py-3.5 text-center text-xs font-bold uppercase tracking-[0.16em] text-white md:py-4 md:text-sm"
+                        >
+                          {item.label}
+                        </a>
                       </div>
                     );
                   })}
@@ -256,7 +262,7 @@ export default function HomePage() {
           <div className="mt-12 grid gap-5 lg:grid-cols-3">
             {purposeCards.map((card, index) => (
               <AnimatedSection key={card.title} delay={index * 60}>
-                <article className="h-full rounded-[1.75rem] border border-[var(--color-border)] bg-white p-6 shadow-[0_16px_44px_rgba(14,24,20,0.06)]">
+                <article className="card-hover h-full rounded-[1.75rem] border border-[var(--color-border)] bg-white p-6 shadow-[0_16px_44px_rgba(14,24,20,0.06)]">
                   <div className="inline-flex rounded-full bg-[var(--color-bg-section)] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-primary)]">
                     {String(index + 1).padStart(2, "0")}
                   </div>
@@ -281,7 +287,7 @@ export default function HomePage() {
                   {values.map((value) => (
                     <li
                       key={value.id}
-                      className="rounded-full border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-2 text-center"
+                      className="chip cursor-default rounded-full border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-2 text-center"
                     >
                       {value.label}
                     </li>
@@ -318,7 +324,7 @@ export default function HomePage() {
           <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
             {programs.map((program, index) => (
               <AnimatedSection key={program.id} delay={index * 60}>
-                <article className="group overflow-hidden rounded-[1.75rem] border border-[var(--color-border)] bg-white shadow-[0_16px_44px_rgba(14,24,20,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_58px_rgba(14,24,20,0.1)]">
+                <article className="card-hover group overflow-hidden rounded-[1.75rem] border border-[var(--color-border)] bg-white shadow-[0_16px_44px_rgba(14,24,20,0.06)]">
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
                       src={program.image}
@@ -344,7 +350,7 @@ export default function HomePage() {
                     </p>
                     <Link
                       href={`/programs/${program.slug}`}
-                      className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-primary)] transition-all duration-200 group-hover:gap-4"
+                      className="link-underline mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-primary)] transition-colors duration-200 hover:text-[var(--color-primary-dark)] group-hover:gap-4"
                     >
                       Explore Program
                       <ArrowRight size={14} />
@@ -374,8 +380,8 @@ export default function HomePage() {
 
               return (
                 <AnimatedSection key={card.title} delay={index * 55}>
-                  <article className="h-full rounded-[1.75rem] border border-[var(--color-border)] bg-white p-6 shadow-[0_16px_44px_rgba(14,24,20,0.06)]">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--color-bg-section)] text-[var(--color-primary)]">
+                  <article className="card-hover group h-full rounded-[1.75rem] border border-[var(--color-border)] bg-white p-6 shadow-[0_16px_44px_rgba(14,24,20,0.06)]">
+                    <div className="icon-tile flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--color-bg-section)] text-[var(--color-primary)]">
                       <Icon size={22} strokeWidth={2} />
                     </div>
                     <h3 className="mt-5 text-xl font-black leading-tight text-[var(--color-text)]">
@@ -432,6 +438,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <PartnersSliderSection />
 
       <section
         className="section-padding surface-dark section-panel"

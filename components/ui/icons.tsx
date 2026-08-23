@@ -2,10 +2,13 @@ import type { ComponentType, ReactNode, SVGProps } from "react";
 import {
   ArrowRight as ArrowRightIcon,
   BookOpen as BookOpenIcon,
+  Briefcase as BriefcaseIcon,
   Building2 as Building2Icon,
   Calendar as CalendarIcon,
   CheckCircle2 as CheckCircle2Icon,
   ChevronDown as ChevronDownIcon,
+  FolderOpen as FolderOpenIcon,
+  LayoutDashboard as LayoutDashboardIcon,
   Loader2 as Loader2Icon,
   Clock as ClockIcon,
   CircleMinus as CircleMinusIcon,
@@ -16,14 +19,20 @@ import {
   Heart as HeartIcon,
   Globe2 as Globe2Icon,
   Hospital as HospitalIcon,
+  Image as LucideImage,
   Laptop as LaptopIcon,
   Landmark as LandmarkIcon,
+  LogOut as LogOutIcon,
   Mail as MailIcon,
   MapPin as MapPinIcon,
   Menu as MenuIcon,
   MessageCircleReply as MessageCircleReplyIcon,
+  Pencil as PencilIcon,
+  Settings as SettingsIcon,
   Target as TargetIcon,
   Trophy as TrophyIcon,
+  Trash2 as Trash2Icon,
+  Upload as UploadIcon,
   User as UserIcon,
   Users as UsersIcon,
   X as XIcon,
@@ -73,10 +82,13 @@ function FallbackIconBase({
 
 export const ArrowRight = wrap(ArrowRightIcon);
 export const BookOpen = wrap(BookOpenIcon);
+export const Briefcase = wrap(BriefcaseIcon);
 export const Building2 = wrap(Building2Icon);
 export const Calendar = wrap(CalendarIcon);
 export const CheckCircle2 = wrap(CheckCircle2Icon);
 export const ChevronDown = wrap(ChevronDownIcon);
+export const FolderOpen = wrap(FolderOpenIcon);
+export const LayoutDashboard = wrap(LayoutDashboardIcon);
 export const Loader2 = wrap(Loader2Icon);
 export const Clock = wrap(ClockIcon);
 export const Dumbbell = wrap(DumbbellIcon);
@@ -85,14 +97,17 @@ export const FlaskConical = wrap(FlaskConicalIcon);
 export const HandHeart = wrap(HandHeartIcon);
 export const Heart = wrap(HeartIcon);
 export const Globe2 = wrap(Globe2Icon);
+export const Hospital = wrap(HospitalIcon);
+export const ImageIcon = wrap(LucideImage);
 export const Laptop = wrap(LaptopIcon);
 export const Landmark = wrap(LandmarkIcon);
-export const Hospital = wrap(HospitalIcon);
+export const LogOut = wrap(LogOutIcon);
 export const Mail = wrap(MailIcon);
 export const MapPin = wrap(MapPinIcon);
 export const Menu = wrap(MenuIcon);
 export const MessageCircle = wrap(MessageCircleReplyIcon);
 export const Minus = wrap(CircleMinusIcon);
+export const Settings = wrap(SettingsIcon);
 export const RotateCcw = (props: IconProps) => (
   <FallbackIconBase {...props}>
     <path d="M3 12a9 9 0 0 1 15-6.7L21 7" />
@@ -119,6 +134,9 @@ export const User = wrap(UserIcon);
 export const Users = wrap(UsersIcon);
 export const X = wrap(XIcon);
 export const Zap = wrap(ZapIcon);
+export const Upload = wrap(UploadIcon);
+export const Pencil = wrap(PencilIcon);
+export const Trash2 = wrap(Trash2Icon);
 
 export const Phone = (props: IconProps) => (
   <FallbackIconBase {...props}>

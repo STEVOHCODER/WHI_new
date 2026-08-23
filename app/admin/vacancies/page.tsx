@@ -40,34 +40,27 @@ export default async function AdminVacanciesPage() {
   return (
     <div className="min-h-screen bg-[var(--color-bg)]">
       <div className="container-wide py-12">
-        <div className="flex items-center justify-between mb-10">
-          <div>
-            <a href="/admin" className="text-sm text-[var(--color-primary)] hover:underline">
-              ← Back to dashboard
-            </a>
-            <h1 className="mt-2 text-3xl font-black text-[var(--color-text)]">
-              Vacancies Admin
-            </h1>
-            <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-              {vacancies.length} vacancy{vacancies.length !== 1 ? "s" : ""}
-            </p>
-          </div>
-          <AddVacancyModal />
+        <div className="mb-10">
+          <h1 className="text-3xl font-black text-[var(--color-text)]">Vacancies</h1>
+          <p className="mt-1 text-sm text-[var(--color-text-muted)]">
+            {vacancies.length} vacancy{vacancies.length !== 1 ? "s" : ""}
+          </p>
         </div>
 
-        {vacancies.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-[var(--color-border)] bg-white px-8 py-16 text-center">
-            <p className="text-sm text-[var(--color-text-muted)]">
-              No vacancies yet. Click &quot;Add Vacancy&quot; to create one.
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {vacancies.map((vacancy) => (
-              <VacancyRow key={String(vacancy._id)} vacancy={vacancy} />
-            ))}
-          </div>
-        )}
+        <AddVacancyModal />
+
+        <div className="mt-6 space-y-4">
+          {vacancies.map((vacancy) => (
+            <VacancyRow key={String(vacancy._id)} vacancy={vacancy} />
+          ))}
+          {vacancies.length === 0 && (
+            <div className="rounded-2xl border border-dashed border-[var(--color-border)] bg-white px-8 py-16 text-center">
+              <p className="text-sm text-[var(--color-text-muted)]">
+                No vacancies yet. Click &quot;+ Add New Vacancy&quot; to create one.
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -101,7 +94,7 @@ function AddVacancyModal() {
             <option value="Internship">Internship</option>
             <option value="Contract">Contract</option>
           </select>
-          <input name="deadline" placeholder="Application deadline (e.g. 2026-12-31)" required type="date"
+          <input name="deadline" placeholder="Application deadline" required type="date"
             className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-sm focus:border-[var(--color-primary)] focus:outline-none"
           />
         </div>

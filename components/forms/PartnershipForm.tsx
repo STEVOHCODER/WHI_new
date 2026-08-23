@@ -55,6 +55,9 @@ export default function PartnershipForm() {
         setServerError(json.error || "Something went wrong. Please try again.");
         return;
       }
+      if (!json.delivered && json.emailError) {
+        setServerError(`Enquiry saved but email notification failed: ${json.emailError}`);
+      }
       setSubmitted(true);
     } catch {
       setServerError("Network error. Please check your connection and try again.");
