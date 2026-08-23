@@ -49,8 +49,8 @@ export const featuredStories: Story[] = [
       "WHI-SL uses sports and entertainments as innovative approaches to address public health and social issues in communities.",
     program: "Health & Social Empowerment",
     programSlug: "health-social-empowerment",
-    image: communityOutreach,
-    imageAlt: "WHI-SL community outreach session with residents in Bo District",
+    image: healthAdvocacy,
+    imageAlt: "WHI-SL health advocacy and community sensitisation scene",
     date: "2010-01-01",
   },
   {
@@ -60,8 +60,8 @@ export const featuredStories: Story[] = [
       "The Gender Empowerment Program promotes awareness, advocacy, conflict resolution, and economic development for women and girls.",
     program: "Gender Empowerment",
     programSlug: "gender-empowerment",
-    image: healthAdvocacy,
-    imageAlt: "WHI-SL health advocacy and community sensitisation scene",
+    image: communityOutreach,
+    imageAlt: "WHI-SL community outreach session with residents in Bo District",
     date: "2018-01-01",
   },
   {
