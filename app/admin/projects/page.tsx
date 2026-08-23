@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { prisma } from "@/lib/db";
-import type { ProjectStatus } from "@prisma/client";
+import { db } from "@/lib/mongo";
+import { ObjectId } from "mongodb";
 
 export const metadata: Metadata = {
   title: "Admin — Projects",
@@ -8,7 +8,20 @@ export const metadata: Metadata = {
 };
 
 async function getProjects() {
-  return await prisma.project.findMany({ orderBy: { createdAt: "desc" } });
+  return (await db.collection("projects").find({}).sort({ createdAt: -1 }).toArray()) as Array<{
+    _id: import("mongodb").ObjectId;
+    title: string;
+    slug: string;
+    excerpt: string;
+    status: string;
+    category: string;
+    isActive: boolean;
+    startDate: string | null;
+    endDate: string | null;
+    impact: Record<string, unknown> | null;
+    tags: string[] | null;
+    createdAt: Date;
+  }>;
 }
 
 export default async function AdminProjectsPage() {
@@ -41,7 +54,7 @@ export default async function AdminProjectsPage() {
         ) : (
           <div className="space-y-4">
             {projects.map((project) => (
-              <ProjectRow key={project.id} project={project} />
+              <ProjectRow key={String(project._id)} project={project} />
             ))}
           </div>
         )}
@@ -78,10 +91,13 @@ function AddProjectModal() {
         <input name="location" placeholder="Location (e.g. Bo District, Sierra Leone)"
           className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-sm focus:border-[var(--color-primary)] focus:outline-none"
         />
-        <input name="imageUrl" placeholder="Hero image URL (Unsplash recommended)"
+        <input name="imageUrl" placeholder="Hero image URL (e.g. /images/whi-photo-gallery/image1.jpg)"
           className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-sm focus:border-[var(--color-primary)] focus:outline-none"
         />
         <textarea name="content" placeholder="Full content (HTML supported)" rows={5}
+          className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-sm focus:border-[var(--color-primary)] focus:outline-none"
+        />
+        <input name="tags" placeholder="Tags (comma-separated, e.g. health, youth, Bo District)"
           className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-sm focus:border-[var(--color-primary)] focus:outline-none"
         />
         <button
@@ -100,17 +116,17 @@ async function ProjectRow({
   project,
 }: {
   project: {
-    id: string;
+    _id: ObjectId;
     title: string;
     slug: string;
     excerpt: string;
-    status: ProjectStatus;
+    status: string;
     category: string;
     isActive: boolean;
     startDate: string | null;
     endDate: string | null;
-    impact: unknown;
-    tags: unknown;
+    impact: Record<string, unknown> | null;
+    tags: string[] | null;
     createdAt: Date;
   };
 }) {
@@ -148,9 +164,9 @@ async function ProjectRow({
             <span>📂 {project.category}</span>
             <span>📅 {startYear}–{endYear}</span>
             <span>👥 {beneficiaries} beneficiaries</span>
-            {(project.tags as string[]).length > 0 && (
+            {project.tags && project.tags.length > 0 && (
               <span className="flex flex-wrap gap-1">
-                {(project.tags as string[]).slice(0, 3).map((t) => (
+                {project.tags.slice(0, 3).map((t) => (
                   <span key={t} className="rounded-full bg-[var(--color-bg-section)] px-2 py-0.5">
                     {t}
                   </span>
@@ -162,7 +178,7 @@ async function ProjectRow({
 
         <div className="flex shrink-0 items-center gap-2">
           <EditProjectForm project={project} />
-          <DeleteProjectButton projectId={project.id} />
+          <DeleteProjectButton projectId={String(project._id)} />
           <a
             href={`/projects/${project.slug}`}
             target="_blank"
@@ -193,14 +209,14 @@ function StatusBadge({ status }: { status: string }) {
 function EditProjectForm({
   project,
 }: {
-  project: { id: string; title: string; slug: string; excerpt: string; status: string; category: string; isActive: boolean };
+  project: { _id: ObjectId; title: string; slug: string; excerpt: string; status: string; category: string; isActive: boolean };
 }) {
   return (
     <details className="rounded-xl border border-[var(--color-border)]">
       <summary className="cursor-pointer px-3 py-2 text-xs font-bold text-[var(--color-text-muted)] hover:text-[var(--color-primary)]">
         Edit
       </summary>
-      <form action={`/api/admin/projects/${project.id}`} method="POST" className="p-4 space-y-3 border-t border-[var(--color-border)]">
+      <form action={`/api/admin/projects/${String(project._id)}`} method="POST" className="p-4 space-y-3 border-t border-[var(--color-border)]">
         <input type="hidden" name="_method" value="PUT" />
         <input name="title" defaultValue={project.title} placeholder="Title" required
           className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm"

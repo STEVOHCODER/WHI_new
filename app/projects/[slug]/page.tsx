@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/mongo";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { RotateCcw } from "@/components/ui/icons";
 
@@ -11,9 +11,7 @@ interface PageProps {
 }
 
 async function getProject(slug: string) {
-  const project = await prisma.project.findUnique({
-    where: { slug, isActive: true },
-  });
+  const project = await db.collection("projects").findOne({ slug, isActive: true });
   return project;
 }
 
@@ -51,6 +49,11 @@ export default async function ProjectPage({ params }: PageProps) {
         : "bg-gray-400";
 
   const impact = project.impact as Record<string, unknown> | null;
+  const partners = project.partners as string[] | null;
+  const tags = project.tags as string[] | null;
+  const gallery = project.gallery as string[] | null;
+  const innovationLink = project.innovationLink as string | null;
+  const contactEmail = project.contactEmail as string | null;
 
   return (
     <>
@@ -111,10 +114,25 @@ export default async function ProjectPage({ params }: PageProps) {
                 dangerouslySetInnerHTML={{ __html: project.content || project.excerpt }}
               />
 
+              {/* Innovation link */}
+              {innovationLink && (
+                <div className="mt-6 p-4 rounded-xl bg-[var(--color-bg-section)] border border-[var(--color-border)]">
+                  <p className="text-sm font-semibold text-[var(--color-text)] mb-1">Innovation Link</p>
+                  <a
+                    href={innovationLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-[var(--color-primary)] hover:underline"
+                  >
+                    {innovationLink}
+                  </a>
+                </div>
+              )}
+
               {/* Tags */}
-              {(project.tags as string[]).length > 0 && (
+              {tags && tags.length > 0 && (
                 <div className="mt-8 flex flex-wrap gap-2">
-                  {(project.tags as string[]).map((tag) => (
+                  {tags.map((tag) => (
                     <span
                       key={tag}
                       className="rounded-full bg-[var(--color-bg-section)] px-3 py-1 text-xs font-semibold text-[var(--color-text-light)]"
@@ -174,19 +192,34 @@ export default async function ProjectPage({ params }: PageProps) {
                 )}
 
                 {/* Partners */}
-                {project.partners && (project.partners as string[]).length > 0 && (
+                {partners && partners.length > 0 && (
                   <div className="rounded-2xl border border-[var(--color-border)] bg-white p-6 shadow-[0_12px_40px_rgba(14,24,20,0.06)]">
                     <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-text-light)] mb-4">
                       Partners
                     </h3>
                     <ul className="space-y-2">
-                      {(project.partners as string[]).map((p) => (
+                      {partners.map((p) => (
                         <li key={p} className="text-sm text-[var(--color-text)] flex items-center gap-2">
                           <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-primary)]" />
                           {p}
                         </li>
                       ))}
                     </ul>
+                  </div>
+                )}
+
+                {/* Contact */}
+                {contactEmail && (
+                  <div className="rounded-2xl border border-[var(--color-border)] bg-white p-6 shadow-[0_12px_40px_rgba(14,24,20,0.06)]">
+                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-text-light)] mb-3">
+                      Contact
+                    </h3>
+                    <a
+                      href={`mailto:${contactEmail}`}
+                      className="text-sm text-[var(--color-primary)] hover:underline"
+                    >
+                      {contactEmail}
+                    </a>
                   </div>
                 )}
 
@@ -204,13 +237,13 @@ export default async function ProjectPage({ params }: PageProps) {
           </div>
 
           {/* Gallery */}
-          {project.gallery && (project.gallery as string[]).length > 0 && (
+          {gallery && gallery.length > 0 && (
             <div className="mt-16">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-text-light)] mb-6">
                 Gallery
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {(project.gallery as string[]).map((img, i) => (
+                {gallery.map((img, i) => (
                   <div key={i} className="relative aspect-[4/3] overflow-hidden rounded-2xl">
                     <Image
                       src={img}

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/mongo";
 import PageHero from "@/components/sections/PageHero";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { ArrowRight } from "@/components/ui/icons";
@@ -12,27 +12,23 @@ export const metadata: Metadata = {
     "Explore WHI-SL projects making real impact across Sierra Leone — from health outreach to climate resilience and youth empowerment.",
 };
 
-const CATEGORIES = ["All", "Health", "Gender", "Empowerment", "Community", "Environment"];
+const CATEGORIES = ["All", "Health", "Gender", "Empowerment", "Community", "Environment", "Rights"];
 
 async function getProjects() {
-  return await prisma.project.findMany({
-    where: { isActive: true },
-    orderBy: { createdAt: "desc" },
-    select: {
-      id: true,
-      title: true,
-      slug: true,
-      excerpt: true,
-      imageUrl: true,
-      status: true,
-      category: true,
-      location: true,
-      startDate: true,
-      endDate: true,
-      impact: true,
-      tags: true,
-    },
-  });
+  return (await db.collection("projects").find({ isActive: true }).sort({ createdAt: -1 }).toArray()) as Array<{
+    _id: import("mongodb").ObjectId;
+    title: string;
+    slug: string;
+    excerpt: string;
+    imageUrl: string | null;
+    status: string;
+    category: string;
+    location: string | null;
+    startDate: string | null;
+    endDate: string | null;
+    impact: Record<string, unknown> | null;
+    tags: string[] | null;
+  }>;
 }
 
 export default async function ProjectsPage() {
@@ -67,7 +63,7 @@ export default async function ProjectsPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
               {allProjects.map((project, i) => (
-                <AnimatedSection key={project.id} delay={i * 80}>
+                <AnimatedSection key={String(project._id)} delay={i * 80}>
                   <ProjectCard project={project} />
                 </AnimatedSection>
               ))}
@@ -94,7 +90,7 @@ function ProjectCard({
   project,
 }: {
   project: {
-    id: string;
+    _id: import("mongodb").ObjectId;
     title: string;
     slug: string;
     excerpt: string;
@@ -104,8 +100,8 @@ function ProjectCard({
     location: string | null;
     startDate: string | null;
     endDate: string | null;
-    impact: unknown;
-    tags: unknown;
+    impact: Record<string, unknown> | null;
+    tags: string[] | null;
   };
 }) {
   const statusColor =
@@ -166,9 +162,9 @@ function ProjectCard({
           {dateRange && <span>📅 {dateRange}</span>}
         </div>
 
-        {(project.tags as string[]).length > 0 && (
+        {project.tags && project.tags.length > 0 && (
           <div className="mt-4 flex flex-wrap gap-1.5">
-            {(project.tags as string[]).slice(0, 3).map((tag) => (
+            {project.tags.slice(0, 3).map((tag) => (
               <span
                 key={tag}
                 className="rounded-full bg-[var(--color-bg-section)] px-2.5 py-0.5 text-[10px] font-semibold text-[var(--color-text-light)]"

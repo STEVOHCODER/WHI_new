@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/mongo";
 import { revalidatePath } from "next/cache";
+import { ObjectId } from "mongodb";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -23,29 +24,43 @@ export async function POST(request: NextRequest) {
   const excerpt = form.get("excerpt") as string;
   const category = form.get("category") as string;
   const status = (form.get("status") as "active" | "completed" | "archived") || "active";
-  const location = form.get("location") as string || null;
-  const imageUrl = form.get("imageUrl") as string || null;
-  const content = form.get("content") as string || null;
+  const location = (form.get("location") as string) || null;
+  const imageUrl = (form.get("imageUrl") as string) || null;
+  const content = (form.get("content") as string) || null;
+  const tagsRaw = form.get("tags") as string;
 
   if (!title || !excerpt || !category) {
     return NextResponse.json({ error: "Title, excerpt, and category are required" }, { status: 400 });
   }
 
-  const project = await prisma.project.create({
-    data: {
-      title,
-      slug: slugify(title),
-      excerpt,
-      category,
-      status,
-      location,
-      imageUrl,
-      content,
-      isActive: true,
-      tags: "[]",
-    },
+  const tags = tagsRaw
+    ? tagsRaw
+        .split(",")
+        .map((t: string) => t.trim())
+        .filter(Boolean)
+    : [];
+
+  const now = new Date();
+  const project = await db.collection("projects").insertOne({
+    _id: new ObjectId(),
+    title,
+    slug: slugify(title),
+    excerpt,
+    category,
+    status,
+    location,
+    imageUrl,
+    content,
+    gallery: [],
+    impact: {},
+    partners: [],
+    tags,
+    isActive: true,
+    createdAt: now,
+    updatedAt: now,
   });
 
   revalidatePath("/projects");
-  return NextResponse.json({ project }, { status: 201 });
+  revalidatePath("/admin/projects");
+  return NextResponse.json({ project: { id: project.insertedId, title } }, { status: 201 });
 }
