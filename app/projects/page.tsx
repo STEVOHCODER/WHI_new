@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 const CATEGORIES = ["All", "Health", "Gender", "Empowerment", "Community", "Environment", "Rights"];
 
 async function getProjects() {
-  const safe = getDbSafe();
+  const safe = await getDbSafe();
   if (safe.error) {
     console.error("[projects] mongo error:", safe.error.message);
     return [];

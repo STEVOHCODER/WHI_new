@@ -14,7 +14,7 @@ interface PageProps {
 }
 
 async function getProject(slug: string) {
-  const safe = getDbSafe();
+  const safe = await getDbSafe();
   if (safe.error) {
     console.error("[project slug] mongo error:", safe.error.message);
     return null;

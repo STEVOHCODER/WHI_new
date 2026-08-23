@@ -56,10 +56,15 @@ export async function getDb(): Promise<Db> {
   return ensureConnected();
 }
 
-export function getDbSafe(): { db: Db | null; error: Error | null } {
+export async function getDbSafe(): Promise<{ db: Db | null; error: Error | null }> {
   if (connectError) return { db: null, error: connectError };
-  if (!db) return { db: null, error: new Error("MongoDB connection has not been established yet") };
-  return { db, error: null };
+  if (db) return { db, error: null };
+  try {
+    const connectedDb = await ensureConnected();
+    return { db: connectedDb, error: null };
+  } catch (err) {
+    return { db: null, error: err as Error };
+  }
 }
 
 export type { Db };

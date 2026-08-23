@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 async function getProjects() {
-  const safe = getDbSafe();
+  const safe = await getDbSafe();
   if (safe.error) {
     console.error("[admin projects] mongo error:", safe.error.message);
     return [];
