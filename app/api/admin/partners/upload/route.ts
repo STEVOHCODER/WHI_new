@@ -7,16 +7,13 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
- * Convert a File to a base64 data URL.
- * Works without any external storage token.
+ * Convert a File (from formData) to a base64 data URL.
+ * Works in Node.js without FileReader.
  */
-function fileToDataUrl(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
+async function fileToDataUrl(file: File): Promise<string> {
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const base64 = buffer.toString("base64");
+  return `data:${file.type};base64,${base64}`;
 }
 
 /**

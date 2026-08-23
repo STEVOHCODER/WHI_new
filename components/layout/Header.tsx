@@ -212,7 +212,7 @@ function MobileNavItem({
           onClick={() => setOpen((v) => !v)}
           className={`flex w-full items-center justify-between rounded-2xl px-3 py-3 font-[family-name:var(--font-plus-jakarta)] text-[16px] font-medium leading-none transition-colors ${
             isActive(item.href)
-              ? "border border-[var(--color-primary)] bg-white text-[var(--color-primary)] shadow-[0_2px_8px_rgba(198,40,33,0.06)]"
+              ? "border border-[var(--color-primary)] bg-white text-[var(--color-primary)] shadow-[0_2px_8px_rgba(168,58,98,0.1)]"
               : "border border-transparent text-[var(--color-text)]"
           }`}
           aria-expanded={open}
@@ -226,7 +226,7 @@ function MobileNavItem({
               <Link
                 key={child.href}
                 href={child.href}
-                className="block rounded-xl px-3 py-2.5 text-sm text-[var(--color-text-muted)] transition-colors hover:bg-white hover:text-[var(--color-primary)]"
+                className="block rounded-xl px-3 py-2.5 text-sm text-[var(--color-text-muted)] transition-colors hover:bg-[#fdf1f6] hover:text-[var(--color-primary)]"
               >
                 {child.label}
               </Link>
