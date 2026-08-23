@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { getDbSafe } from "@/lib/mongo";
+import VacancyCard from "@/components/cards/VacancyCard";
 import PageHero from "@/components/sections/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
-import VacancyCard from "@/components/cards/VacancyCard";
 import Button from "@/components/ui/Button";
 import {
   FlaskConical,
@@ -10,7 +11,9 @@ import {
   MessageCircle,
   Users,
 } from "@/components/ui/icons";
-import { vacancies, volunteerRoles, internshipAreas } from "@/data/vacancies";
+
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export const metadata: Metadata = {
   title: "Work With Us",
@@ -18,38 +21,74 @@ export const metadata: Metadata = {
     "Explore careers, volunteer opportunities, and internships with WHI-SL.",
 };
 
-const volunteerThemes = [
+const volunteerRoles = [
   {
     id: "vol-health",
-    icon: HandHeart,
-    accent: "var(--color-primary)",
-    tint: "#eef7f2",
-    label: "Community care",
+    title: "Community Outreach Volunteer",
+    description:
+      "Support health education, mobilisation campaigns, screenings, counselling, and outreach services.",
   },
   {
     id: "vol-gender",
-    icon: Users,
-    accent: "var(--color-rose)",
-    tint: "#fbf0f0",
-    label: "Gender action",
+    title: "Gender Empowerment Volunteer",
+    description:
+      "Assist with gender awareness, advocacy against violence, conflict resolution, and support for women and girls.",
   },
   {
     id: "vol-research",
-    icon: FlaskConical,
-    accent: "var(--color-accent)",
-    tint: "#fff4e8",
-    label: "Evidence work",
+    title: "Research and Evaluation Volunteer",
+    description:
+      "Support surveys, evaluation, data collection, and evidence dissemination across WHI-SL programs.",
   },
   {
     id: "vol-communications",
-    icon: MessageCircle,
-    accent: "var(--color-gold)",
-    tint: "#fbf4e4",
-    label: "Storytelling",
+    title: "Fundraising and Partnerships Volunteer",
+    description:
+      "Help connect the organisation with partners, donors, and community stakeholders.",
   },
 ];
 
-export default function WorkWithUsPage() {
+const internshipAreas = [
+  "Public Health",
+  "Gender Empowerment",
+  "Human Rights",
+  "Health Research",
+  "Monitoring & Evaluation",
+  "Fundraising and Partnerships",
+];
+
+const volunteerThemes = [
+  { id: "vol-health", icon: HandHeart, accent: "var(--color-primary)", tint: "#eef7f2", label: "Community care" },
+  { id: "vol-gender", icon: Users, accent: "var(--color-rose)", tint: "#fbf0f0", label: "Gender action" },
+  { id: "vol-research", icon: FlaskConical, accent: "var(--color-accent)", tint: "#fff4e8", label: "Evidence work" },
+  { id: "vol-communications", icon: MessageCircle, accent: "var(--color-gold)", tint: "#fbf4e4", label: "Storytelling" },
+];
+
+async function getVacancies() {
+  const safe = await getDbSafe();
+  if (safe.error) {
+    console.error("[work-with-us] mongo error:", safe.error.message);
+    return [];
+  }
+  const db = safe.db!;
+  return (await db
+    .collection("vacancies")
+    .find({ isActive: true })
+    .sort({ createdAt: -1 })
+    .toArray()) as Array<{
+    _id: import("mongodb").ObjectId;
+    title: string;
+    department: string;
+    location: string;
+    type: string;
+    deadline: string;
+    href: string | null;
+  }>;
+}
+
+export default async function WorkWithUsPage() {
+  const vacancies = await getVacancies();
+
   return (
     <>
       <PageHero
@@ -75,8 +114,16 @@ export default function WorkWithUsPage() {
             {vacancies.length > 0 ? (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {vacancies.map((vacancy, index) => (
-                  <AnimatedSection key={vacancy.id} delay={index * 80}>
-                    <VacancyCard vacancy={vacancy} />
+                  <AnimatedSection key={String(vacancy._id)} delay={index * 80}>
+                    <VacancyCard vacancy={{
+                      id: String(vacancy._id),
+                      title: vacancy.title,
+                      department: vacancy.department,
+                      location: vacancy.location,
+                      type: vacancy.type as "Full-time" | "Part-time" | "Volunteer" | "Internship" | "Contract",
+                      deadline: vacancy.deadline,
+                      href: vacancy.href ?? undefined,
+                    }} />
                   </AnimatedSection>
                 ))}
               </div>
@@ -110,68 +157,65 @@ export default function WorkWithUsPage() {
             />
           </AnimatedSection>
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-            {volunteerRoles.map((role, index) => (
-              (() => {
-                const theme = volunteerThemes.find((item) => item.id === role.id);
-                const Icon = theme?.icon ?? HandHeart;
-
-                return (
-                  <AnimatedSection key={role.id} delay={index * 70}>
-                    <article
-                      className="group relative h-full overflow-hidden rounded-[1.75rem] border border-[var(--color-border)] bg-white p-6 shadow-[0_16px_50px_rgba(14,24,20,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(14,24,20,0.12)]"
-                      style={{ backgroundColor: theme?.tint ?? "#ffffff" }}
-                    >
-                      <div
-                        className="absolute inset-x-0 top-0 h-1.5"
-                        style={{ backgroundColor: theme?.accent ?? "var(--color-primary)" }}
-                        aria-hidden="true"
-                      />
-                      <div
-                        className="absolute -right-10 -top-10 h-28 w-28 rounded-full blur-3xl"
-                        style={{ backgroundColor: theme?.accent ?? "var(--color-primary)", opacity: 0.08 }}
-                        aria-hidden="true"
-                      />
-                      <div className="relative flex h-full flex-col">
-                        <div className="flex items-start justify-between gap-4">
-                          <div
-                            className="flex h-14 w-14 items-center justify-center rounded-[1.25rem] bg-white shadow-[0_10px_24px_rgba(14,24,20,0.06)] transition-transform duration-300 group-hover:scale-105"
-                            style={{
-                              color: theme?.accent ?? "var(--color-primary)",
-                              border: `1px solid ${theme?.accent ?? "var(--color-primary)"}22`,
-                            }}
-                          >
-                            <Icon size={24} strokeWidth={2} />
-                          </div>
-                          <span
-                            className="text-5xl font-black leading-none tracking-tight"
-                            style={{
-                              color: theme?.accent ?? "var(--color-primary)",
-                              opacity: 0.16,
-                            }}
-                          >
-                            0{index + 1}
-                          </span>
+            {volunteerRoles.map((role, index) => {
+              const theme = volunteerThemes.find((item) => item.id === role.id);
+              const Icon = theme?.icon ?? HandHeart;
+              return (
+                <AnimatedSection key={role.id} delay={index * 70}>
+                  <article
+                    className="group relative h-full overflow-hidden rounded-[1.75rem] border border-[var(--color-border)] bg-white p-6 shadow-[0_16px_50px_rgba(14,24,20,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(14,24,20,0.12)]"
+                    style={{ backgroundColor: theme?.tint ?? "#ffffff" }}
+                  >
+                    <div
+                      className="absolute inset-x-0 top-0 h-1.5"
+                      style={{ backgroundColor: theme?.accent ?? "var(--color-primary)" }}
+                      aria-hidden="true"
+                    />
+                    <div
+                      className="absolute -right-10 -top-10 h-28 w-28 rounded-full blur-3xl"
+                      style={{ backgroundColor: theme?.accent ?? "var(--color-primary)", opacity: 0.08 }}
+                      aria-hidden="true"
+                    />
+                    <div className="relative flex h-full flex-col">
+                      <div className="flex items-start justify-between gap-4">
+                        <div
+                          className="flex h-14 w-14 items-center justify-center rounded-[1.25rem] bg-white shadow-[0_10px_24px_rgba(14,24,20,0.06)] transition-transform duration-300 group-hover:scale-105"
+                          style={{
+                            color: theme?.accent ?? "var(--color-primary)",
+                            border: `1px solid ${theme?.accent ?? "var(--color-primary)"}22`,
+                          }}
+                        >
+                          <Icon size={24} strokeWidth={2} />
                         </div>
-
-                        <div className="mt-6 inline-flex w-fit items-center rounded-full border border-[var(--color-border)] bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--color-text-light)] shadow-[0_8px_22px_rgba(14,24,20,0.04)]">
-                          {theme?.label ?? "Volunteer Role"}
-                        </div>
-
-                        <h3 className="mt-4 text-2xl font-black leading-[1.02] tracking-tight text-[var(--color-text)]">
-                          {role.title}
-                        </h3>
-
-                        <div className="mt-5 h-px w-16 bg-gradient-to-r from-black/10 via-black/20 to-transparent" />
-
-                        <p className="mt-4 text-sm leading-relaxed text-[var(--color-text-muted)]">
-                          {role.description}
-                        </p>
+                        <span
+                          className="text-5xl font-black leading-none tracking-tight"
+                          style={{
+                            color: theme?.accent ?? "var(--color-primary)",
+                            opacity: 0.16,
+                          }}
+                        >
+                          0{index + 1}
+                        </span>
                       </div>
-                    </article>
-                  </AnimatedSection>
-                );
-              })()
-            ))}
+
+                      <div className="mt-6 inline-flex w-fit items-center rounded-full border border-[var(--color-border)] bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--color-text-light)] shadow-[0_8px_22px_rgba(14,24,20,0.04)]">
+                        {theme?.label ?? "Volunteer Role"}
+                      </div>
+
+                      <h3 className="mt-4 text-2xl font-black leading-[1.02] tracking-tight text-[var(--color-text)]">
+                        {role.title}
+                      </h3>
+
+                      <div className="mt-5 h-px w-16 bg-gradient-to-r from-black/10 via-black/20 to-transparent" />
+
+                      <p className="mt-4 text-sm leading-relaxed text-[var(--color-text-muted)]">
+                        {role.description}
+                      </p>
+                    </div>
+                  </article>
+                </AnimatedSection>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -182,7 +226,7 @@ export default function WorkWithUsPage() {
             <SectionHeading
               eyebrow="Internships"
               title="Internship areas"
-              subtitle="Internships provide practical experience across WHI-SL's core work areas."
+              subtitle="Internships provide practical experience across WHI-SL&apos;s core work areas."
               align="center"
             />
           </AnimatedSection>

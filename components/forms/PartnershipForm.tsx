@@ -16,6 +16,7 @@ const partnershipTypes = [
 export default function PartnershipForm() {
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [serverError, setServerError] = useState("");
 
   const validate = (data: FormData) => {
     const errs: Record<string, string> = {};
@@ -31,7 +32,7 @@ export default function PartnershipForm() {
     return errs;
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const errs = validate(data);
@@ -40,7 +41,24 @@ export default function PartnershipForm() {
       return;
     }
     setErrors({});
-    setSubmitted(true);
+    setSubmitted(false);
+
+    try {
+      const body = Object.fromEntries(data.entries());
+      const res = await fetch("/api/partnership", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        setServerError(json.error || "Something went wrong. Please try again.");
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setServerError("Network error. Please check your connection and try again.");
+    }
   };
 
   if (submitted) {
@@ -54,7 +72,7 @@ export default function PartnershipForm() {
           Thank you for your interest in partnering with WHI-SL. Our team will review your enquiry and be in touch.
         </p>
         <p className="mt-3 text-xs text-[var(--color-text-light)]">
-          This form can be connected to a live inbox or CRM when the final submission workflow is added.
+          Thank you! Our team will review your enquiry and be in touch.
         </p>
       </div>
     );
@@ -132,9 +150,9 @@ export default function PartnershipForm() {
       >
         Submit Partnership Enquiry
       </button>
-      <p className="text-center text-xs text-[var(--color-text-light)]">
-        The form can be connected to WHI-SL&apos;s inbox or CRM when the final submission workflow is added.
-      </p>
+      {serverError && (
+        <p className="text-sm text-red-600" role="alert">{serverError}</p>
+      )}
     </form>
   );
 }

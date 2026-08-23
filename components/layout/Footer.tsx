@@ -104,8 +104,8 @@ export default function Footer() {
               Contact Us
             </Link>
             <span className="text-xs text-white/20">|</span>
-            <Link href="/admin/projects" className="text-xs text-white/25 transition-colors hover:text-white/60">
-              Admin
+            <Link href="/admin" className="text-xs text-white/25 transition-colors hover:text-white/60">
+              Admin Dashboard
             </Link>
           </div>
         </div>

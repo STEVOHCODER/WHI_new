@@ -36,3 +36,5 @@ next-env.d.ts
 *.png
 ~$.docx
 environment*.png
+
+.env*
