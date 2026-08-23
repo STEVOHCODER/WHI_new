@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getDb } from "@/lib/mongo";
+import { getDbSafe } from "@/lib/mongo";
 import { ObjectId } from "mongodb";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +11,12 @@ export const metadata: Metadata = {
 };
 
 async function getProjects() {
-  const db = await getDb();
+  const safe = getDbSafe();
+  if (safe.error) {
+    console.error("[admin projects] mongo error:", safe.error.message);
+    return [];
+  }
+  const db = safe.db!;
   return (await db.collection("projects").find({}).sort({ createdAt: -1 }).toArray()) as Array<{
     _id: ObjectId;
     title: string;
