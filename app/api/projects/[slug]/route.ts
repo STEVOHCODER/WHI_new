@@ -8,13 +8,21 @@ export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ slug: string }> },
 ) {
-  const { slug } = await params;
-  const db = await getDb();
-  const project = await db.collection("projects").findOne({ slug, isActive: true });
+  try {
+    const { slug } = await params;
+    const db = await getDb();
+    const project = await db.collection("projects").findOne({ slug, isActive: true });
 
-  if (!project) {
-    return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    if (!project) {
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ project });
+  } catch (error) {
+    console.error("[api/projects/[slug]] error:", error);
+    return NextResponse.json(
+      { error: "Failed to load project", details: (error as Error).message },
+      { status: 500 },
+    );
   }
-
-  return NextResponse.json({ project });
 }

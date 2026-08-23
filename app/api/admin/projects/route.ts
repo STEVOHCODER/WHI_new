@@ -15,53 +15,53 @@ function slugify(text: string) {
 
 /**
  * POST /api/admin/projects
- * Body (multipart for the form in admin page):
- *   title, excerpt, category, status, location, imageUrl, content
  */
 export async function POST(request: NextRequest) {
-  const form = await request.formData();
-  const title = form.get("title") as string;
-  const excerpt = form.get("excerpt") as string;
-  const category = form.get("category") as string;
-  const status = (form.get("status") as "active" | "completed" | "archived") || "active";
-  const location = (form.get("location") as string) || null;
-  const imageUrl = (form.get("imageUrl") as string) || null;
-  const content = (form.get("content") as string) || null;
-  const tagsRaw = form.get("tags") as string;
+  try {
+    const form = await request.formData();
+    const title = form.get("title") as string;
+    const excerpt = form.get("excerpt") as string;
+    const category = form.get("category") as string;
+    const status = (form.get("status") as "active" | "completed" | "archived") || "active";
+    const location = (form.get("location") as string) || null;
+    const imageUrl = (form.get("imageUrl") as string) || null;
+    const content = (form.get("content") as string) || null;
+    const tagsRaw = form.get("tags") as string;
 
-  if (!title || !excerpt || !category) {
-    return NextResponse.json({ error: "Title, excerpt, and category are required" }, { status: 400 });
+    if (!title || !excerpt || !category) {
+      return NextResponse.json({ error: "Title, excerpt, and category are required" }, { status: 400 });
+    }
+
+    const tags = tagsRaw
+      ? tagsRaw.split(",").map((t: string) => t.trim()).filter(Boolean)
+      : [];
+
+    const now = new Date();
+    const db = await getDb();
+    const result = await db.collection("projects").insertOne({
+      _id: new ObjectId(),
+      title,
+      slug: slugify(title),
+      excerpt,
+      category,
+      status,
+      location,
+      imageUrl,
+      content,
+      gallery: [],
+      impact: {},
+      partners: [],
+      tags,
+      isActive: true,
+      createdAt: now,
+      updatedAt: now,
+    });
+
+    revalidatePath("/projects");
+    revalidatePath("/admin/projects");
+    return NextResponse.json({ project: { id: result.insertedId, title } }, { status: 201 });
+  } catch (error) {
+    console.error("[api/admin/projects] POST error:", error);
+    return NextResponse.json({ error: "Failed to create project", details: (error as Error).message }, { status: 500 });
   }
-
-  const tags = tagsRaw
-    ? tagsRaw
-        .split(",")
-        .map((t: string) => t.trim())
-        .filter(Boolean)
-    : [];
-
-  const now = new Date();
-  const db = await getDb();
-  const project = await db.collection("projects").insertOne({
-    _id: new ObjectId(),
-    title,
-    slug: slugify(title),
-    excerpt,
-    category,
-    status,
-    location,
-    imageUrl,
-    content,
-    gallery: [],
-    impact: {},
-    partners: [],
-    tags,
-    isActive: true,
-    createdAt: now,
-    updatedAt: now,
-  });
-
-  revalidatePath("/projects");
-  revalidatePath("/admin/projects");
-  return NextResponse.json({ project: { id: project.insertedId, title } }, { status: 201 });
 }
