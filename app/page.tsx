@@ -8,6 +8,16 @@ import PartnersSliderSection from "./partners-slider-section";
 import { programs } from "@/data/programs";
 import { values } from "@/data/values";
 import {
+  communityOutreach,
+  healthAdvocacy,
+  launchCrowd,
+  officeAdmin,
+  officeDesk,
+  officeRoom,
+  sportMatch,
+  teamBanner,
+} from "@/data/photo-assets";
+import {
   ArrowRight,
   BookOpen,
   HandHeart,
@@ -84,23 +94,7 @@ const chooseCards = [
   },
 ];
 
-export default async function HomePage() {
-  const galleryPhotos = [
-    { src: "/images/homepage/community-outreach.png", title: "Community Outreach", caption: "WHI-SL community outreach activity engaging with residents in Bo District" },
-    { src: "/images/homepage/health-advocacy.png", title: "Health Advocacy", caption: "Community health education and sensitisation session for young people" },
-    { src: "/images/homepage/sports1.png", title: "Sports for Health", caption: "Young people gathered for a community sports and health activity" },
-    { src: "/images/homepage/sports2.png", title: "Mental Health Awareness", caption: "A sports session used to share mental health awareness messages" },
-    { src: "/images/homepage/sports3.png", title: "Youth Outreach Event", caption: "Young people taking part in an outreach sports and entertainment event" },
-    { src: "/images/homepage/team-image.png", title: "WHI Team", caption: "The WHI-SL team working together for community development" },
-    { src: "/images/homepage/launch-crowd.jpg", title: "Launch Event Crowd", caption: "Community crowd at a WHI-SL outreach and celebration event" },
-    { src: "/images/homepage/team-banner.jpg", title: "Team Banner", caption: "WHI-SL team banner at a public event in Bo City" },
-    { src: "/images/homepage/outreach-speaker.jpg", title: "Outreach Speaker", caption: "Community outreach speaker addressing participants at an event" },
-    { src: "/images/homepage/sport-match.jpg", title: "Sports Match", caption: "Community sports match used for health awareness campaigns" },
-    { src: "/images/homepage/office-desk.jpg", title: "Office Workspace", caption: "WHI-SL office workspace where planning and coordination happens" },
-    { src: "/images/homepage/office-admin.jpg", title: "Admin Team", caption: "WHI-SL administrative team supporting daily operations" },
-    { src: "/images/homepage/office-room.jpg", title: "Meeting Room", caption: "WHI-SL meeting room for team discussions and partner engagements" },
-  ];
-
+export default function HomePage() {
   return (
     <>
       <section
@@ -108,7 +102,7 @@ export default async function HomePage() {
         aria-label="Hero"
       >
         <Image
-          src="/images/homepage/launch-crowd.jpg"
+          src={launchCrowd}
           alt="WHI-SL community crowd at an outreach event in Bo"
           fill
           priority
@@ -204,7 +198,7 @@ export default async function HomePage() {
               <div className="relative overflow-hidden rounded-[2.25rem] border border-[var(--color-border)] bg-white shadow-[0_22px_70px_rgba(14,24,20,0.1)]">
                 <div className="relative aspect-[4/5] md:aspect-[5/4]">
                   <Image
-                    src="/images/homepage/community-outreach.png"
+                    src={communityOutreach}
                     alt="WHI-SL community outreach in a market setting"
                     fill
                     className="object-cover"
@@ -407,7 +401,7 @@ export default async function HomePage() {
               <div className="relative overflow-hidden rounded-[2rem] border border-[var(--color-border)] bg-white shadow-[0_18px_52px_rgba(14,24,20,0.08)]">
                 <div className="relative aspect-[16/10]">
                   <Image
-                    src="/images/homepage/health-advocacy.png"
+                    src={healthAdvocacy}
                     alt="WHI-SL health advocacy and community sensitisation moment"
                     fill
                     className="object-cover"
@@ -423,30 +417,20 @@ export default async function HomePage() {
 
             <AnimatedSection>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {galleryPhotos.slice(0, 6).map((photo, index) => (
+                {[teamBanner, officeDesk, officeRoom, sportMatch, officeAdmin].map((image, index) => (
                   <article
-                    key={`gallery-${index}`}
+                    key={`${index}-${image.src}`}
                     className="overflow-hidden rounded-[1.5rem] border border-[var(--color-border)] bg-white shadow-[0_12px_34px_rgba(14,24,20,0.06)]"
                   >
                     <div className="relative aspect-[4/3]">
                       <Image
-                        src={photo.src}
-                        alt={photo.title || "WHI-SL gallery image"}
+                        src={image}
+                        alt="WHI-SL gallery image"
                         fill
                         className="object-cover"
                         sizes="(max-width: 1024px) 50vw, 25vw"
                       />
                     </div>
-                    {(photo.title || photo.caption) && (
-                      <div className="p-3">
-                        {photo.title && (
-                          <p className="text-xs font-bold text-[var(--color-text)]">{photo.title}</p>
-                        )}
-                        {photo.caption && (
-                          <p className="mt-1 text-[11px] text-[var(--color-text-muted)]">{photo.caption}</p>
-                        )}
-                      </div>
-                    )}
                   </article>
                 ))}
               </div>
