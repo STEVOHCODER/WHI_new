@@ -3,12 +3,10 @@ import Image from "next/image";
 import PageHero from "@/components/sections/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
-import ImpactStatCard from "@/components/cards/ImpactStatCard";
 import StoryCard from "@/components/cards/StoryCard";
 import CTASection from "@/components/sections/CTASection";
 import Button from "@/components/ui/Button";
 import {
-  impactStats,
   featuredStories,
   projectAchievements,
 } from "@/data/impact";
@@ -82,16 +80,6 @@ export default function ImpactPage() {
         title="Our Impact"
         subtitle="The results of WHI&apos;s work show up in the confidence, knowledge, and resilience of the communities we serve."
       />
-
-      <section className="py-16 md:py-20 surface-dark section-panel" aria-label="Impact statistics">
-        <div className="container-wide">
-          <div className="grid grid-cols-2 divide-x divide-white/10 md:grid-cols-3 lg:grid-cols-5">
-            {impactStats.map((stat) => (
-              <ImpactStatCard key={stat.label} stat={stat} light />
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="section-padding surface-sand section-panel">
         <div className="container-wide">
