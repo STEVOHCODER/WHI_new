@@ -17,6 +17,7 @@ import {
   sportMatch,
   teamBanner,
 } from "@/data/photo-assets";
+import { getDbSafe } from "@/lib/mongo";
 import {
   ArrowRight,
   BookOpen,
@@ -94,7 +95,27 @@ const chooseCards = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Fetch gallery images from MongoDB
+  let galleryImages: Array<{ imageUrl: string; title: string; caption: string }> = [];
+  try {
+    const safe = await getDbSafe();
+    if (safe.db) {
+      const raw = await safe.db
+        .collection("gallery")
+        .find({})
+        .sort({ createdAt: 1 })
+        .toArray();
+      galleryImages = raw.map((doc) => ({
+        imageUrl: (doc.imageUrl as string) || "",
+        title: (doc.title as string) || "",
+        caption: (doc.caption as string) || "",
+      }));
+    }
+  } catch {
+    // Fallback to empty if DB fails
+  }
+
   return (
     <>
       <section
@@ -417,22 +438,51 @@ export default function HomePage() {
 
             <AnimatedSection>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {[teamBanner, officeDesk, officeRoom, sportMatch, officeAdmin].map((image, index) => (
-                  <article
-                    key={`${index}-${image.src}`}
-                    className="overflow-hidden rounded-[1.5rem] border border-[var(--color-border)] bg-white shadow-[0_12px_34px_rgba(14,24,20,0.06)]"
-                  >
-                    <div className="relative aspect-[4/3]">
-                      <Image
-                        src={image}
-                        alt="WHI-SL gallery image"
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 1024px) 50vw, 25vw"
-                      />
-                    </div>
-                  </article>
-                ))}
+                {galleryImages.length > 0 ? (
+                  galleryImages.slice(0, 6).map((photo, index) => (
+                    <article
+                      key={`gallery-${index}`}
+                      className="overflow-hidden rounded-[1.5rem] border border-[var(--color-border)] bg-white shadow-[0_12px_34px_rgba(14,24,20,0.06)]"
+                    >
+                      <div className="relative aspect-[4/3]">
+                        <Image
+                          src={photo.imageUrl}
+                          alt={photo.title || "WHI-SL gallery image"}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 1024px) 50vw, 25vw"
+                        />
+                      </div>
+                      {(photo.title || photo.caption) && (
+                        <div className="p-3">
+                          {photo.title && (
+                            <p className="text-xs font-bold text-[var(--color-text)]">{photo.title}</p>
+                          )}
+                          {photo.caption && (
+                            <p className="mt-1 text-[11px] text-[var(--color-text-muted)]">{photo.caption}</p>
+                          )}
+                        </div>
+                      )}
+                    </article>
+                  ))
+                ) : (
+                  [teamBanner, officeDesk, officeRoom, sportMatch, officeAdmin].map((image, index) => (
+                    <article
+                      key={`fallback-${index}`}
+                      className="overflow-hidden rounded-[1.5rem] border border-[var(--color-border)] bg-white shadow-[0_12px_34px_rgba(14,24,20,0.06)]"
+                    >
+                      <div className="relative aspect-[4/3]">
+                        <Image
+                          src={image}
+                          alt="WHI-SL gallery image"
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 1024px) 50vw, 25vw"
+                        />
+                      </div>
+                    </article>
+                  ))
+                )}
               </div>
             </AnimatedSection>
           </div>

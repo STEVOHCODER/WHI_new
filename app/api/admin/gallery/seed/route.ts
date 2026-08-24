@@ -5,20 +5,28 @@ import { ObjectId } from "mongodb";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const existingPhotos = [
-  { file: "/images/whi-photo-gallery/image1.jpg", title: "Community Outreach", caption: "WHI-SL outreach activity engaging with community members in Bo District" },
-  { file: "/images/whi-photo-gallery/image2.jpg", title: "Health Education", caption: "Health education and awareness session for young people" },
-  { file: "/images/whi-photo-gallery/image3.jpg", title: "Sports for Health", caption: "Sports activity used to promote public health messages in communities" },
-  { file: "/images/whi-photo-gallery/image4.jpg", title: "Youth Engagement", caption: "Young people participating in WHI-SL community programs" },
-  { file: "/images/whi-photo-gallery/image5.jpg", title: "Team Building", caption: "WHI-SL team and volunteers during a community event" },
-  { file: "/images/whi-photo-gallery/image6.jpg", title: "Gender Empowerment", caption: "Women and girls empowerment session in Bo District" },
-  { file: "/images/whi-photo-gallery/image7.jpg", title: "Advocacy Session", caption: "Human rights advocacy and awareness creation" },
-  { file: "/images/whi-photo-gallery/image8.jpg", title: "Community Meeting", caption: "Community stakeholders meeting for programme planning" },
-  { file: "/images/whi-photo-gallery/image9.jpg", title: "Outreach Event", caption: "Public outreach and sensitisation event in Bo City" },
+/**
+ * Map of actual site images to their public paths and display info.
+ * These are the images currently hardcoded in photo-assets.ts and used on the site.
+ */
+const siteImages = [
+  { file: "/images/gallery/community-outreach.png", title: "Community Outreach", caption: "WHI-SL community outreach activity engaging with residents in Bo District" },
+  { file: "/images/gallery/health-advocacy.png", title: "Health Advocacy", caption: "Community health education and sensitisation session for young people" },
+  { file: "/images/gallery/sports1.png", title: "Sports for Health", caption: "Young people gathered for a community sports and health activity" },
+  { file: "/images/gallery/sports2.png", title: "Mental Health Awareness", caption: "A sports session used to share mental health awareness messages" },
+  { file: "/images/gallery/sports3.png", title: "Youth Outreach Event", caption: "Young people taking part in an outreach sports and entertainment event" },
+  { file: "/images/gallery/team-image.png", title: "WHI Team", caption: "The WHI-SL team working together for community development" },
+  { file: "/images/gallery/launch-crowd.jpg", title: "Launch Event Crowd", caption: "Community crowd at a WHI-SL outreach and celebration event" },
+  { file: "/images/gallery/team-banner.jpg", title: "Team Banner", caption: "WHI-SL team banner at a public event in Bo City" },
+  { file: "/images/gallery/outreach-speaker.jpg", title: "Outreach Speaker", caption: "Community outreach speaker addressing participants at an event" },
+  { file: "/images/gallery/sport-match.jpg", title: "Sports Match", caption: "Community sports match used for health awareness campaigns" },
+  { file: "/images/gallery/office-desk.jpg", title: "Office Workspace", caption: "WHI-SL office workspace where planning and coordination happens" },
+  { file: "/images/gallery/office-admin.jpg", title: "Admin Team", caption: "WHI-SL administrative team supporting daily operations" },
+  { file: "/images/gallery/office-room.jpg", title: "Meeting Room", caption: "WHI-SL meeting room for team discussions and partner engagements" },
 ];
 
 /**
- * POST /api/admin/gallery/seed — seed existing gallery images into MongoDB
+ * POST /api/admin/gallery/seed — seed actual site images into MongoDB
  */
 export async function POST() {
   try {
@@ -28,8 +36,8 @@ export async function POST() {
     let seeded = 0;
     let skipped = 0;
 
-    for (const photo of existingPhotos) {
-      const exists = await collection.findOne({ imageUrl: photo.file });
+    for (const img of siteImages) {
+      const exists = await collection.findOne({ imageUrl: img.file });
       if (exists) {
         skipped++;
         continue;
@@ -37,16 +45,16 @@ export async function POST() {
 
       await collection.insertOne({
         _id: new ObjectId(),
-        imageUrl: photo.file,
-        title: photo.title,
-        caption: photo.caption,
+        imageUrl: img.file,
+        title: img.title,
+        caption: img.caption,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
       seeded++;
     }
 
-    return NextResponse.json({ ok: true, seeded, skipped, total: existingPhotos.length });
+    return NextResponse.json({ ok: true, seeded, skipped, total: siteImages.length });
   } catch (error) {
     console.error("[api/admin/gallery/seed] error:", error);
     return NextResponse.json(
