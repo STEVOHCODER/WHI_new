@@ -41,7 +41,7 @@ export default function SectionHeading({
       )}
       <div
         className={`mt-5 h-1.5 w-20 rounded-full ${
-          light ? "bg-gradient-to-r from-white/60 via-white/30 to-transparent" : "bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-accent)] to-[var(--color-gold)]"
+          light ? "bg-gradient-to-r from-white/60 via-white/30 to-transparent" : "bar-shimmer"
         } ${align === "center" ? "mx-auto" : ""}`}
         aria-hidden="true"
       />

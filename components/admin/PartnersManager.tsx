@@ -28,11 +28,11 @@ export default function PartnersManager({ partners }: { partners: Partner[] }) {
     try {
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("partnerId", partnerId);
       const res = await fetch("/api/admin/partners/upload", { method: "POST", body: formData });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Upload failed");
       setSuccessMsg("Logo uploaded!");
-      // Reload after upload
       window.location.reload();
     } catch (err) {
       setUploadError((err as Error).message);
@@ -87,6 +87,7 @@ export default function PartnersManager({ partners }: { partners: Partner[] }) {
               onUpload={(file) => handleUpload(String(partner._id), file)}
               uploadingId={uploadingId}
               showDeleteConfirm={deleteConfirm === String(partner._id)}
+              onSetDeleteConfirm={() => setDeleteConfirm(String(partner._id))}
               onConfirmDelete={() => handleDelete(String(partner._id))}
               onCancelDelete={() => setDeleteConfirm(null)}
             />
@@ -169,6 +170,7 @@ function PartnerRow({
   onUpload,
   uploadingId,
   showDeleteConfirm,
+  onSetDeleteConfirm,
   onConfirmDelete,
   onCancelDelete,
 }: {
@@ -179,6 +181,7 @@ function PartnerRow({
   onUpload: (file: File) => void;
   uploadingId: string | null;
   showDeleteConfirm: boolean;
+  onSetDeleteConfirm: () => void;
   onConfirmDelete: () => void;
   onCancelDelete: () => void;
 }) {
@@ -266,7 +269,7 @@ function PartnerRow({
               >Cancel</button>
             </div>
           ) : (
-            <button onClick={() => onConfirmDelete()}
+            <button onClick={onSetDeleteConfirm}
               className="rounded-xl border border-red-200 px-3 py-2 text-xs font-bold text-red-500 hover:bg-red-50 transition-colors"
             >
               <Trash2 size={14} className="inline mr-1" /> Delete

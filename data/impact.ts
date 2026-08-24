@@ -84,7 +84,7 @@ export const projectAchievements: ProjectAchievement[] = [
     title: "Young peer educators led the outreach",
     description:
       "A total of 50 young community peer educators were trained and helped deliver community-based mental health screening, counselling, and referrals across Bo District.",
-    accent: "#c62821",
+    accent: "#a83a62",
   },
   {
     value: "50%",

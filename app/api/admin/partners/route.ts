@@ -42,13 +42,19 @@ export async function POST(request: NextRequest) {
     let logoUrl: string | null = null;
 
     if (logoFile && logoFile.size > 0) {
-      // Upload to Vercel Blob
-      const { put } = await import("@vercel/blob");
-      const blob = await put(`whi-sl/partners/${Date.now()}-${logoFile.name}`, logoFile, {
-        access: "public",
-        contentType: logoFile.type,
-      });
-      logoUrl = blob.url;
+      const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
+      if (blobToken) {
+        const { put } = await import("@vercel/blob");
+        const blob = await put(`whi-sl/partners/${Date.now()}-${logoFile.name}`, logoFile, {
+          access: "public",
+          contentType: logoFile.type,
+        });
+        logoUrl = blob.url;
+      } else {
+        const buffer = Buffer.from(await logoFile.arrayBuffer());
+        const base64 = buffer.toString("base64");
+        logoUrl = `data:${logoFile.type};base64,${base64}`;
+      }
     }
 
     const now = new Date();

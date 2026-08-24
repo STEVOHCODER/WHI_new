@@ -6,60 +6,75 @@ import { ObjectId } from "mongodb";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-/**
- * Convert a File (from formData) to a base64 data URL.
- * Works in Node.js without FileReader.
- */
-async function fileToDataUrl(file: File): Promise<string> {
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const base64 = buffer.toString("base64");
-  return `data:${file.type};base64,${base64}`;
-}
+const ALLOWED_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "image/svg+xml",
+];
+const MAX_SIZE = 5 * 1024 * 1024;
 
 /**
  * POST /api/admin/partners/upload — upload logo for a partner
+ * Requires: file (File), partnerId (string)
+ * Stores image in Vercel Blob and updates the partner document in MongoDB.
  */
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
-    const partnerId = (formData.get("partnerId") as string) || null;
+    const partnerId = formData.get("partnerId") as string | null;
 
-    if (!file) {
+    if (!file || file.size === 0) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    if (file.size > 5 * 1024 * 1024) {
+    if (!partnerId) {
+      return NextResponse.json({ error: "partnerId is required" }, { status: 400 });
+    }
+
+    if (file.size > MAX_SIZE) {
       return NextResponse.json({ error: "File must be under 5MB" }, { status: 400 });
     }
 
-    const allowedTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/webp",
-      "image/gif",
-      "image/svg+xml",
-    ];
-    if (!allowedTypes.includes(file.type)) {
+    if (!ALLOWED_TYPES.includes(file.type)) {
       return NextResponse.json(
         { error: "Only JPG, PNG, WebP, GIF, SVG allowed" },
         { status: 400 },
       );
     }
 
-    const dataUrl = await fileToDataUrl(file);
+    const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
+    let logoUrl: string;
 
-    if (partnerId) {
-      const db = await getDb();
-      await db.collection("partners").updateOne(
-        { _id: new ObjectId(partnerId) },
-        { $set: { logoUrl: dataUrl, updatedAt: new Date() } },
+    if (blobToken) {
+      const { put } = await import("@vercel/blob");
+      const blob = await put(
+        `whi-sl/partners/${Date.now()}-${file.name}`,
+        file,
+        { access: "public", contentType: file.type },
       );
-      revalidatePath("/");
-      revalidatePath("/admin/partners");
+      logoUrl = blob.url;
+    } else {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const base64 = buffer.toString("base64");
+      logoUrl = `data:${file.type};base64,${base64}`;
     }
 
-    return NextResponse.json({ url: dataUrl });
+    const db = await getDb();
+    const result = await db.collection("partners").updateOne(
+      { _id: new ObjectId(partnerId) },
+      { $set: { logoUrl, updatedAt: new Date() } },
+    );
+
+    if (result.matchedCount === 0) {
+      return NextResponse.json({ error: "Partner not found" }, { status: 404 });
+    }
+
+    revalidatePath("/");
+    revalidatePath("/admin/partners");
+    return NextResponse.json({ url: logoUrl });
   } catch (error) {
     console.error("[api/admin/partners/upload] error:", error);
     return NextResponse.json(

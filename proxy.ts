@@ -21,12 +21,11 @@ async function parseSession(cookieHeader: string | null): Promise<{ email: strin
   return { email };
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   const isAdminRoute = path.startsWith("/admin");
   const isLoginRoute = path === "/login";
-  // Allow all /api/admin/* routes through; they handle their own auth
   const isApiAdmin = path.startsWith("/api/admin");
 
   const session = await parseSession(request.headers.get("cookie"));

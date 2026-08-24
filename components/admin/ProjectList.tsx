@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ObjectId } from "mongodb";
-import { CheckCircle2, Loader2, Pencil, Trash2, Upload, X } from "@/components/ui/icons";
+import { CheckCircle2, Loader2, Pencil, Trash2, Upload, X, ImageIcon } from "@/components/ui/icons";
 
 interface Project {
   _id: ObjectId;
@@ -43,7 +43,7 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Upload failed");
       setSuccessMsg("Thumbnail updated!");
-      setUploadError("");
+      window.location.reload();
     } catch (err) {
       setUploadError((err as Error).message);
     } finally {
@@ -53,6 +53,7 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
 
   const handleGalleryUpload = async (projectId: string, file: File) => {
     setUploadingId(projectId);
+    setUploadError("");
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -62,10 +63,26 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Upload failed");
       setSuccessMsg("Photo added to gallery!");
+      window.location.reload();
     } catch (err) {
       setUploadError((err as Error).message);
     } finally {
       setUploadingId(null);
+    }
+  };
+
+  const handleGalleryDelete = async (projectId: string, imageUrl: string) => {
+    try {
+      const res = await fetch(
+        `/api/admin/projects/gallery?projectId=${encodeURIComponent(projectId)}&imageUrl=${encodeURIComponent(imageUrl)}`,
+        { method: "DELETE" },
+      );
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Failed to remove image");
+      setSuccessMsg("Image removed from gallery!");
+      window.location.reload();
+    } catch (err) {
+      setUploadError((err as Error).message);
     }
   };
 
@@ -101,6 +118,7 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
           uploadingThumbnail={uploadingThumbnail}
           onThumbnailUpload={(file) => handleThumbnailUpload(String(project._id), file)}
           onGalleryUpload={(file) => handleGalleryUpload(String(project._id), file)}
+          onGalleryDelete={(imageUrl) => handleGalleryDelete(String(project._id), imageUrl)}
           showDeleteConfirm={deleteConfirm === String(project._id)}
           onConfirmDelete={() => handleDelete(String(project._id))}
           onCancelDelete={() => setDeleteConfirm(null)}
@@ -120,6 +138,7 @@ function ProjectRow({
   uploadingThumbnail,
   onThumbnailUpload,
   onGalleryUpload,
+  onGalleryDelete,
   onConfirmDelete,
   onCancelDelete,
   showDeleteConfirm,
@@ -133,6 +152,7 @@ function ProjectRow({
   uploadingThumbnail: string | null;
   onThumbnailUpload: (file: File) => void;
   onGalleryUpload: (file: File) => void;
+  onGalleryDelete: (imageUrl: string) => void;
   onConfirmDelete: () => void;
   onCancelDelete: () => void;
   showDeleteConfirm: boolean;
@@ -143,6 +163,7 @@ function ProjectRow({
   const beneficiaries = project.impact?.beneficiaries
     ? Number(project.impact.beneficiaries).toLocaleString()
     : "—";
+  const [deletingGalleryUrl, setDeletingGalleryUrl] = useState<string | null>(null);
 
   if (isEditing) {
     return (
@@ -160,13 +181,34 @@ function ProjectRow({
         : "border-dashed border-[var(--color-border)] opacity-60"
     }`}>
       <div className="flex gap-5">
-        {project.imageUrl && (
-          <div className="relative h-24 w-32 shrink-0 overflow-hidden rounded-xl">
-            <img src={project.imageUrl} alt={project.title} className="h-full w-full object-cover" />
-            <label
-              className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/40 opacity-0 transition-opacity hover:opacity-100"
-              title="Change thumbnail"
-            >
+        {/* Thumbnail with upload overlay */}
+        <div className="relative h-24 w-32 shrink-0 overflow-hidden rounded-xl">
+          {project.imageUrl ? (
+            <>
+              <img src={project.imageUrl} alt={project.title} className="h-full w-full object-cover" />
+              <label
+                className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/40 opacity-0 transition-opacity hover:opacity-100"
+                title="Change thumbnail"
+              >
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) onThumbnailUpload(file);
+                  }}
+                  disabled={uploadingThumbnail === String(project._id)}
+                />
+                {uploadingThumbnail === String(project._id) ? (
+                  <Loader2 size={20} className="animate-spin text-white" />
+                ) : (
+                  <Upload size={20} className="text-white" />
+                )}
+              </label>
+            </>
+          ) : (
+            <label className="flex h-full w-full cursor-pointer flex-col items-center justify-center gap-1 bg-[var(--color-bg-section)] border border-[var(--color-border)]" title="Upload thumbnail">
               <input
                 type="file"
                 accept="image/*"
@@ -178,13 +220,16 @@ function ProjectRow({
                 disabled={uploadingThumbnail === String(project._id)}
               />
               {uploadingThumbnail === String(project._id) ? (
-                <Loader2 size={20} className="animate-spin text-white" />
+                <Loader2 size={18} className="animate-spin text-[var(--color-text-light)]" />
               ) : (
-                <Upload size={20} className="text-white" />
+                <>
+                  <ImageIcon size={18} className="text-[var(--color-text-light)]" />
+                  <span className="text-[9px] text-[var(--color-text-light)]">Upload</span>
+                </>
               )}
             </label>
-          </div>
-        )}
+          )}
+        </div>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-3 flex-wrap">
@@ -252,31 +297,61 @@ function ProjectRow({
         </div>
       </div>
 
-      {/* Gallery thumbnails */}
-      {(project as any).gallery && (project as any).gallery.length > 0 && (
-        <div className="mt-4 flex items-center gap-2 flex-wrap">
-          <span className="text-[11px] text-[var(--color-text-light)]">Gallery:</span>
-          {((project as any).gallery as string[]).slice(0, 4).map((url: string, i: number) => (
-            <img key={i} src={url} alt="" className="h-12 w-16 rounded-lg object-cover border" />
-          ))}
-          {((project as any).gallery as string[]).length > 4 && (
-            <span className="text-[11px] text-[var(--color-text-light)]">+{((project as any).gallery as string[]).length - 4} more</span>
-          )}
-          <label className="cursor-pointer rounded-lg border border-dashed border-[var(--color-border)] px-2 py-1 text-[11px] text-[var(--color-text-light)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors">
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) onGalleryUpload(file);
-              }}
-              disabled={uploadingId === String(project._id)}
-            />
-            {uploadingId === String(project._id) ? <Loader2 size={12} className="inline animate-spin" /> : "+ Add"}
-          </label>
+      {/* Gallery section */}
+      <div className="mt-4">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-[11px] font-bold uppercase tracking-widest text-[var(--color-text-light)]">
+            Gallery ({project.gallery?.length || 0})
+          </span>
         </div>
-      )}
+
+        {project.gallery && project.gallery.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {project.gallery.map((url, i) => (
+              <div key={i} className="group relative">
+                <img src={url} alt="" className="h-20 w-28 rounded-lg object-cover border border-[var(--color-border)]" />
+                <button
+                  onClick={() => {
+                    setDeletingGalleryUrl(url);
+                    onGalleryDelete(url);
+                  }}
+                  className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-red-600"
+                  title="Remove from gallery"
+                >
+                  {deletingGalleryUrl === url ? (
+                    <Loader2 size={10} className="animate-spin" />
+                  ) : (
+                    <X size={10} />
+                  )}
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-xs text-[var(--color-text-muted)] mb-2">No gallery images yet.</p>
+        )}
+
+        {/* Add gallery image */}
+        <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-dashed border-[var(--color-border)] px-3 py-1.5 text-[11px] text-[var(--color-text-light)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors mt-2">
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) onGalleryUpload(file);
+              e.target.value = "";
+            }}
+            disabled={uploadingId === String(project._id)}
+          />
+          {uploadingId === String(project._id) ? (
+            <Loader2 size={12} className="animate-spin" />
+          ) : (
+            <Upload size={12} />
+          )}
+          {uploadingId === String(project._id) ? "Uploading…" : "Add Photo"}
+        </label>
+      </div>
     </div>
   );
 }
