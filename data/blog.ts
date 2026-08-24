@@ -13,7 +13,7 @@ export interface BlogPost {
   title: string;
   excerpt: string;
   category: string;
-  image: StaticImageData | string;
+  image: StaticImageData;
   imageAlt: string;
   frameClass: string;
 }
@@ -27,15 +27,6 @@ export const blogPosts: BlogPost[] = [
     image: launchCrowd,
     imageAlt: "WHI-SL community crowd at the Entertain for Health Project launch",
     frameClass: "aspect-[16/10]",
-  },
-  {
-    title: "The WHI-SL team in one frame",
-    excerpt:
-      "Staff and volunteers stand together as the people behind the programs, planning, and everyday follow-through.",
-    category: "Team",
-    image: "/images/homepage/team-image.png",
-    imageAlt: "WHI-SL team photo",
-    frameClass: "aspect-[4/5]",
   },
   {
     title: "Community outreach in familiar spaces",
@@ -56,15 +47,6 @@ export const blogPosts: BlogPost[] = [
     frameClass: "aspect-[4/5]",
   },
   {
-    title: "Community voices during outreach",
-    excerpt:
-      "A speaker and audience moment that shows how WHI-SL uses dialogue to keep messages grounded and relatable.",
-    category: "Voice",
-    image: "/images/homepage/outreach-speaker.jpg",
-    imageAlt: "Community speaker addressing residents during outreach",
-    frameClass: "aspect-[4/5]",
-  },
-  {
     title: "Sport as a bridge to conversation",
     excerpt:
       "Matches and tournaments create a relaxed space for confidence-building, learning, and connection.",
@@ -81,15 +63,6 @@ export const blogPosts: BlogPost[] = [
     image: officeDesk,
     imageAlt: "WHI-SL staff member at a desk working with documents and a laptop",
     frameClass: "aspect-[4/5]",
-  },
-  {
-    title: "WHI-SL team gathering",
-    excerpt:
-      "A clean group photo from the WHI-SL gallery that shows the team behind the organisation's community work.",
-    category: "Team",
-    image: "/images/homepage/team-gathering.jpg",
-    imageAlt: "WHI-SL team group photo in white shirts at an event",
-    frameClass: "aspect-[16/10]",
   },
   {
     title: "A shared launch portrait",
