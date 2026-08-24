@@ -8,20 +8,6 @@ import PartnersSliderSection from "./partners-slider-section";
 import { programs } from "@/data/programs";
 import { values } from "@/data/values";
 import {
-  communityOutreach,
-  healthAdvocacy,
-  sports1,
-  sports2,
-  sports3,
-  launchCrowd,
-  teamBanner,
-  outreachSpeaker,
-  sportMatch,
-  officeDesk,
-  officeAdmin,
-  officeRoom,
-} from "@/data/photo-assets";
-import {
   ArrowRight,
   BookOpen,
   HandHeart,
@@ -100,19 +86,19 @@ const chooseCards = [
 
 export default async function HomePage() {
   const galleryPhotos = [
-    { src: communityOutreach, title: "Community Outreach", caption: "WHI-SL community outreach activity engaging with residents in Bo District" },
-    { src: healthAdvocacy, title: "Health Advocacy", caption: "Community health education and sensitisation session for young people" },
-    { src: sports1, title: "Sports for Health", caption: "Young people gathered for a community sports and health activity" },
-    { src: sports2, title: "Mental Health Awareness", caption: "A sports session used to share mental health awareness messages" },
-    { src: sports3, title: "Youth Outreach Event", caption: "Young people taking part in an outreach sports and entertainment event" },
-    { src: "/images/team-image.png" as string, title: "WHI Team", caption: "The WHI-SL team working together for community development" },
-    { src: launchCrowd, title: "Launch Event Crowd", caption: "Community crowd at a WHI-SL outreach and celebration event" },
-    { src: teamBanner, title: "Team Banner", caption: "WHI-SL team banner at a public event in Bo City" },
-    { src: outreachSpeaker, title: "Outreach Speaker", caption: "Community outreach speaker addressing participants at an event" },
-    { src: sportMatch, title: "Sports Match", caption: "Community sports match used for health awareness campaigns" },
-    { src: officeDesk, title: "Office Workspace", caption: "WHI-SL office workspace where planning and coordination happens" },
-    { src: officeAdmin, title: "Admin Team", caption: "WHI-SL administrative team supporting daily operations" },
-    { src: officeRoom, title: "Meeting Room", caption: "WHI-SL meeting room for team discussions and partner engagements" },
+    { src: "/images/homepage/community-outreach.png", title: "Community Outreach", caption: "WHI-SL community outreach activity engaging with residents in Bo District" },
+    { src: "/images/homepage/health-advocacy.png", title: "Health Advocacy", caption: "Community health education and sensitisation session for young people" },
+    { src: "/images/homepage/sports1.png", title: "Sports for Health", caption: "Young people gathered for a community sports and health activity" },
+    { src: "/images/homepage/sports2.png", title: "Mental Health Awareness", caption: "A sports session used to share mental health awareness messages" },
+    { src: "/images/homepage/sports3.png", title: "Youth Outreach Event", caption: "Young people taking part in an outreach sports and entertainment event" },
+    { src: "/images/homepage/team-image.png", title: "WHI Team", caption: "The WHI-SL team working together for community development" },
+    { src: "/images/homepage/launch-crowd.jpg", title: "Launch Event Crowd", caption: "Community crowd at a WHI-SL outreach and celebration event" },
+    { src: "/images/homepage/team-banner.jpg", title: "Team Banner", caption: "WHI-SL team banner at a public event in Bo City" },
+    { src: "/images/homepage/outreach-speaker.jpg", title: "Outreach Speaker", caption: "Community outreach speaker addressing participants at an event" },
+    { src: "/images/homepage/sport-match.jpg", title: "Sports Match", caption: "Community sports match used for health awareness campaigns" },
+    { src: "/images/homepage/office-desk.jpg", title: "Office Workspace", caption: "WHI-SL office workspace where planning and coordination happens" },
+    { src: "/images/homepage/office-admin.jpg", title: "Admin Team", caption: "WHI-SL administrative team supporting daily operations" },
+    { src: "/images/homepage/office-room.jpg", title: "Meeting Room", caption: "WHI-SL meeting room for team discussions and partner engagements" },
   ];
 
   return (
@@ -122,7 +108,7 @@ export default async function HomePage() {
         aria-label="Hero"
       >
         <Image
-          src={launchCrowd}
+          src="/images/homepage/launch-crowd.jpg"
           alt="WHI-SL community crowd at an outreach event in Bo"
           fill
           priority
@@ -218,7 +204,7 @@ export default async function HomePage() {
               <div className="relative overflow-hidden rounded-[2.25rem] border border-[var(--color-border)] bg-white shadow-[0_22px_70px_rgba(14,24,20,0.1)]">
                 <div className="relative aspect-[4/5] md:aspect-[5/4]">
                   <Image
-                    src={communityOutreach}
+                    src="/images/homepage/community-outreach.png"
                     alt="WHI-SL community outreach in a market setting"
                     fill
                     className="object-cover"
@@ -421,7 +407,7 @@ export default async function HomePage() {
               <div className="relative overflow-hidden rounded-[2rem] border border-[var(--color-border)] bg-white shadow-[0_18px_52px_rgba(14,24,20,0.08)]">
                 <div className="relative aspect-[16/10]">
                   <Image
-                    src={healthAdvocacy}
+                    src="/images/homepage/health-advocacy.png"
                     alt="WHI-SL health advocacy and community sensitisation moment"
                     fill
                     className="object-cover"
