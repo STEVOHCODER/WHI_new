@@ -111,16 +111,6 @@ export default function ImpactPage() {
                   <h2 className="mt-6 max-w-2xl text-xl font-black leading-[1.08] tracking-tight text-balance md:text-2xl lg:text-3xl">
                     Since 2010, WHI has been building trust in Bo District and beyond through outreach, advocacy, learning, and long-term community relationships.
                   </h2>
-                  <div className="mt-7 h-1.5 w-24 rounded-full bg-gradient-to-r from-[var(--color-gold)] via-[var(--color-accent)] to-transparent" />
-
-                  <div className="mt-8 max-w-xl rounded-[1.75rem] border border-white/12 bg-white/8 p-6 backdrop-blur-[2px] md:p-7">
-                  <h3 className="text-lg font-black leading-[1] md:text-xl">
-                    Impact is more than numbers.
-                  </h3>
-                  <p className="mt-4 text-sm leading-relaxed text-white/78 md:text-sm">
-                    WHI records its impact through program delivery, participation, and learning. The organisation continues to strengthen its evidence base while keeping the focus on people rather than numbers alone.
-                  </p>
-                  </div>
                 </div>
               </div>
             </AnimatedSection>
