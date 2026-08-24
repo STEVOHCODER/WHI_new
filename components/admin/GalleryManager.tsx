@@ -343,6 +343,13 @@ function PhotoCard({
         >
           <ImageIcon size={14} />
         </button>
+        <button
+          onClick={() => onConfirmDelete()}
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500/90 text-white hover:bg-red-600"
+          title="Delete photo"
+        >
+          <Trash2 size={14} />
+        </button>
       </div>
 
       {/* Title + Caption + delete */}

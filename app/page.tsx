@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import Button from "@/components/ui/Button";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
@@ -10,10 +9,18 @@ import { values } from "@/data/values";
 import {
   communityOutreach,
   healthAdvocacy,
+  sports1,
+  sports2,
+  sports3,
+  teamImage,
   launchCrowd,
+  teamBanner,
+  outreachSpeaker,
+  sportMatch,
+  officeDesk,
+  officeAdmin,
+  officeRoom,
 } from "@/data/photo-assets";
-import { getDbSafe } from "@/lib/mongo";
-import { ObjectId } from "mongodb";
 import {
   ArrowRight,
   BookOpen,
@@ -23,22 +30,6 @@ import {
   ShieldCheck,
   Users,
 } from "@/components/ui/icons";
-
-const defaultGallery = [
-  { file: "/images/gallery/community-outreach.png", title: "Community Outreach", caption: "WHI-SL community outreach activity engaging with residents in Bo District" },
-  { file: "/images/gallery/health-advocacy.png", title: "Health Advocacy", caption: "Community health education and sensitisation session for young people" },
-  { file: "/images/gallery/sports1.png", title: "Sports for Health", caption: "Young people gathered for a community sports and health activity" },
-  { file: "/images/gallery/sports2.png", title: "Mental Health Awareness", caption: "A sports session used to share mental health awareness messages" },
-  { file: "/images/gallery/sports3.png", title: "Youth Outreach Event", caption: "Young people taking part in an outreach sports and entertainment event" },
-  { file: "/images/gallery/team-image.png", title: "WHI Team", caption: "The WHI-SL team working together for community development" },
-  { file: "/images/gallery/launch-crowd.jpg", title: "Launch Event Crowd", caption: "Community crowd at a WHI-SL outreach and celebration event" },
-  { file: "/images/gallery/team-banner.jpg", title: "Team Banner", caption: "WHI-SL team banner at a public event in Bo City" },
-  { file: "/images/gallery/outreach-speaker.jpg", title: "Outreach Speaker", caption: "Community outreach speaker addressing participants at an event" },
-  { file: "/images/gallery/sport-match.jpg", title: "Sports Match", caption: "Community sports match used for health awareness campaigns" },
-  { file: "/images/gallery/office-desk.jpg", title: "Office Workspace", caption: "WHI-SL office workspace where planning and coordination happens" },
-  { file: "/images/gallery/office-admin.jpg", title: "Admin Team", caption: "WHI-SL administrative team supporting daily operations" },
-  { file: "/images/gallery/office-room.jpg", title: "Meeting Room", caption: "WHI-SL meeting room for team discussions and partner engagements" },
-];
 
 export const metadata: Metadata = {
   title: "Women's Health Initiative (WHI-SL) | Sierra Leone",
@@ -108,50 +99,21 @@ const chooseCards = [
 ];
 
 export default async function HomePage() {
-  // Fetch gallery images from MongoDB, auto-seed if empty
-  let galleryImages: Array<{ imageUrl: string; title: string; caption: string }> = [];
-  try {
-    const safe = await getDbSafe();
-    if (safe.db) {
-      const raw = await safe.db
-        .collection("gallery")
-        .find({})
-        .sort({ createdAt: 1 })
-        .toArray();
-
-      if (raw.length > 0) {
-        galleryImages = raw.map((doc) => ({
-          imageUrl: (doc.imageUrl as string) || "",
-          title: (doc.title as string) || "",
-          caption: (doc.caption as string) || "",
-        }));
-      } else {
-        // Gallery is empty — auto-seed the default images
-        await safe.db.collection("gallery").insertMany(
-          defaultGallery.map((img) => ({
-            _id: new ObjectId(),
-            imageUrl: img.file,
-            title: img.title,
-            caption: img.caption,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          }))
-        );
-        galleryImages = defaultGallery.map((img) => ({
-          imageUrl: img.file,
-          title: img.title,
-          caption: img.caption,
-        }));
-      }
-    }
-  } catch {
-    // Fallback to default images if DB fails
-    galleryImages = defaultGallery.map((img) => ({
-      imageUrl: img.file,
-      title: img.title,
-      caption: img.caption,
-    }));
-  }
+  const galleryPhotos = [
+    { src: communityOutreach, title: "Community Outreach", caption: "WHI-SL community outreach activity engaging with residents in Bo District" },
+    { src: healthAdvocacy, title: "Health Advocacy", caption: "Community health education and sensitisation session for young people" },
+    { src: sports1, title: "Sports for Health", caption: "Young people gathered for a community sports and health activity" },
+    { src: sports2, title: "Mental Health Awareness", caption: "A sports session used to share mental health awareness messages" },
+    { src: sports3, title: "Youth Outreach Event", caption: "Young people taking part in an outreach sports and entertainment event" },
+    { src: teamImage, title: "WHI Team", caption: "The WHI-SL team working together for community development" },
+    { src: launchCrowd, title: "Launch Event Crowd", caption: "Community crowd at a WHI-SL outreach and celebration event" },
+    { src: teamBanner, title: "Team Banner", caption: "WHI-SL team banner at a public event in Bo City" },
+    { src: outreachSpeaker, title: "Outreach Speaker", caption: "Community outreach speaker addressing participants at an event" },
+    { src: sportMatch, title: "Sports Match", caption: "Community sports match used for health awareness campaigns" },
+    { src: officeDesk, title: "Office Workspace", caption: "WHI-SL office workspace where planning and coordination happens" },
+    { src: officeAdmin, title: "Admin Team", caption: "WHI-SL administrative team supporting daily operations" },
+    { src: officeRoom, title: "Meeting Room", caption: "WHI-SL meeting room for team discussions and partner engagements" },
+  ];
 
   return (
     <>
@@ -475,14 +437,14 @@ export default async function HomePage() {
 
             <AnimatedSection>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {galleryImages.slice(0, 6).map((photo, index) => (
+                {galleryPhotos.slice(0, 6).map((photo, index) => (
                   <article
                     key={`gallery-${index}`}
                     className="overflow-hidden rounded-[1.5rem] border border-[var(--color-border)] bg-white shadow-[0_12px_34px_rgba(14,24,20,0.06)]"
                   >
                     <div className="relative aspect-[4/3]">
                       <Image
-                        src={photo.imageUrl}
+                        src={photo.src}
                         alt={photo.title || "WHI-SL gallery image"}
                         fill
                         className="object-cover"
