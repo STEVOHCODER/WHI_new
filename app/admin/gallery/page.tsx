@@ -24,6 +24,7 @@ async function getGalleryPhotos() {
     .toArray()) as Array<{
     _id: import("mongodb").ObjectId;
     imageUrl: string;
+    title: string;
     caption: string;
     createdAt: Date;
   }>;
@@ -43,7 +44,7 @@ export default async function AdminGalleryPage() {
             Photo Gallery
           </h1>
           <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-            {photos.length} photo{photos.length !== 1 ? "s" : ""} — upload, caption, and manage your site gallery
+            {photos.length} photo{photos.length !== 1 ? "s" : ""} — upload, title, caption, and manage your site gallery
           </p>
         </div>
 

@@ -29,12 +29,13 @@ export async function GET() {
 
 /**
  * POST /api/admin/gallery — upload a new gallery photo
- * Body: multipart/form-data with "file" and optional "caption"
+ * Body: multipart/form-data with "file", optional "title", optional "caption"
  */
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
+    const title = (formData.get("title") as string) || "";
     const caption = (formData.get("caption") as string) || "";
 
     if (!file || file.size === 0) {
@@ -72,13 +73,14 @@ export async function POST(request: NextRequest) {
     const result = await db.collection("gallery").insertOne({
       _id: new ObjectId(),
       imageUrl,
+      title,
       caption,
       createdAt: now,
       updatedAt: now,
     });
 
     revalidatePath("/admin/gallery");
-    return NextResponse.json({ id: result.insertedId, imageUrl, caption }, { status: 201 });
+    return NextResponse.json({ id: result.insertedId, imageUrl, title, caption }, { status: 201 });
   } catch (error) {
     console.error("[api/admin/gallery] POST error:", error);
     return NextResponse.json(
@@ -89,22 +91,26 @@ export async function POST(request: NextRequest) {
 }
 
 /**
- * PATCH /api/admin/gallery — update caption
- * Body: { id: string, caption: string }
+ * PATCH /api/admin/gallery — update title/caption
+ * Body: { id: string, title?: string, caption?: string }
  */
 export async function PATCH(request: NextRequest) {
   try {
     const body = await request.json();
-    const { id, caption } = body;
+    const { id, title, caption } = body;
 
     if (!id) {
       return NextResponse.json({ error: "id is required" }, { status: 400 });
     }
 
+    const update: Record<string, unknown> = { updatedAt: new Date() };
+    if (title !== undefined) update.title = title;
+    if (caption !== undefined) update.caption = caption;
+
     const db = await getDb();
     const result = await db.collection("gallery").updateOne(
       { _id: new ObjectId(id) },
-      { $set: { caption: caption || "", updatedAt: new Date() } },
+      { $set: update },
     );
 
     if (result.matchedCount === 0) {
@@ -116,7 +122,7 @@ export async function PATCH(request: NextRequest) {
   } catch (error) {
     console.error("[api/admin/gallery] PATCH error:", error);
     return NextResponse.json(
-      { error: "Failed to update caption", details: (error as Error).message },
+      { error: "Failed to update", details: (error as Error).message },
       { status: 500 },
     );
   }

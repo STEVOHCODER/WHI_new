@@ -7,6 +7,7 @@ import { CheckCircle2, Loader2, Trash2, Upload, X, ImageIcon, Pencil } from "@/c
 interface GalleryPhoto {
   _id: ObjectId;
   imageUrl: string;
+  title: string;
   caption: string;
   createdAt: Date;
 }
@@ -19,18 +20,40 @@ export default function GalleryManager({ photos }: { photos: GalleryPhoto[] }) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadTitle, setUploadTitle] = useState("");
+  const [uploadCaption, setUploadCaption] = useState("");
+  const [seeding, setSeeding] = useState(false);
 
-  const handleUpload = async (file: File, caption?: string) => {
+  const handleSeed = async () => {
+    setSeeding(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/gallery/seed", { method: "POST" });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Seed failed");
+      setSuccessMsg(`Loaded ${json.seeded} existing photos (${json.skipped} already existed)`);
+      window.location.reload();
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setSeeding(false);
+    }
+  };
+
+  const handleUpload = async (file: File) => {
     setUploading(true);
     setError("");
     try {
       const formData = new FormData();
       formData.append("file", file);
-      if (caption) formData.append("caption", caption);
+      if (uploadTitle) formData.append("title", uploadTitle);
+      if (uploadCaption) formData.append("caption", uploadCaption);
       const res = await fetch("/api/admin/gallery", { method: "POST", body: formData });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Upload failed");
       setSuccessMsg("Photo uploaded!");
+      setUploadTitle("");
+      setUploadCaption("");
       window.location.reload();
     } catch (err) {
       setError((err as Error).message);
@@ -51,16 +74,16 @@ export default function GalleryManager({ photos }: { photos: GalleryPhoto[] }) {
     }
   };
 
-  const handleCaptionUpdate = async (id: string, caption: string) => {
+  const handleUpdate = async (id: string, title: string, caption: string) => {
     try {
       const res = await fetch("/api/admin/gallery", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, caption }),
+        body: JSON.stringify({ id, title, caption }),
       });
       if (!res.ok) throw new Error("Update failed");
       setEditingId(null);
-      setSuccessMsg("Caption updated!");
+      setSuccessMsg("Updated!");
       window.location.reload();
     } catch (err) {
       setError((err as Error).message);
@@ -81,34 +104,78 @@ export default function GalleryManager({ photos }: { photos: GalleryPhoto[] }) {
       )}
 
       {/* Upload Zone */}
-      <div className="rounded-2xl border-2 border-dashed border-[var(--color-border)] bg-white p-8 text-center hover:border-[var(--color-primary)] transition-colors">
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          multiple
-          className="hidden"
-          onChange={(e) => {
-            Array.from(e.target.files || []).forEach((file) => handleUpload(file));
-            e.target.value = "";
-          }}
-        />
-        <button
-          onClick={() => fileInputRef.current?.click()}
-          disabled={uploading}
-          className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white disabled:opacity-60"
-          style={{ backgroundColor: "var(--color-primary)" }}
-        >
-          {uploading ? (
-            <Loader2 size={16} className="animate-spin" />
-          ) : (
-            <Upload size={16} />
+      <div className="rounded-2xl border-2 border-dashed border-[var(--color-border)] bg-white p-6 hover:border-[var(--color-primary)] transition-colors">
+        <h3 className="text-sm font-bold text-[var(--color-text)] mb-4">Upload New Photo</h3>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mb-4">
+          <div>
+            <label className="mb-1 block text-[11px] font-bold uppercase tracking-widest text-[var(--color-text-light)]">
+              Title
+            </label>
+            <input
+              type="text"
+              value={uploadTitle}
+              onChange={(e) => setUploadTitle(e.target.value)}
+              placeholder="e.g. Community Outreach in Bo"
+              className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-2.5 text-sm focus:border-[var(--color-primary)] focus:outline-none"
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-[11px] font-bold uppercase tracking-widest text-[var(--color-text-light)]">
+              Caption / Description
+            </label>
+            <input
+              type="text"
+              value={uploadCaption}
+              onChange={(e) => setUploadCaption(e.target.value)}
+              placeholder="e.g. Health education session with young women"
+              className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-2.5 text-sm focus:border-[var(--color-primary)] focus:outline-none"
+            />
+          </div>
+        </div>
+        <div className="text-center">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            className="hidden"
+            onChange={(e) => {
+              Array.from(e.target.files || []).forEach((file) => handleUpload(file));
+              e.target.value = "";
+            }}
+          />
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
+            className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white disabled:opacity-60"
+            style={{ backgroundColor: "var(--color-primary)" }}
+          >
+            {uploading ? (
+              <Loader2 size={16} className="animate-spin" />
+            ) : (
+              <Upload size={16} />
+            )}
+            {uploading ? "Uploading…" : "Select Photos to Upload"}
+          </button>
+          <p className="mt-3 text-xs text-[var(--color-text-muted)]">
+            JPG, PNG, WebP, GIF — max 5MB each. Select multiple files at once.
+          </p>
+          {photos.length === 0 && (
+            <div className="mt-4 pt-4 border-t border-[var(--color-border)]">
+              <p className="text-xs text-[var(--color-text-muted)] mb-2">
+                Or load the existing site gallery photos:
+              </p>
+              <button
+                onClick={handleSeed}
+                disabled={seeding}
+                className="inline-flex items-center gap-2 rounded-xl border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/5 px-5 py-2 text-xs font-bold text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 disabled:opacity-60"
+              >
+                {seeding ? <Loader2 size={14} className="animate-spin" /> : <ImageIcon size={14} />}
+                {seeding ? "Loading…" : "Load Existing Photos"}
+              </button>
+            </div>
           )}
-          {uploading ? "Uploading…" : "Upload Photos"}
-        </button>
-        <p className="mt-3 text-xs text-[var(--color-text-muted)]">
-          JPG, PNG, WebP, GIF — max 5MB each. Select multiple files at once.
-        </p>
+        </div>
       </div>
 
       {/* Photo Grid */}
@@ -116,18 +183,18 @@ export default function GalleryManager({ photos }: { photos: GalleryPhoto[] }) {
         <div className="rounded-2xl border border-dashed border-[var(--color-border)] bg-white px-8 py-16 text-center">
           <ImageIcon size={40} className="mx-auto mb-4 text-[var(--color-text-light)]" />
           <p className="text-sm text-[var(--color-text-muted)]">
-            No gallery photos yet. Click &quot;Upload Photos&quot; to get started.
+            No gallery photos yet. Upload your first photo above.
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {photos.map((photo) => (
             <PhotoCard
               key={String(photo._id)}
               photo={photo}
               isEditing={editingId === String(photo._id)}
               onEdit={() => setEditingId(editingId === String(photo._id) ? null : String(photo._id))}
-              onCaptionSave={(caption) => handleCaptionUpdate(String(photo._id), caption)}
+              onUpdate={(title, caption) => handleUpdate(String(photo._id), title, caption)}
               showDeleteConfirm={deleteConfirm === String(photo._id)}
               onConfirmDelete={() => handleDelete(String(photo._id))}
               onCancelDelete={() => setDeleteConfirm(null)}
@@ -165,7 +232,7 @@ function PhotoCard({
   photo,
   isEditing,
   onEdit,
-  onCaptionSave,
+  onUpdate,
   showDeleteConfirm,
   onConfirmDelete,
   onCancelDelete,
@@ -174,33 +241,41 @@ function PhotoCard({
   photo: GalleryPhoto;
   isEditing: boolean;
   onEdit: () => void;
-  onCaptionSave: (caption: string) => void;
+  onUpdate: (title: string, caption: string) => void;
   showDeleteConfirm: boolean;
   onConfirmDelete: () => void;
   onCancelDelete: () => void;
   onPreview: () => void;
 }) {
-  const [captionDraft, setCaptionDraft] = useState(photo.caption);
+  const [titleDraft, setTitleDraft] = useState(photo.title || "");
+  const [captionDraft, setCaptionDraft] = useState(photo.caption || "");
 
   if (isEditing) {
     return (
       <div className="rounded-2xl border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/5 p-3 space-y-2">
         <img
           src={photo.imageUrl}
-          alt={photo.caption || "Gallery photo"}
-          className="h-32 w-full rounded-lg object-cover cursor-pointer"
+          alt={photo.title || "Gallery photo"}
+          className="h-40 w-full rounded-lg object-cover cursor-pointer"
           onClick={onPreview}
         />
         <input
           type="text"
+          value={titleDraft}
+          onChange={(e) => setTitleDraft(e.target.value)}
+          placeholder="Title"
+          className="w-full rounded-lg border border-[var(--color-border)] bg-white px-3 py-2 text-xs font-semibold focus:border-[var(--color-primary)] focus:outline-none"
+        />
+        <textarea
           value={captionDraft}
           onChange={(e) => setCaptionDraft(e.target.value)}
-          placeholder="Add a caption…"
-          className="w-full rounded-lg border border-[var(--color-border)] bg-white px-3 py-2 text-xs focus:border-[var(--color-primary)] focus:outline-none"
+          placeholder="Caption / description…"
+          rows={2}
+          className="w-full rounded-lg border border-[var(--color-border)] bg-white px-3 py-2 text-xs focus:border-[var(--color-primary)] focus:outline-none resize-none"
         />
         <div className="flex gap-2">
           <button
-            onClick={() => onCaptionSave(captionDraft)}
+            onClick={() => onUpdate(titleDraft, captionDraft)}
             className="flex-1 rounded-lg px-3 py-1.5 text-xs font-bold text-white"
             style={{ backgroundColor: "var(--color-primary)" }}
           >
@@ -221,8 +296,8 @@ function PhotoCard({
     <div className="group relative rounded-2xl border border-[var(--color-border)] bg-white overflow-hidden shadow-sm hover:shadow-md transition-all">
       <img
         src={photo.imageUrl}
-        alt={photo.caption || "Gallery photo"}
-        className="h-36 w-full object-cover cursor-pointer"
+        alt={photo.title || "Gallery photo"}
+        className="h-48 w-full object-cover cursor-pointer"
         onClick={onPreview}
       />
 
@@ -231,7 +306,7 @@ function PhotoCard({
         <button
           onClick={onEdit}
           className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[var(--color-text)] hover:bg-white"
-          title="Edit caption"
+          title="Edit title & caption"
         >
           <Pencil size={14} />
         </button>
@@ -244,12 +319,15 @@ function PhotoCard({
         </button>
       </div>
 
-      {/* Caption + delete */}
+      {/* Title + Caption + delete */}
       <div className="p-3">
-        {photo.caption ? (
-          <p className="text-xs text-[var(--color-text-muted)] truncate">{photo.caption}</p>
+        {photo.title ? (
+          <p className="text-xs font-bold text-[var(--color-text)] truncate">{photo.title}</p>
         ) : (
-          <p className="text-xs text-[var(--color-text-light)] italic">No caption</p>
+          <p className="text-xs text-[var(--color-text-light)] italic">No title</p>
+        )}
+        {photo.caption && (
+          <p className="mt-1 text-[11px] text-[var(--color-text-muted)] truncate">{photo.caption}</p>
         )}
 
         {showDeleteConfirm ? (
