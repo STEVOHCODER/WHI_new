@@ -8,6 +8,7 @@ import {
   Heart,
   Briefcase,
   Mail,
+  ImageIcon,
   Settings,
   LogOut,
 } from "@/components/ui/icons";
@@ -16,6 +17,7 @@ const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/projects", label: "Projects", icon: FolderOpen },
   { href: "/admin/partners", label: "Partners & Sponsors", icon: Heart },
+  { href: "/admin/gallery", label: "Gallery", icon: ImageIcon },
   { href: "/admin/vacancies", label: "Vacancies", icon: Briefcase },
   { href: "/admin/contacts", label: "Contacts", icon: Mail },
   { href: "/admin/partnerships", label: "Partnership Enquiries", icon: Mail },

@@ -30,6 +30,9 @@ export default async function AdminPage() {
   const partnershipCount = safe.db
     ? await safe.db.collection("partnerships").countDocuments()
     : 0;
+  const galleryCount = safe.db
+    ? await safe.db.collection("gallery").countDocuments()
+    : 0;
 
   return (
     <div className="min-h-screen bg-[var(--color-bg)]">
@@ -39,13 +42,14 @@ export default async function AdminPage() {
             Admin Dashboard
           </h1>
           <p className="mt-2 text-sm text-[var(--color-text-muted)]">
-            Manage your site content — projects, partners, vacancies, and form submissions.
+            Manage your site content — projects, partners, gallery, vacancies, and form submissions.
           </p>
         </div>
 
         <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           <DashboardCard href="/admin/projects" title="Projects" count={projectCount} color="emerald" />
           <DashboardCard href="/admin/partners" title="Partners" count={partnerCount} color="rose" />
+          <DashboardCard href="/admin/gallery" title="Gallery" count={galleryCount} color="cyan" />
           <DashboardCard href="/admin/vacancies" title="Vacancies" count={vacancyCount} color="blue" />
           <DashboardCard href="/admin/contacts" title="Contacts" count={contactCount} color="amber" />
           <DashboardCard href="/admin/partnerships" title="Enquiries" count={partnershipCount} color="purple" />
@@ -78,6 +82,7 @@ function DashboardCard({
     purple: "from-purple-500 to-violet-600",
     slate: "from-slate-500 to-gray-600",
     indigo: "from-indigo-500 to-blue-600",
+    cyan: "from-cyan-500 to-blue-600",
   };
 
   const iconMap: Record<string, string> = {
@@ -88,6 +93,7 @@ function DashboardCard({
     purple: "🤝",
     slate: "⚙️",
     indigo: "🌐",
+    cyan: "🖼️",
   };
 
   const Icon = iconMap[color] || "📁";
