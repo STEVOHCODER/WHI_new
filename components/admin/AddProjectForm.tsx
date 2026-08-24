@@ -91,9 +91,9 @@ export default function AddProjectForm() {
               />
             </Field>
 
-            <Field label="Full Content (HTML)" id="content">
-              <textarea name="content" rows={5} placeholder="<p>Full project description with HTML support…</p>"
-                className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-sm focus:border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 font-mono"
+            <Field label="Full Content" id="content">
+              <textarea name="content" rows={8} placeholder="Write the full project description in plain text. Use blank lines to separate paragraphs and dash (-) or numbers (1.) for lists. HTML is also supported if needed."
+                className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-sm focus:border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20"
               />
             </Field>
 
