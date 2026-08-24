@@ -33,7 +33,7 @@ import {
 export const metadata: Metadata = {
   title: "Our Impact",
   description:
-    "Discover WHI's impact across Sierra Leone through organisational milestones, program areas, and community snapshots. Updated 2026.",
+    "Discover WHI's impact across Sierra Leone through organisational milestones, program areas, and community snapshots.",
 };
 
 const programHighlights: Record<string, string> = {
