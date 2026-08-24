@@ -103,10 +103,7 @@ export default function Footer() {
             <Link href="/contact" className="text-xs text-white/40 transition-colors hover:text-white/70">
               Contact Us
             </Link>
-            <span className="text-xs text-white/20">|</span>
-            <Link href="/admin" className="text-xs text-white/25 transition-colors hover:text-white/60">
-              Admin Dashboard
-            </Link>
+            {/* Admin link hidden from public view */}
           </div>
         </div>
       </div>

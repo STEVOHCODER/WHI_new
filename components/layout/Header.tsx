@@ -83,13 +83,7 @@ export default function Header() {
             ))}
           </nav>
 
-          <Link
-            href="/admin"
-            className="hidden rounded-2xl border border-[var(--color-border)] bg-white px-4 py-2 text-sm font-semibold text-[var(--color-text)] transition-all hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] lg:inline-flex items-center gap-2"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h.01"/><path d="M8 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/><path d="M16 3v3"/><path d="M8 3v3"/><path d="M12 7V3"/><circle cx="12" cy="14" r="2"/></svg>
-            Admin
-          </Link>
+          {/* Admin link hidden from public view */}
 
           <button
             className="rounded-2xl p-2 text-[var(--color-text)] transition-colors hover:bg-[var(--color-bg-section)] lg:hidden"
