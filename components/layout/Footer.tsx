@@ -104,6 +104,9 @@ export default function Footer() {
               Contact Us
             </Link>
             {/* Admin link hidden from public view */}
+            <Link href="/admin" className="text-xs text-white/10 transition-colors hover:text-white/40">
+              Admin
+            </Link>
           </div>
         </div>
       </div>
