@@ -23,6 +23,24 @@ export default function GalleryManager({ photos }: { photos: GalleryPhoto[] }) {
   const [uploadTitle, setUploadTitle] = useState("");
   const [uploadCaption, setUploadCaption] = useState("");
   const [seeding, setSeeding] = useState(false);
+  const [clearing, setClearing] = useState(false);
+
+  const handleClearAll = async () => {
+    if (!confirm("Delete ALL gallery photos? This cannot be undone.")) return;
+    setClearing(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/gallery?all=true", { method: "DELETE" });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Clear failed");
+      setSuccessMsg(`Cleared ${json.deleted} photos`);
+      window.location.reload();
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setClearing(false);
+    }
+  };
 
   const handleSeed = async () => {
     setSeeding(true);
@@ -162,16 +180,26 @@ export default function GalleryManager({ photos }: { photos: GalleryPhoto[] }) {
           </p>
           <div className="mt-4 pt-4 border-t border-[var(--color-border)]">
             <p className="text-xs text-[var(--color-text-muted)] mb-2">
-              Reset gallery to match the site&apos;s default photos (replaces all current photos):
+              Reset gallery to match the site&apos;s default photos:
             </p>
-            <button
-              onClick={handleSeed}
-              disabled={seeding}
-              className="inline-flex items-center gap-2 rounded-xl border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/5 px-5 py-2 text-xs font-bold text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 disabled:opacity-60"
-            >
-              {seeding ? <Loader2 size={14} className="animate-spin" /> : <ImageIcon size={14} />}
-              {seeding ? "Reloading…" : "Reload Site Photos"}
-            </button>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <button
+                onClick={handleClearAll}
+                disabled={clearing || seeding}
+                className="inline-flex items-center gap-2 rounded-xl border border-red-300 bg-red-50 px-5 py-2 text-xs font-bold text-red-600 hover:bg-red-100 disabled:opacity-60"
+              >
+                {clearing ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
+                {clearing ? "Clearing…" : "1. Clear All Photos"}
+              </button>
+              <button
+                onClick={handleSeed}
+                disabled={seeding || clearing}
+                className="inline-flex items-center gap-2 rounded-xl border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/5 px-5 py-2 text-xs font-bold text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 disabled:opacity-60"
+              >
+                {seeding ? <Loader2 size={14} className="animate-spin" /> : <ImageIcon size={14} />}
+                {seeding ? "Reloading…" : "2. Reload Site Photos"}
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -130,17 +130,26 @@ export async function PATCH(request: NextRequest) {
 
 /**
  * DELETE /api/admin/gallery?id=xxx — delete a gallery photo
+ * DELETE /api/admin/gallery?all=true — delete ALL gallery photos
  */
 export async function DELETE(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
+    const deleteAll = searchParams.get("all") === "true";
+
+    const db = await getDb();
+
+    if (deleteAll) {
+      const result = await db.collection("gallery").deleteMany({});
+      revalidatePath("/admin/gallery");
+      return NextResponse.json({ ok: true, deleted: result.deletedCount });
+    }
 
     if (!id) {
       return NextResponse.json({ error: "id is required" }, { status: 400 });
     }
 
-    const db = await getDb();
     const result = await db.collection("gallery").deleteOne({ _id: new ObjectId(id) });
 
     if (result.deletedCount === 0) {
