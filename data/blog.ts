@@ -5,18 +5,15 @@ import {
   launchCrowd,
   officeAdmin,
   officeDesk,
-  outreachSpeaker,
   sportMatch,
   teamBanner,
-  teamImage,
 } from "@/data/photo-assets";
-import galleryImage2 from "../public/images/whi-photo-gallery/image2.jpg";
 
 export interface BlogPost {
   title: string;
   excerpt: string;
   category: string;
-  image: StaticImageData;
+  image: StaticImageData | string;
   imageAlt: string;
   frameClass: string;
 }
@@ -36,7 +33,7 @@ export const blogPosts: BlogPost[] = [
     excerpt:
       "Staff and volunteers stand together as the people behind the programs, planning, and everyday follow-through.",
     category: "Team",
-    image: teamImage,
+    image: "/images/homepage/team-image.png",
     imageAlt: "WHI-SL team photo",
     frameClass: "aspect-[4/5]",
   },
@@ -63,7 +60,7 @@ export const blogPosts: BlogPost[] = [
     excerpt:
       "A speaker and audience moment that shows how WHI-SL uses dialogue to keep messages grounded and relatable.",
     category: "Voice",
-    image: outreachSpeaker,
+    image: "/images/homepage/outreach-speaker.jpg",
     imageAlt: "Community speaker addressing residents during outreach",
     frameClass: "aspect-[4/5]",
   },
@@ -90,7 +87,7 @@ export const blogPosts: BlogPost[] = [
     excerpt:
       "A clean group photo from the WHI-SL gallery that shows the team behind the organisation's community work.",
     category: "Team",
-    image: galleryImage2,
+    image: "/images/homepage/team-gathering.jpg",
     imageAlt: "WHI-SL team group photo in white shirts at an event",
     frameClass: "aspect-[16/10]",
   },
