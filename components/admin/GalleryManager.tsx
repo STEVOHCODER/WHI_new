@@ -160,21 +160,19 @@ export default function GalleryManager({ photos }: { photos: GalleryPhoto[] }) {
           <p className="mt-3 text-xs text-[var(--color-text-muted)]">
             JPG, PNG, WebP, GIF — max 5MB each. Select multiple files at once.
           </p>
-          {photos.length === 0 && (
-            <div className="mt-4 pt-4 border-t border-[var(--color-border)]">
-              <p className="text-xs text-[var(--color-text-muted)] mb-2">
-                Or load the existing site gallery photos:
-              </p>
-              <button
-                onClick={handleSeed}
-                disabled={seeding}
-                className="inline-flex items-center gap-2 rounded-xl border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/5 px-5 py-2 text-xs font-bold text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 disabled:opacity-60"
-              >
-                {seeding ? <Loader2 size={14} className="animate-spin" /> : <ImageIcon size={14} />}
-                {seeding ? "Loading…" : "Load Existing Photos"}
-              </button>
-            </div>
-          )}
+          <div className="mt-4 pt-4 border-t border-[var(--color-border)]">
+            <p className="text-xs text-[var(--color-text-muted)] mb-2">
+              Reset gallery to match the site&apos;s default photos (replaces all current photos):
+            </p>
+            <button
+              onClick={handleSeed}
+              disabled={seeding}
+              className="inline-flex items-center gap-2 rounded-xl border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/5 px-5 py-2 text-xs font-bold text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 disabled:opacity-60"
+            >
+              {seeding ? <Loader2 size={14} className="animate-spin" /> : <ImageIcon size={14} />}
+              {seeding ? "Reloading…" : "Reload Site Photos"}
+            </button>
+          </div>
         </div>
       </div>
 
