@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { programs } from "@/data/programs";
 import { Mail, MapPin } from "@/components/ui/icons";
-import logo from "../../logowithoutbackground.png";
+import logo from "../../logowithoutbackground-dark.png";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -22,7 +22,7 @@ export default function Footer() {
                   src={logo}
                   alt="Women's Health Initiative Sierra Leone logo"
                   priority
-                  className="h-28 w-auto drop-shadow-[0_8px_18px_rgba(0,0,0,0.18)] sm:h-32 lg:h-36"
+                  className="h-28 w-auto drop-shadow-[0_10px_28px_rgba(0,0,0,0.55)] sm:h-32 lg:h-36"
                   sizes="(max-width: 640px) 240px, (max-width: 1024px) 300px, 360px"
                 />
               </Link>
