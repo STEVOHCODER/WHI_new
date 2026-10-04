@@ -1,7 +1,6 @@
 import type { Program } from "@/types";
 import {
   communityOutreach,
-  healthAdvocacy,
   launchCrowd,
   officeAdmin,
   officeDesk,
@@ -185,9 +184,9 @@ export const programs: Program[] = [
     image: researchFieldwork,
     imageAlt:
       "WHI-SL staff recording field data and health samples during a research session",
-    challengeImage: healthAdvocacy,
+    challengeImage: researchFieldwork,
     challengeImageAlt:
-      "WHI-SL health advocacy and community sensitisation moment",
+      "WHI-SL staff recording field data and health samples during a research session",
     storyImage: officeDesk,
     storyImageAlt:
       "WHI-SL staff member at a desk working with documents and a laptop",
