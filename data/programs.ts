@@ -57,9 +57,9 @@ export const programs: Program[] = [
       "Improved services for sexual reproductive health",
       "Improved services for diseases prevention",
     ],
-    image: communityOutreach,
+    image: officeAdmin,
     imageAlt:
-      "WHI-SL community outreach session in a market setting",
+      "WHI-SL staff handling administrative work and documentation",
     challengeImage: sports1,
     challengeImageAlt:
       "WHI-SL sports activity used for community health messaging",
@@ -100,8 +100,9 @@ export const programs: Program[] = [
       "Respected gender equality in the community",
       "Reduced gender-based violence at the community level in Sierra Leone",
     ],
-    image: healthAdvocacy,
-    imageAlt: "WHI-SL health advocacy and community sensitisation moment",
+    image: communityOutreach,
+    imageAlt:
+      "WHI-SL community outreach session in a market setting",
     challengeImage: outreachSpeaker,
     challengeImageAlt:
       "Community speaker addressing residents during outreach",
@@ -181,8 +182,8 @@ export const programs: Program[] = [
       "Contributions to national and regional health knowledge",
       "Informed policy and decision-making processes",
     ],
-    image: officeAdmin,
-    imageAlt: "WHI-SL staff handling administrative work and documentation",
+    image: healthAdvocacy,
+    imageAlt: "WHI-SL health advocacy and community sensitisation moment",
     challengeImage: officeRoom,
     challengeImageAlt:
       "Indoor meeting and equipment space used for planning",
