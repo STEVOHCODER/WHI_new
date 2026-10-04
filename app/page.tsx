@@ -13,7 +13,7 @@ import {
   launchCrowd,
   officeAdmin,
   officeDesk,
-  officeRoom,
+  researchFieldwork,
   sportMatch,
   teamBanner,
 } from "@/data/photo-assets";
@@ -417,7 +417,7 @@ export default function HomePage() {
 
             <AnimatedSection>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {[teamBanner, officeDesk, officeRoom, sportMatch, officeAdmin].map((image, index) => (
+                {[teamBanner, officeDesk, researchFieldwork, sportMatch, officeAdmin].map((image, index) => (
                   <article
                     key={`${index}-${image.src}`}
                     className="overflow-hidden rounded-[1.5rem] border border-[var(--color-border)] bg-white shadow-[0_12px_34px_rgba(14,24,20,0.06)]"

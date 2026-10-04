@@ -10,7 +10,7 @@ import outreachSpeaker from "../otherimages/WhatsApp Image 2026-08-14 at 22.40.3
 import sportMatch from "../otherimages/WhatsApp Image 2026-08-14 at 22.40.44.jpeg";
 import officeDesk from "../otherimages/WhatsApp Image 2026-08-14 at 22.40.49.jpeg";
 import officeAdmin from "../otherimages/WhatsApp Image 2026-08-14 at 22.40.55.jpeg";
-import officeRoom from "../otherimages/WhatsApp Image 2026-08-14 at 22.40.57.jpeg";
+import researchFieldwork from "../otherimages/WhatsApp Image 2026-08-14 at 22.40.57.jpeg";
 
 export {
   communityOutreach,
@@ -25,5 +25,5 @@ export {
   sportMatch,
   officeDesk,
   officeAdmin,
-  officeRoom,
+  researchFieldwork,
 };

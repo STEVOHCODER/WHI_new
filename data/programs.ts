@@ -5,8 +5,8 @@ import {
   launchCrowd,
   officeAdmin,
   officeDesk,
-  officeRoom,
   outreachSpeaker,
+  researchFieldwork,
   sportMatch,
   sports1,
   teamBanner,
@@ -59,7 +59,7 @@ export const programs: Program[] = [
     ],
     image: officeAdmin,
     imageAlt:
-      "WHI-SL staff handling administrative work and documentation",
+      "WHI-SL community football activity used for health messaging",
     challengeImage: sports1,
     challengeImageAlt:
       "WHI-SL sports activity used for community health messaging",
@@ -182,11 +182,12 @@ export const programs: Program[] = [
       "Contributions to national and regional health knowledge",
       "Informed policy and decision-making processes",
     ],
-    image: healthAdvocacy,
-    imageAlt: "WHI-SL health advocacy and community sensitisation moment",
-    challengeImage: officeRoom,
+    image: researchFieldwork,
+    imageAlt:
+      "WHI-SL staff recording field data and health samples during a research session",
+    challengeImage: healthAdvocacy,
     challengeImageAlt:
-      "Indoor meeting and equipment space used for planning",
+      "WHI-SL health advocacy and community sensitisation moment",
     storyImage: officeDesk,
     storyImageAlt:
       "WHI-SL staff member at a desk working with documents and a laptop",
