@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 import { MongoClient } from "mongodb";
+import { MONGO_TLS } from "@/lib/mongo";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const MONGO_URL = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017";
 const MONGO_DB = process.env.MONGODB_DB || "whi_sl";
-const client = new MongoClient(MONGO_URL, { tls: true, serverApi: { version: "1" as const } });
+const client = new MongoClient(MONGO_URL, { tls: MONGO_TLS, serverApi: { version: "1" as const } });
 
 const SEED_PARTNERS = [
   { name: "Bo District Local Governance and Leaders", category: "Government", logoUrl: null, website: null },

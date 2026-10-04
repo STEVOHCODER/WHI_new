@@ -3,6 +3,9 @@ import { MongoClient, ServerApiVersion, type Db } from "mongodb";
 const MONGO_URL = process.env.MONGODB_URI ?? "mongodb://127.0.0.1:27017";
 const MONGO_DB = process.env.MONGODB_DB ?? "whi_sl";
 
+export const MONGO_TLS =
+  MONGO_URL.startsWith("mongodb+srv://") || /[?&](tls|ssl)=true/i.test(MONGO_URL);
+
 let client: MongoClient | null = null;
 let db: Db | null = null;
 let connecting: Promise<Db> | null = null;
@@ -24,7 +27,7 @@ async function ensureConnected(): Promise<Db> {
         serverSelectionTimeoutMS: 10000,
         socketTimeoutMS: 10000,
         connectTimeoutMS: 10000,
-        tls: true,
+        tls: MONGO_TLS,
         tlsAllowInvalidCertificates: false,
         maxPoolSize: 5,
         minPoolSize: 1,
