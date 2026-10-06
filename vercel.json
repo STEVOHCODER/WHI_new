@@ -2,6 +2,12 @@
   "buildCommand": "rm -rf .next && npx prisma generate && npx next build",
   "redirects": [
     {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.whi-sl.org" }],
+      "destination": "https://whi-sl.org/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "www.whi-sl.org" }],
       "destination": "https://whi-sl.org/:path*",
