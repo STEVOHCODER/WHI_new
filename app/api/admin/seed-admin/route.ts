@@ -1,40 +1,41 @@
-import { NextResponse } from "next/server";
-import { MongoClient } from "mongodb";
-import { MONGO_TLS } from "@/lib/mongo";
+import { NextRequest, NextResponse } from "next/server";
+import { getDb } from "@/lib/mongo";
+import { seedDefaultAdmin } from "@/lib/auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const MONGO_URL = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017";
-const MONGO_DB = process.env.MONGODB_DB || "whi_sl";
-const client = new MongoClient(MONGO_URL, { tls: MONGO_TLS, serverApi: { version: "1" as const } });
+function isAuthorized(request: NextRequest): boolean {
+  const key = process.env.SEED_ADMIN_KEY;
+  if (!key) return false;
+  return request.headers.get("x-seed-key") === key;
+}
 
-export async function POST() {
+export async function POST(request: NextRequest) {
+  if (!isAuthorized(request)) {
+    return NextResponse.json({ error: "Not authorized" }, { status: 403 });
+  }
   try {
-    await client.connect();
-    const db = client.db(MONGO_DB);
-    const existing = await db.collection("admins").findOne({});
-    if (existing) {
-      return NextResponse.json({ seeded: false, message: "Admin already exists" });
+    const result = await seedDefaultAdmin();
+    if ("reason" in result) {
+      return NextResponse.json(
+        { error: "ADMIN_EMAIL and ADMIN_PASSWORD must be set" },
+        { status: 500 },
+      );
     }
-    const bcrypt = await import("bcryptjs");
-    const hash = await bcrypt.hash("admin@whi-sl.org", 12);
-    await db.collection("admins").insertOne({
-      email: "admin@whi-sl.org",
-      passwordHash: hash,
-      createdAt: new Date(),
-    });
-    return NextResponse.json({ seeded: true, email: "admin@whi-sl.org", password: "admin@whi-sl.org" });
+    return NextResponse.json({ seeded: true, created: result.created, changed: result.changed });
   } catch (error) {
     console.error("[api/admin/seed-admin] error:", error);
     return NextResponse.json({ error: "Failed to seed admin" }, { status: 500 });
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  if (!isAuthorized(request)) {
+    return NextResponse.json({ error: "Not authorized" }, { status: 403 });
+  }
   try {
-    await client.connect();
-    const db = client.db(MONGO_DB);
+    const db = await getDb();
     const count = await db.collection("admins").countDocuments();
     return NextResponse.json({ exists: count > 0 });
   } catch {

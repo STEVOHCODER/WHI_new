@@ -61,7 +61,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-sm focus:border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20"
-                placeholder="admin@whi-sl.org"
+                placeholder="you@organisation.org"
               />
             </div>
             <div>
@@ -100,10 +100,6 @@ export default function LoginPage() {
             )}
           </button>
         </form>
-
-        <p className="mt-6 text-center text-xs text-[var(--color-text-light)]">
-          Default: <code className="rounded bg-[var(--color-bg-section)] px-1 py-0.5">admin@whi-sl.org</code> / <code className="rounded bg-[var(--color-bg-section)] px-1 py-0.5">admin@whi-sl.org</code>
-        </p>
       </div>
     </div>
   );

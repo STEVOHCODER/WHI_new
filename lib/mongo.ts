@@ -51,9 +51,10 @@ async function ensureConnected(): Promise<Db> {
   return db;
 }
 
-if (process.env.NODE_ENV === "development") {
-  ensureConnected().catch((err) => console.error("[mongo] connect error:", err.message));
-}
+// Start the first connection during module evaluation so it overlaps cold start
+// instead of being paid serially on the first request. Never awaited here: the
+// handler awaits ensureConnected() and joins the same in-flight promise.
+ensureConnected().catch((err) => console.error("[mongo] connect error:", err.message));
 
 export async function getDb(): Promise<Db> {
   return ensureConnected();
