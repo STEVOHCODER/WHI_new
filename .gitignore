@@ -37,3 +37,7 @@ next-env.d.ts
 environment*.png
 
 .env*
+
+# local secrets and databases — never commit
+atlas-credentials.env
+*.db
