@@ -10,9 +10,9 @@ node_modules
 .claude
 .playwright-mcp
 
-# Large source-image folders not used at runtime
-otherimages
-newimages
+# Source-image folders — these ARE required: data/photo-assets.ts and
+# app/team/page.tsx import from them at build time.
+# otherimages, newimages  (must NOT be excluded)
 
 # Docs / logs
 *.md
