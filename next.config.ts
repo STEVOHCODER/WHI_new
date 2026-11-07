@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Bundle a self-contained server for container platforms (Render / Railway).
+  output: "standalone",
   images: {
     remotePatterns: [
       {

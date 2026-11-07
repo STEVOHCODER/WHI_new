@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/mongo";
+import { uploadFile } from "@/lib/storage";
 import { revalidatePath } from "next/cache";
 import { ObjectId } from "mongodb";
 
@@ -53,20 +54,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let imageUrl: string;
-    const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
-    if (blobToken) {
-      const { put } = await import("@vercel/blob");
-      const blob = await put(`whi-sl/gallery/${Date.now()}-${file.name}`, file, {
-        access: "public",
-        contentType: file.type,
-      });
-      imageUrl = blob.url;
-    } else {
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const base64 = buffer.toString("base64");
-      imageUrl = `data:${file.type};base64,${base64}`;
-    }
+    const imageUrl = await uploadFile(file, "whi-sl/gallery");
 
     const db = await getDb();
     const now = new Date();

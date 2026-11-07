@@ -1,0 +1,36 @@
+# Fly.io configuration for WHI-SL
+#
+# `app` must be globally unique across all of Fly. Either rename it below
+# or run `fly launch` and let Fly pick a name.
+
+app = "whi-sl"
+primary_region = "jnb" # Johannesburg — closest to your audience
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  NODE_ENV = "production"
+  PORT = "3000"
+  HOSTNAME = "0.0.0.0"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  # Free-tier friendly: stop the machine when idle, start on request.
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "20s"
+    method = "GET"
+    path = "/"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  # 256mb is the legacy free allowance, but is tight for Next.js 16 +
+  # the MongoDB driver and will likely OOM. 512mb is the safer floor.
+  memory = "512mb"

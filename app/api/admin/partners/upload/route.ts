@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/mongo";
+import { uploadFile } from "@/lib/storage";
 import { revalidatePath } from "next/cache";
 import { ObjectId } from "mongodb";
 
@@ -18,7 +19,7 @@ const MAX_SIZE = 5 * 1024 * 1024;
 /**
  * POST /api/admin/partners/upload — upload logo for a partner
  * Requires: file (File), partnerId (string)
- * Stores image in Vercel Blob and updates the partner document in MongoDB.
+ * Stores image in Cloudflare R2 and updates the partner document in MongoDB.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -45,22 +46,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
-    let logoUrl: string;
-
-    if (blobToken) {
-      const { put } = await import("@vercel/blob");
-      const blob = await put(
-        `whi-sl/partners/${Date.now()}-${file.name}`,
-        file,
-        { access: "public", contentType: file.type },
-      );
-      logoUrl = blob.url;
-    } else {
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const base64 = buffer.toString("base64");
-      logoUrl = `data:${file.type};base64,${base64}`;
-    }
+    const logoUrl = await uploadFile(file, "whi-sl/partners");
 
     const db = await getDb();
     const result = await db.collection("partners").updateOne(

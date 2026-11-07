@@ -1,0 +1,27 @@
+# Keep the Docker build context small.
+# NOTE: public/ must stay included — it holds the runtime images.
+
+node_modules
+.next
+.git
+.gitignore
+.vercel
+.agents
+.claude
+.playwright-mcp
+
+# Large source-image folders not used at runtime
+otherimages
+newimages
+
+# Docs / logs
+*.md
+*.docx
+*.log
+
+# Secrets and local databases — never bake these into an image
+.env
+.env.*
+*.env
+dev.db
+prisma/dev.db

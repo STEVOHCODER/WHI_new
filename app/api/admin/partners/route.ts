@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/mongo";
+import { uploadFile } from "@/lib/storage";
 import { revalidatePath } from "next/cache";
 import { ObjectId } from "mongodb";
 
@@ -42,19 +43,7 @@ export async function POST(request: NextRequest) {
     let logoUrl: string | null = null;
 
     if (logoFile && logoFile.size > 0) {
-      const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
-      if (blobToken) {
-        const { put } = await import("@vercel/blob");
-        const blob = await put(`whi-sl/partners/${Date.now()}-${logoFile.name}`, logoFile, {
-          access: "public",
-          contentType: logoFile.type,
-        });
-        logoUrl = blob.url;
-      } else {
-        const buffer = Buffer.from(await logoFile.arrayBuffer());
-        const base64 = buffer.toString("base64");
-        logoUrl = `data:${logoFile.type};base64,${base64}`;
-      }
+      logoUrl = await uploadFile(logoFile, "whi-sl/partners");
     }
 
     const now = new Date();

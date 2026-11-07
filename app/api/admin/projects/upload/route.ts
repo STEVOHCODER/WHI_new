@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/mongo";
+import { uploadFile } from "@/lib/storage";
 import { revalidatePath } from "next/cache";
 import { ObjectId } from "mongodb";
 
@@ -14,21 +15,6 @@ const ALLOWED_TYPES = [
   "image/svg+xml",
 ];
 const MAX_SIZE = 5 * 1024 * 1024;
-
-async function uploadFile(file: File, prefix: string): Promise<string> {
-  const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
-  if (blobToken) {
-    const { put } = await import("@vercel/blob");
-    const blob = await put(`${prefix}/${Date.now()}-${file.name}`, file, {
-      access: "public",
-      contentType: file.type,
-    });
-    return blob.url;
-  }
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const base64 = buffer.toString("base64");
-  return `data:${file.type};base64,${base64}`;
-}
 
 /**
  * POST /api/admin/projects/upload
