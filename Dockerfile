@@ -4,7 +4,10 @@
 FROM node:22 AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+# `npm install` rather than `npm ci`: the lockfile is generated on Windows,
+# so it omits the wasm32-only @emnapi/* entries that Linux @tailwindcss/oxide
+# needs. npm ci rejects it as out of sync; npm install reconciles the tree.
+RUN npm install --no-audit --no-fund
 
 # ---- builder: produce the Next.js standalone bundle ----
 FROM node:22 AS builder
